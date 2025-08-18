@@ -1,7 +1,20 @@
-// Data model for right-pane cards (2 sections)
+// Icons
+const ICONS = {
+    avaamo: 'https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/avaamo_icon.svg',
+    clock: 'https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/clock_icon.svg',
+    download: 'https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/download_pdf_icon.svg',
+    chevronDown: 'https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/fi_chevron-down.svg',
+    imaging: 'https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/imaging_icon.svg',
+    meds: 'https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/medications_icon.svg',
+    tests: 'https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/test_results_icon.svg',
+    view: 'https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/view_pdf_icon.svg'
+};
+
+// Data model for right-pane cards (with icons)
 const listViewData = [{
         id: 'medications',
-        title: '💊 Medications',
+        title: 'Medications',
+        icon: ICONS.meds,
         bullets: [
             'Topiramate 50mg BID (start: 2025-04-03)',
             'Sumatriptan 50mg PRN migraine (last refill: 2025-06-01)',
@@ -14,7 +27,8 @@ const listViewData = [{
     },
     {
         id: 'labs',
-        title: '🧪 Recent Test Results',
+        title: 'Recent Test Results',
+        icon: ICONS.tests,
         bullets: [
             'CBC/CMP: within baseline',
             'B12 520 pg/mL; Folate normal; TSH 1.8 µIU/mL',
@@ -23,7 +37,8 @@ const listViewData = [{
     },
     {
         id: 'imaging',
-        title: '🧠 Imaging',
+        title: 'Imaging',
+        icon: ICONS.imaging,
         bullets: [
             'MRI Brain (2024-11-05): no acute findings',
             'EEG (2025-06-10): normal, no epileptiform discharges',
@@ -325,8 +340,14 @@ function renderCards() {
             bodyChildren.push(elementCreator('div', { class: 'source' }, 'Source: ' + section.source));
         }
 
+        const headerChildren = [];
+        if (section.icon) {
+            headerChildren.push(elementCreator('img', { class: 'icon-16', src: section.icon, alt: '' }));
+        }
+        headerChildren.push(elementCreator('span', { class: 'card-title' }, section.title));
+
         const card = elementCreator('article', { class: 'card' }, [
-            elementCreator('header', {}, section.title),
+            elementCreator('header', { class: 'card-header' }, headerChildren),
             elementCreator('div', { class: 'card-body' }, bodyChildren),
         ]);
         container.append(card);
@@ -571,9 +592,10 @@ function renderVisitSummaryFromJSON(data, dateLabel) {
     // Accordions: Summary (open) and Clinical Note (closed)
     function createAccordion(titleText, contentNode, isOpen) {
         const acc = elementCreator('div', { class: 'accordion' });
+        const chevron = elementCreator('img', { class: 'chevron-icon', src: ICONS.chevronDown, alt: '' });
         const header = elementCreator('button', { class: 'accordion-header', 'aria-expanded': String(!!isOpen) }, [
-            elementCreator('span', { class: 'accordion-title' }, titleText),
-            elementCreator('span', { class: 'chevron' }, '▾')
+            chevron,
+            elementCreator('span', { class: 'accordion-title' }, titleText)
         ]);
         const body = elementCreator('div', { class: 'accordion-content', style: isOpen ? 'display:block;' : 'display:none;' });
         body.append(contentNode);
@@ -611,9 +633,21 @@ function renderVisitSummaryFromJSON(data, dateLabel) {
 function renderClinicalSummary() {
     const wrap = elementCreator('div', { class: 'clinical-summary' });
 
-    // Title
+    // Header with actions (View Original, Download PDF)
+    const header = elementCreator('div', { class: 'q-header' });
     const title = elementCreator('h3', {}, clinicalSummaryData.title);
-    wrap.append(title);
+    const actions = elementCreator('div', { class: 'q-actions' });
+    const viewOriginal = elementCreator('button', { class: 'q-link', type: 'button' }, [
+        elementCreator('img', { class: 'icon-16', src: ICONS.view, alt: '' }),
+        elementCreator('span', {}, 'View Original')
+    ]);
+    const downloadBtn = elementCreator('button', { class: 'q-link', type: 'button' }, [
+        elementCreator('img', { class: 'icon-16', src: ICONS.download, alt: '' }),
+        elementCreator('span', {}, 'Download PDF')
+    ]);
+    actions.append(viewOriginal, downloadBtn);
+    header.append(title, actions);
+    wrap.append(header);
 
     // Patient Overview
     const patientOverview = elementCreator('h4', {}, 'Patient Overview');
@@ -682,15 +716,8 @@ function renderClinicalSummary() {
     const patientGoalsText = elementCreator('p', {}, clinicalSummaryData.patientGoals);
     wrap.append(patientGoals, patientGoalsText);
 
-    // Button group for show original and download
-    const buttonGroup = elementCreator('div', { class: 'button-group' });
-    const showOriginalBtn = elementCreator('button', { class: 'btn show-original' }, 'View Original');
-    const downloadBtn = elementCreator('button', { class: 'btn download-original' }, 'Download Original');
-    buttonGroup.append(showOriginalBtn, downloadBtn);
-    wrap.append(buttonGroup);
-
     // Event listeners
-    showOriginalBtn.addEventListener('click', function() {
+    viewOriginal.addEventListener('click', function() {
         openFullFrameModal(renderPatientQuestionnaireContent());
     });
 
