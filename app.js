@@ -62,8 +62,8 @@ const visitSamples = [{
             "Speciality": "Neurology",
             "Encounter ID": "NEU20250820A",
             "Date & Time": "August 20, 2025, 10:30 AM",
-            "Meeting Status": "Completed",
-            "Meeting Duration": "30 minutes"
+            "Encounter Status": "Completed",
+            "Encounter Duration": "30 minutes"
         }
     },
     {
@@ -86,8 +86,8 @@ const visitSamples = [{
             "Speciality": "Neurology",
             "Encounter ID": "NEU20250605B",
             "Date & Time": "June 5, 2025, 9:00 AM",
-            "Meeting Status": "Completed",
-            "Meeting Duration": "25 minutes"
+            "Encounter Status": "Completed",
+            "Encounter Duration": "25 minutes"
         }
     },
     {
@@ -110,8 +110,8 @@ const visitSamples = [{
             "Speciality": "Neurology",
             "Encounter ID": "NEU20250418C",
             "Date & Time": "April 18, 2025, 11:00 AM",
-            "Meeting Status": "Completed",
-            "Meeting Duration": "30 minutes"
+            "Encounter Status": "Completed",
+            "Encounter Duration": "30 minutes"
         }
     },
     {
@@ -134,8 +134,8 @@ const visitSamples = [{
             "Speciality": "Neurology",
             "Encounter ID": "NEU20250110D",
             "Date & Time": "January 10, 2025, 2:00 PM",
-            "Meeting Status": "Completed",
-            "Meeting Duration": "20 minutes"
+            "Encounter Status": "Completed",
+            "Encounter Duration": "20 minutes"
         }
     },
     {
@@ -158,8 +158,8 @@ const visitSamples = [{
             "Speciality": "Neurology",
             "Encounter ID": "NEU20241115E",
             "Date & Time": "November 15, 2024, 10:00 AM",
-            "Meeting Status": "Completed",
-            "Meeting Duration": "25 minutes"
+            "Encounter Status": "Completed",
+            "Encounter Duration": "25 minutes"
         }
     }
 ];
@@ -554,7 +554,7 @@ function renderVisitSummaryFromJSON(data, dateLabel) {
         encounterBox.append(headerRow);
         Object.keys(encounter).forEach(function(key) {
             var valueEl;
-            if (key === 'Meeting Status') {
+            if (key === 'Encounter Status') {
                 valueEl = elementCreator('div', { class: 'v' }, [
                     elementCreator('span', { style: 'color: #059669; font-weight: 600;' }, encounter[key])
                 ]);
