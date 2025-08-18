@@ -346,7 +346,12 @@ function renderCards() {
         }
         headerChildren.push(elementCreator('span', { class: 'card-title' }, section.title));
 
-        const card = elementCreator('article', { class: 'card' }, [
+        var cardClass = 'card';
+        if (section.id === 'medications') cardClass += ' card-medications';
+        else if (section.id === 'labs') cardClass += ' card-labs';
+        else if (section.id === 'imaging') cardClass += ' card-imaging';
+
+        const card = elementCreator('article', { class: cardClass }, [
             elementCreator('header', { class: 'card-header' }, headerChildren),
             elementCreator('div', { class: 'card-body' }, bodyChildren),
         ]);
@@ -378,17 +383,6 @@ function setActiveTab(tabName) {
     });
     document.querySelectorAll('.pane').forEach(p => p.classList.remove('is-active'));
     document.getElementById(`${tabName}-pane`).classList.add('is-active');
-
-    // Hide/show date rail based on active tab
-    const dateRail = document.getElementById('date-rail');
-    const sideContent = document.querySelector('.side-content');
-    if (tabName === 'questionnaire') {
-        dateRail.style.display = 'none';
-        sideContent.classList.add('no-date-rail');
-    } else {
-        dateRail.style.display = 'block';
-        sideContent.classList.remove('no-date-rail');
-    }
 };
 
 function attachTabHandlers() {
@@ -431,6 +425,11 @@ function selectDate(iso, chip) {
     document.querySelectorAll('.date-chip').forEach(c => {
         c.classList.toggle('is-active', c === chip);
         c.setAttribute('aria-selected', String(c === chip));
+    });
+    document.querySelectorAll('.date-pill').forEach(pill => {
+        const isActive = normalizeDateIso(pill.dataset.iso) === normalizeDateIso(iso);
+        pill.classList.toggle('is-active', isActive);
+        pill.setAttribute('aria-pressed', String(isActive));
     });
     var activeTabEl = document.querySelector('.tab.is-active');
     const tab = activeTabEl ? activeTabEl.dataset.tab : 'visit';
@@ -544,7 +543,7 @@ function loadVisitQuestionnaire() {
     // Simulate AI generation delay
     const delayMs = 1000 + Math.random() * 500;
     setTimeout(() => {
-        const content = renderClinicalSummary();
+        const content = renderPatientQuestionnaire();
         container.innerHTML = '';
         container.append(content);
     }, delayMs);
@@ -593,19 +592,18 @@ function renderVisitSummaryFromJSON(data, dateLabel) {
     function createAccordion(titleText, contentNode, isOpen) {
         const acc = elementCreator('div', { class: 'accordion' });
         const chevron = elementCreator('img', { class: 'chevron-icon', src: ICONS.chevronDown, alt: '' });
-        const header = elementCreator('button', { class: `accordion-header ${!isOpen ? 'is-open' : ''}`, 'aria-expanded': String(!!isOpen) }, [
+        const header = elementCreator('button', { class: `accordion-header ${isOpen ? 'is-open' : ''}`, 'aria-expanded': String(!!isOpen) }, [
             chevron,
             elementCreator('span', { class: 'accordion-title' }, titleText)
         ]);
-        console.log("header", header);
         const body = elementCreator('div', { class: 'accordion-content', style: isOpen ? 'display:block;' : 'display:none;' });
         body.append(contentNode);
         header.addEventListener('click', function() {
             const isShown = body.style.display !== 'none';
-            console.log("isShown", isShown);
-            body.style.display = isShown ? 'none' : 'block';
-            header.setAttribute('aria-expanded', String(isShown));
-            header.classList.toggle('is-open', isShown);
+            const willShow = !isShown;
+            body.style.display = willShow ? 'block' : 'none';
+            header.setAttribute('aria-expanded', String(willShow));
+            header.classList.toggle('is-open', willShow);
         });
         acc.append(header, body);
         return acc;
@@ -1158,7 +1156,6 @@ function downloadQuestionnaire(filename) {
 // Initialize app
 function init() {
     renderCards();
-    renderDateRail();
     attachTabHandlers();
     attachQuestionnaireTabHandlers();
 
