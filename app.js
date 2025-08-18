@@ -607,8 +607,40 @@ function summariseQuestionnaireResponse(qr) {
 function renderCompletedFromQuestionnaireResponse(qr) {
     const wrap = elementCreator('div', { class: 'prose' });
 
+    // Header with actions like other sections
+    const header = elementCreator('div', { class: 'q-header' });
+    header.append(
+        elementCreator('h3', {}, 'Patient Completed Questionnaire'),
+        elementCreator('div', { class: 'q-actions' }, [
+            elementCreator('button', { class: 'q-link', type: 'button' }, [ elementCreator('img', { class: 'icon-16', src: ICONS.view, alt: '' }), elementCreator('span', {}, 'View Original') ]),
+            elementCreator('button', { class: 'q-link', type: 'button' }, [ elementCreator('img', { class: 'icon-16', src: ICONS.download, alt: '' }), elementCreator('span', {}, 'Download PDF') ])
+        ])
+    );
+    wrap.append(header);
+
+    const actions = header.querySelectorAll('button.q-link');
+    actions[0].addEventListener('click', function() { openFullFrameModal(renderPatientQuestionnaireContent()); });
+    actions[1].addEventListener('click', function() { downloadQuestionnaire('patient-questionnaire-sarah-mitchell.pdf'); });
+
+    // Summary accordion
     const summaryText = summariseQuestionnaireResponse(qr);
-    wrap.append(elementCreator('div', { class: 'summary-box' }, summaryText));
+    const summaryBox = elementCreator('div', { class: 'summary-box' }, summaryText);
+    wrap.append((function(){
+        const acc = elementCreator('div', { class: 'accordion' });
+        const headerBtn = elementCreator('button', { class: 'accordion-header is-open', 'aria-expanded': 'true' }, [
+            elementCreator('img', { class: 'chevron-icon', src: ICONS.chevronDown, alt: '' }),
+            elementCreator('span', { class: 'accordion-title' }, 'Summary')
+        ]);
+        const body = elementCreator('div', { class: 'accordion-content', style: 'display:block;' });
+        body.append(summaryBox);
+        headerBtn.addEventListener('click', function(){
+            const shown = body.style.display !== 'none';
+            body.style.display = shown ? 'none' : 'block';
+            headerBtn.setAttribute('aria-expanded', String(!shown));
+            headerBtn.classList.toggle('is-open', !shown);
+        });
+        acc.append(headerBtn, body); return acc;
+    })());
 
     // Accordion with parsed Q/A rows
     const dataDiv = elementCreator('div', {});
