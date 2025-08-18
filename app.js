@@ -524,7 +524,7 @@ function loadPatientQuestionnaire() {
 function renderVisitSummaryFromJSON(data, dateLabel) {
     const wrap = elementCreator('div', { class: 'prose' });
 
-    // Encounter details rendered as compact card with avatar and 5-column row
+    // Encounter details rendered as compact card with 5-column row
     var encounter = data['Encounter Details'];
     if (encounter) {
         const card = elementCreator('article', { class: 'encounter-card' });
@@ -532,7 +532,6 @@ function renderVisitSummaryFromJSON(data, dateLabel) {
             elementCreator('span', {}, 'Encounter Details'),
             elementCreator('span', { class: 'encounter-date-chip' }, dateLabel)
         ]);
-        const avatar = elementCreator('div', { class: 'avatar-float', title: 'Provider' }, 'N');
         const grid = elementCreator('div', { class: 'encounter-grid' });
         const fields = ['Speciality', 'Encounter ID', 'Date & Time', 'Meeting Status', 'Meeting Duration'];
         for (var i = 0; i < fields.length; i++) {
@@ -544,7 +543,7 @@ function renderVisitSummaryFromJSON(data, dateLabel) {
             ]);
             grid.append(item);
         }
-        card.append(header, avatar, grid);
+        card.append(header, grid);
         wrap.append(card);
     }
 

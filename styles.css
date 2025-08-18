@@ -562,29 +562,124 @@
     font-weight: 600;
 }
 
+
 /* Encounter details card */
-.avm-prechart-app .encounter-card { border: 1px solid #e5e7eb; border-radius: 10px; background: #ffffff; margin: 10px 0 14px; position: relative; }
-.avm-prechart-app .encounter-card header { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border-bottom: 1px solid #eef2f7; font-weight: 600; }
-.avm-prechart-app .encounter-date-chip { font-size: 12px; color: #475569; }
-.avm-prechart-app .avatar-float { position: absolute; left: 50%; top: -14px; transform: translateX(-50%); width: 32px; height: 32px; border-radius: 9999px; background: #e2e8f0; color: #334155; font-weight: 800; display: flex; align-items: center; justify-content: center; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
-.avm-prechart-app .encounter-grid { display: grid; grid-template-columns: repeat(5, minmax(120px, 1fr)); }
-.avm-prechart-app .encounter-item { padding: 10px 12px; border-right: 1px solid #f1f5f9; }
-.avm-prechart-app .encounter-item:last-child { border-right: none; }
-.avm-prechart-app .encounter-item .label { font-size: 12px; color: #6b7280; font-weight: 700; }
-.avm-prechart-app .encounter-item .value { font-size: 13px; color: #111827; font-weight: 600; margin-top: 4px; }
-.avm-prechart-app .encounter-item .value.status { color: #059669; }
+
+.avm-prechart-app .encounter-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    background: #ffffff;
+    margin: 10px 0 14px;
+    position: relative;
+}
+
+.avm-prechart-app .encounter-card header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    border-bottom: 1px solid #eef2f7;
+    font-weight: 600;
+}
+
+.avm-prechart-app .encounter-date-chip {
+    font-size: 12px;
+    color: #475569;
+}
+
+.avm-prechart-app .encounter-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(120px, 1fr));
+}
+
+.avm-prechart-app .encounter-item {
+    padding: 10px 12px;
+    border-right: 1px solid #f1f5f9;
+}
+
+.avm-prechart-app .encounter-item:last-child {
+    border-right: none;
+}
+
+.avm-prechart-app .encounter-item .label {
+    font-size: 12px;
+    color: #6b7280;
+    font-weight: 700;
+}
+
+.avm-prechart-app .encounter-item .value {
+    font-size: 13px;
+    color: #111827;
+    font-weight: 600;
+    margin-top: 4px;
+}
+
+.avm-prechart-app .encounter-item .value.status {
+    color: #059669;
+}
+
 
 /* Simple accordions for Summary and Clinical Note */
-.avm-prechart-app .accordion { margin: 10px 0; border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden; background: #ffffff; }
-.avm-prechart-app .accordion-header { width: 100%; text-align: left; padding: 10px 12px; background: #f8fafc; border: 0; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; color: #334155; }
-.avm-prechart-app .accordion-header.is-open { background: #eef2ff; }
-.avm-prechart-app .accordion-header .chevron { transition: transform 0.2s ease; }
-.avm-prechart-app .accordion-header.is-open .chevron { transform: rotate(180deg); }
-.avm-prechart-app .accordion-content { padding: 10px 12px; }
+
+.avm-prechart-app .accordion {
+    margin: 10px 0;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #ffffff;
+}
+
+.avm-prechart-app .accordion-header {
+    width: 100%;
+    text-align: left;
+    padding: 10px 12px;
+    background: #f8fafc;
+    border: 0;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    color: #334155;
+}
+
+.avm-prechart-app .accordion-header.is-open {
+    background: #eef2ff;
+}
+
+.avm-prechart-app .accordion-header .chevron {
+    transition: transform 0.2s ease;
+}
+
+.avm-prechart-app .accordion-header.is-open .chevron {
+    transform: rotate(180deg);
+}
+
+.avm-prechart-app .accordion-content {
+    padding: 10px 12px;
+}
+
 
 /* Encounter details header extras */
-.avm-prechart-app .encounter-header-row { display: flex; align-items: center; justify-content: space-between; padding: 6px 12px 0 12px; }
-.avm-prechart-app .avatar-badge { width: 28px; height: 28px; border-radius: 9999px; background: #e2e8f0; color: #334155; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; }
+
+.avm-prechart-app .encounter-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 12px 0 12px;
+}
+
+.avm-prechart-app .avatar-badge {
+    width: 28px;
+    height: 28px;
+    border-radius: 9999px;
+    background: #e2e8f0;
+    color: #334155;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+}
 
 .avm-prechart-app .toggle-notes-div {
     justify-self: center;
@@ -837,7 +932,36 @@ section#questionnaire-pane.is-active {
     justify-content: center;
 }
 
+
 /* Full-frame modal overlay inside main pane */
-.avm-prechart-app .modal-overlay { position: absolute; inset: 0; background: rgba(15, 23, 42, 0.55); display: flex; align-items: stretch; justify-content: center; z-index: 50; }
-.avm-prechart-app .modal-sheet { background: #ffffff; width: 100%; height: 100%; overflow: auto; position: relative; padding: 16px; }
-.avm-prechart-app .modal-close { position: absolute; top: 10px; right: 12px; border: 1px solid #e5e7eb; background: #ffffff; border-radius: 6px; padding: 6px 10px; cursor: pointer; font-weight: 700; }
+
+.avm-prechart-app .modal-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.55);
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    z-index: 50;
+}
+
+.avm-prechart-app .modal-sheet {
+    background: #ffffff;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    position: relative;
+    padding: 16px;
+}
+
+.avm-prechart-app .modal-close {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    border: 1px solid #e5e7eb;
+    background: #ffffff;
+    border-radius: 6px;
+    padding: 6px 10px;
+    cursor: pointer;
+    font-weight: 700;
+}
