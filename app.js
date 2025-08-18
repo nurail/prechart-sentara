@@ -21,6 +21,15 @@ const listViewData = [{
             'ESR/CRP normal',
         ],
     },
+    {
+        id: 'imaging',
+        title: '🧠 Imaging',
+        bullets: [
+            'MRI Brain (2024-11-05): no acute findings',
+            'EEG (2025-06-10): normal, no epileptiform discharges',
+            'No EMG/NCS to date',
+        ],
+    },
 ];
 
 // Simulated visit dates - matching the dates in visitSamples JSON
@@ -514,15 +523,17 @@ function loadPatientQuestionnaire() {
 
 function renderVisitSummaryFromJSON(data, dateLabel) {
     const wrap = elementCreator('div', { class: 'prose' });
-    const title = elementCreator('h4', {}, 'Neurology Pre-Chart Summary — ' + dateLabel);
-    // wrap.append(title);
 
     // Encounter details at the top, if present
     var encounter = data['Encounter Details'];
     if (encounter) {
         var encounterBox = elementCreator('div', { class: 'kv-container' });
-        var header = elementCreator('div', { class: 'section-title' }, 'Encounter Details');
-        encounterBox.append(header);
+        // Header with small avatar placeholder like in comps
+        var headerRow = elementCreator('div', { class: 'encounter-header-row' });
+        var header = elementCreator('div', { class: 'section-title' }, 'Encounter Details — ' + dateLabel);
+        var avatar = elementCreator('div', { class: 'avatar-badge', title: 'Provider' }, 'N');
+        headerRow.append(header, avatar);
+        encounterBox.append(headerRow);
         Object.keys(encounter).forEach(function(key) {
             var valueEl;
             if (key === 'Meeting Status') {
@@ -541,20 +552,33 @@ function renderVisitSummaryFromJSON(data, dateLabel) {
         wrap.append(encounterBox);
     }
 
-    // Summary highlight box
-    if (data['Summary']) {
-        var summaryBox = elementCreator('div', { class: 'summary-box' }, data['Summary']);
-        wrap.append(summaryBox);
+    // Accordions: Summary (open) and Clinical Note (closed)
+    function createAccordion(titleText, contentNode, isOpen) {
+        const acc = elementCreator('div', { class: 'accordion' });
+        const header = elementCreator('button', { class: 'accordion-header', 'aria-expanded': String(!!isOpen) }, [
+            elementCreator('span', { class: 'accordion-title' }, titleText),
+            elementCreator('span', { class: 'chevron' }, '▾')
+        ]);
+        const body = elementCreator('div', { class: 'accordion-content', style: isOpen ? 'display:block;' : 'display:none;' });
+        body.append(contentNode);
+        header.addEventListener('click', function() {
+            const isShown = body.style.display !== 'none';
+            body.style.display = isShown ? 'none' : 'block';
+            header.setAttribute('aria-expanded', String(!isShown));
+            header.classList.toggle('is-open', !isShown);
+        });
+        acc.append(header, body);
+        return acc;
     }
 
-    // Toggle button to show/hide meeting notes
-    var toggleBtn = elementCreator('button', { class: 'btn toggle-notes' }, 'Show meeting notes');
-    var toggleBtnDiv = elementCreator('div', { class: 'toggle-notes-div' });
-    toggleBtnDiv.append(toggleBtn);
-    wrap.append(toggleBtnDiv);
+    // Summary section (open by default)
+    if (data['Summary']) {
+        var summaryBox = elementCreator('div', { class: 'summary-box' }, data['Summary']);
+        wrap.append(createAccordion('Summary', summaryBox, true));
+    }
 
-    // Meeting notes: all remaining fields except date, Summary, Encounter Details
-    var notes = elementCreator('div', { class: 'kv-container notes-section', style: 'display:none;' });
+    // Clinical Note (collapsed by default) - includes all remaining fields
+    var notes = elementCreator('div', { class: 'kv-container notes-section' });
     Object.keys(data).forEach(function(key) {
         if (key === 'date' || key === 'Summary' || key === 'Encounter Details') return;
         var row = elementCreator('div', { class: 'kv-row' }, [
@@ -563,17 +587,7 @@ function renderVisitSummaryFromJSON(data, dateLabel) {
         ]);
         notes.append(row);
     });
-    wrap.append(notes);
-
-    toggleBtn.addEventListener('click', function() {
-        if (notes.style.display === 'none') {
-            notes.style.display = 'block';
-            toggleBtn.textContent = 'Hide meeting notes';
-        } else {
-            notes.style.display = 'none';
-            toggleBtn.textContent = 'Show meeting notes';
-        }
-    });
+    wrap.append(createAccordion('Clinical Note', notes, false));
 
     return wrap;
 };
@@ -654,25 +668,14 @@ function renderClinicalSummary() {
 
     // Button group for show original and download
     const buttonGroup = elementCreator('div', { class: 'button-group' });
-    const showOriginalBtn = elementCreator('button', { class: 'btn show-original' }, 'Show Original');
+    const showOriginalBtn = elementCreator('button', { class: 'btn show-original' }, 'View Original');
     const downloadBtn = elementCreator('button', { class: 'btn download-original' }, 'Download Original');
     buttonGroup.append(showOriginalBtn, downloadBtn);
     wrap.append(buttonGroup);
 
-    // Original questionnaire content (hidden initially)
-    const originalContent = elementCreator('div', { class: 'original-questionnaire', style: 'display:none;' });
-    originalContent.append(renderPatientQuestionnaireContent());
-    wrap.append(originalContent);
-
     // Event listeners
     showOriginalBtn.addEventListener('click', function() {
-        if (originalContent.style.display === 'none') {
-            originalContent.style.display = 'block';
-            showOriginalBtn.textContent = 'Hide Original';
-        } else {
-            originalContent.style.display = 'none';
-            showOriginalBtn.textContent = 'Show Original';
-        }
+        openFullFrameModal(renderPatientQuestionnaireContent());
     });
 
     downloadBtn.addEventListener('click', function() {
@@ -681,6 +684,29 @@ function renderClinicalSummary() {
 
     return wrap;
 };
+
+// Modal to show original questionnaire over the entire main pane frame
+function openFullFrameModal(contentNode) {
+    const mainPane = document.querySelector('.main-pane');
+    if (!mainPane) return;
+    // Ensure main pane can host absolutely positioned overlay
+    if (!mainPane.style.position) mainPane.style.position = 'relative';
+
+    const overlay = elementCreator('div', { class: 'modal-overlay', role: 'dialog', 'aria-modal': 'true' });
+    const sheet = elementCreator('div', { class: 'modal-sheet' });
+    const closeBtn = elementCreator('button', { class: 'modal-close', 'aria-label': 'Close' }, '×');
+    closeBtn.addEventListener('click', function() { mainPane.removeChild(overlay); });
+    overlay.addEventListener('click', function(e) { if (e.target === overlay) mainPane.removeChild(overlay); });
+    document.addEventListener('keydown', function esc(ev) {
+        if (ev.key === 'Escape') {
+            try { mainPane.removeChild(overlay); } catch (e) {}
+            document.removeEventListener('keydown', esc);
+        }
+    });
+    sheet.append(closeBtn, contentNode);
+    overlay.append(sheet);
+    mainPane.append(overlay);
+}
 
 function renderPatientQuestionnaire() {
     const wrap = elementCreator('div', { class: 'patient-questionnaire' });
