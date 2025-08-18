@@ -1,20 +1,34 @@
-// Data model for right-pane cards (2 sections)
+// Icons
+const ICONS = {
+    avaamo: 'https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/avaamo_icon.svg',
+    clock: 'https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/clock_icon.svg',
+    download: 'https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/download_pdf_icon.svg',
+    chevronDown: 'https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/fi_chevron-down.svg',
+    imaging: 'https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/imaging_icon.svg',
+    meds: 'https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/medications_icon.svg',
+    tests: 'https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/test_results_icon.svg',
+    view: 'https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/view_pdf_icon.svg'
+};
+
+// Data model for right-pane cards (with icons)
 const listViewData = [{
         id: 'medications',
-        title: '💊 Medications',
+        title: 'Medications',
+        icon: ICONS.meds,
         bullets: [
             'Topiramate 50mg BID (start: 2025-04-03)',
             'Sumatriptan 50mg PRN migraine (last refill: 2025-06-01)',
             'Sertraline 50mg daily',
         ],
-        highlight: [
-            'Track start date, dose, last refill',
-            'Flag high-risk meds or non-adherence',
-        ],
+        // highlight: [
+        //     'Track start date, dose, last refill',
+        //     'Flag high-risk meds or non-adherence',
+        // ],
     },
     {
         id: 'labs',
-        title: '🧪 Recent Test Results',
+        title: 'Recent Test Results',
+        icon: ICONS.tests,
         bullets: [
             'CBC/CMP: within baseline',
             'B12 520 pg/mL; Folate normal; TSH 1.8 µIU/mL',
@@ -23,7 +37,8 @@ const listViewData = [{
     },
     {
         id: 'imaging',
-        title: '🧠 Imaging',
+        title: 'Imaging',
+        icon: ICONS.imaging,
         bullets: [
             'MRI Brain (2024-11-05): no acute findings',
             'EEG (2025-06-10): normal, no epileptiform discharges',
@@ -325,8 +340,19 @@ function renderCards() {
             bodyChildren.push(elementCreator('div', { class: 'source' }, 'Source: ' + section.source));
         }
 
-        const card = elementCreator('article', { class: 'card' }, [
-            elementCreator('header', {}, section.title),
+        const headerChildren = [];
+        if (section.icon) {
+            headerChildren.push(elementCreator('img', { class: 'icon-16', src: section.icon, alt: '' }));
+        }
+        headerChildren.push(elementCreator('span', { class: 'card-title' }, section.title));
+
+        var cardClass = 'card';
+        if (section.id === 'medications') cardClass += ' card-medications';
+        else if (section.id === 'labs') cardClass += ' card-labs';
+        else if (section.id === 'imaging') cardClass += ' card-imaging';
+
+        const card = elementCreator('article', { class: cardClass }, [
+            elementCreator('header', { class: 'card-header' }, headerChildren),
             elementCreator('div', { class: 'card-body' }, bodyChildren),
         ]);
         container.append(card);
@@ -357,17 +383,6 @@ function setActiveTab(tabName) {
     });
     document.querySelectorAll('.pane').forEach(p => p.classList.remove('is-active'));
     document.getElementById(`${tabName}-pane`).classList.add('is-active');
-
-    // Hide/show date rail based on active tab
-    const dateRail = document.getElementById('date-rail');
-    const sideContent = document.querySelector('.side-content');
-    if (tabName === 'questionnaire') {
-        dateRail.style.display = 'none';
-        sideContent.classList.add('no-date-rail');
-    } else {
-        dateRail.style.display = 'block';
-        sideContent.classList.remove('no-date-rail');
-    }
 };
 
 function attachTabHandlers() {
@@ -410,6 +425,11 @@ function selectDate(iso, chip) {
     document.querySelectorAll('.date-chip').forEach(c => {
         c.classList.toggle('is-active', c === chip);
         c.setAttribute('aria-selected', String(c === chip));
+    });
+    document.querySelectorAll('.date-pill').forEach(pill => {
+        const isActive = normalizeDateIso(pill.dataset.iso) === normalizeDateIso(iso);
+        pill.classList.toggle('is-active', isActive);
+        pill.setAttribute('aria-pressed', String(isActive));
     });
     var activeTabEl = document.querySelector('.tab.is-active');
     const tab = activeTabEl ? activeTabEl.dataset.tab : 'visit';
@@ -479,6 +499,27 @@ function generateContent(iso, tab) {
                 visitData = visitSamples[0];
             }
             content = renderVisitSummaryFromJSON(visitData, dateFmt);
+            // Insert horizontal date pills above content per design
+            const pills = elementCreator('div', { class: 'date-pills' });
+            visitDates.forEach(function(dIso, idx) {
+                const d = new Date(dIso);
+                const label = d.toLocaleDateString(undefined, { month: 'short', day: '2-digit' });
+                const pill = elementCreator('button', { class: 'date-pill', 'aria-pressed': 'false' });
+                pill.dataset.iso = dIso;
+                const dateLine = elementCreator('span', { class: 'date-line' }, label);
+                const status = 'Completed';
+                const statusLine = elementCreator('span', { class: 'status-line' }, status);
+                pill.append(dateLine, statusLine);
+                pill.addEventListener('click', function() { selectDate(dIso); });
+                if (normalizeDateIso(dIso) === normalizeDateIso(iso)) {
+                    pill.classList.add('is-active');
+                    pill.setAttribute('aria-pressed', 'true');
+                }
+                pills.append(pill);
+            });
+            const wrapDiv = elementCreator('div');
+            wrapDiv.append(pills, content);
+            content = wrapDiv;
         } else {
             // Questionnaire content is now handled separately
             loadQuestionnaireContent();
@@ -502,6 +543,7 @@ function loadVisitQuestionnaire() {
     // Simulate AI generation delay
     const delayMs = 1000 + Math.random() * 500;
     setTimeout(() => {
+        // Intake shows summarised questionnaire with actions (view original + download)
         const content = renderClinicalSummary();
         container.innerHTML = '';
         container.append(content);
@@ -515,57 +557,190 @@ function loadPatientQuestionnaire() {
     // Simulate AI generation delay
     const delayMs = 1000 + Math.random() * 500;
     setTimeout(() => {
-        const content = renderClinicalSummary();
+        const content = renderCompletedFromQuestionnaireResponse(sampleQuestionnaireResponse);
         container.innerHTML = '';
         container.append(content);
     }, delayMs);
 };
 
-function renderVisitSummaryFromJSON(data, dateLabel) {
+// Sample QuestionnaireResponse used for Patient Completed summary/accordion
+const sampleQuestionnaireResponse = {
+    "resourceType": "QuestionnaireResponse",
+    "id": "eLT3wmcSO-FnPHnHQ2FkBbQ3",
+    "identifier": { "system": "urn:oid:1.2.840.114350.1.13.5325.1.7.2.728165", "value": "106731" },
+    "questionnaire": "Questionnaire/eU7pqmsZY1Mzn5Q6N3sr5CypVI-gW8oj3qZkRi4fCIS83",
+    "status": "completed",
+    "subject": { "reference": "Patient/eBJiv3SI2EuZFZSbARSALJz1qvR2nrHiiztqv0dgm9yM3", "display": "Johnson, Ken" },
+    "encounter": { "reference": "Encounter/et2BlG8rMcWAICw5GbF58AP2Qdnk9wkJy2jt1u7cM5Mg3" },
+    "authored": "2021-08-30T21:08:11Z",
+    "source": { "reference": "Patient/eBJiv3SI2EuZFZSbARSALJz1qvR2nrHiiztqv0dgm9yM3", "display": "Johnson, Ken" },
+    "item": [
+        { "linkId": "325236236|220423|55545", "text": "On a scale from one to ten, rate your back pain in severity (range: 1 - 10)", "answer": [{ "valueDecimal": 7 }] },
+        { "linkId": "325236236|220424|55545", "text": "When did you notice your back pain intensify?", "answer": [{ "valueDate": "2021-08-08" }] },
+        { "linkId": "325236236|220425|55545", "text": "When do you experience the most back pain?", "answer": [{ "valueString": "At morning" }] },
+        { "linkId": "325236236|220426|55545", "text": "Have the prescribed medications improved your back pain since?", "answer": [{ "valueBoolean": true }] },
+        { "linkId": "19393311|150297|55545", "text": " (range: 0 - 3)", "answer": [{ "extension": [{ "valueString": "This is a score of 3", "url": "http://open.epic.com/FHIR/StructureDefinition/extension/scoring-answer-description" }], "valueDecimal": 3 }] }
+    ]
+};
+
+function summariseQuestionnaireResponse(qr) {
+    if (!qr || !qr.item) return 'No questionnaire response available.';
+    const ansMap = {};
+    qr.item.forEach(it => {
+        const a = (it.answer || [])[0] || {};
+        const key = it.text || it.linkId;
+        let val = '';
+        if (typeof a.valueString !== 'undefined') val = a.valueString;
+        else if (typeof a.valueDecimal !== 'undefined') val = String(a.valueDecimal);
+        else if (typeof a.valueDate !== 'undefined') val = a.valueDate;
+        else if (typeof a.valueBoolean !== 'undefined') val = a.valueBoolean ? 'Yes' : 'No';
+        ansMap[key] = val;
+    });
+    const sev = Object.keys(ansMap).find(k => k.toLowerCase().includes('scale'));
+    const whenMost = Object.keys(ansMap).find(k => k.toLowerCase().includes('most back pain'));
+    const intensified = Object.keys(ansMap).find(k => k.toLowerCase().includes('intensify'));
+    const meds = Object.keys(ansMap).find(k => k.toLowerCase().includes('medications improved'));
+    const score = Object.keys(ansMap).find(k => k.trim() === '(range: 0 - 3)');
+    return `Back pain severity ${sev ? ansMap[sev] : 'n/a'}/10; worsened around ${intensified ? ansMap[intensified] : 'n/a'}; worst ${whenMost ? ansMap[whenMost] : 'n/a'}; meds helpful: ${meds ? ansMap[meds] : 'n/a'}; score: ${score ? ansMap[score] : 'n/a'}.`;
+}
+
+function renderCompletedFromQuestionnaireResponse(qr) {
     const wrap = elementCreator('div', { class: 'prose' });
 
-    // Encounter details at the top, if present
-    var encounter = data['Encounter Details'];
-    if (encounter) {
-        var encounterBox = elementCreator('div', { class: 'kv-container' });
-        // Header with small avatar placeholder like in comps
-        var headerRow = elementCreator('div', { class: 'encounter-header-row' });
-        var header = elementCreator('div', { class: 'section-title' }, 'Encounter Details — ' + dateLabel);
-        var avatar = elementCreator('div', { class: 'avatar-badge', title: 'Provider' }, 'N');
-        headerRow.append(header, avatar);
-        encounterBox.append(headerRow);
-        Object.keys(encounter).forEach(function(key) {
-            var valueEl;
-            if (key === 'Meeting Status') {
-                valueEl = elementCreator('div', { class: 'v' }, [
-                    elementCreator('span', { style: 'color: #059669; font-weight: 600;' }, encounter[key])
-                ]);
-            } else {
-                valueEl = elementCreator('div', { class: 'v', style: 'font-weight: 600;' }, encounter[key]);
-            }
-            var row = elementCreator('div', { class: 'kv-row' }, [
-                elementCreator('div', { class: 'k' }, key),
-                valueEl
-            ]);
-            encounterBox.append(row);
-        });
-        wrap.append(encounterBox);
-    }
+    // Header with actions like other sections
+    const header = elementCreator('div', { class: 'q-header' });
+    header.append(
+        elementCreator('h3', {}, 'Patient Completed Questionnaire'),
+        elementCreator('div', { class: 'q-actions' }, [
+            elementCreator('button', { class: 'q-link', type: 'button' }, [elementCreator('img', { class: 'icon-16', src: ICONS.view, alt: '' }), elementCreator('span', {}, 'View Original')]),
+            elementCreator('button', { class: 'q-link', type: 'button' }, [elementCreator('img', { class: 'icon-16', src: ICONS.download, alt: '' }), elementCreator('span', {}, 'Download PDF')])
+        ])
+    );
+    wrap.append(header);
 
-    // Accordions: Summary (open) and Clinical Note (closed)
+    const actions = header.querySelectorAll('button.q-link');
+    actions[0].addEventListener('click', function() { openFullFrameModal(renderPatientQuestionnaireContent()); });
+    actions[1].addEventListener('click', function() { downloadQuestionnaire('patient-questionnaire-sarah-mitchell.pdf'); });
+
+    // Summary accordion
+    const summaryText = summariseQuestionnaireResponse(qr);
+    const summaryBox = elementCreator('div', { class: 'summary-box' }, summaryText);
+    wrap.append((function() {
+        const acc = elementCreator('div', { class: 'accordion' });
+        const headerBtn = elementCreator('button', { class: 'accordion-header is-open', 'aria-expanded': 'true' }, [
+            elementCreator('img', { class: 'chevron-icon', src: ICONS.chevronDown, alt: '' }),
+            elementCreator('span', { class: 'accordion-title' }, 'Summary')
+        ]);
+        const body = elementCreator('div', { class: 'accordion-content', style: 'display:block;' });
+        body.append(summaryBox);
+        headerBtn.addEventListener('click', function() {
+            const shown = body.style.display !== 'none';
+            body.style.display = shown ? 'none' : 'block';
+            headerBtn.setAttribute('aria-expanded', String(!shown));
+            headerBtn.classList.toggle('is-open', !shown);
+        });
+        acc.append(headerBtn, body);
+        return acc;
+    })());
+
+    // Accordion with parsed Q/A rows
+    const dataDiv = elementCreator('div', {});
+    const meta = elementCreator('div', { class: 'kv' });
+    meta.append(
+        elementCreator('div', { class: 'k' }, 'Patient'), elementCreator('div', { class: 'v' }, (qr.subject && qr.subject.display) || '—'),
+        elementCreator('div', { class: 'k' }, 'Authored'), elementCreator('div', { class: 'v' }, qr.authored || '—'),
+        elementCreator('div', { class: 'k' }, 'Status'), elementCreator('div', { class: 'v' }, qr.status || '—')
+    );
+    dataDiv.append(meta);
+
+    const table = elementCreator('table', {}, [
+        elementCreator('thead', {}, elementCreator('tr', {}, [
+            elementCreator('th', {}, 'QUESTION'),
+            elementCreator('th', {}, 'ANSWER')
+        ])),
+        elementCreator('tbody', {}, (qr.item || []).map(it => {
+            const a = (it.answer || [])[0] || {};
+            let val = '';
+            if (typeof a.valueString !== 'undefined') val = a.valueString;
+            else if (typeof a.valueDecimal !== 'undefined') val = String(a.valueDecimal);
+            else if (typeof a.valueDate !== 'undefined') val = a.valueDate;
+            else if (typeof a.valueBoolean !== 'undefined') val = a.valueBoolean ? 'Yes' : 'No';
+            else val = '—';
+            return elementCreator('tr', {}, [
+                elementCreator('td', {}, it.text || it.linkId),
+                elementCreator('td', {}, val)
+            ]);
+        }))
+    ]);
+    dataDiv.append(table);
+
+    // Local accordion creator mirroring visit summary style
     function createAccordion(titleText, contentNode, isOpen) {
         const acc = elementCreator('div', { class: 'accordion' });
-        const header = elementCreator('button', { class: 'accordion-header', 'aria-expanded': String(!!isOpen) }, [
-            elementCreator('span', { class: 'accordion-title' }, titleText),
-            elementCreator('span', { class: 'chevron' }, '▾')
+        const chevron = elementCreator('img', { class: 'chevron-icon', src: ICONS.chevronDown, alt: '' });
+        const header = elementCreator('button', { class: `accordion-header ${isOpen ? 'is-open' : ''}`, 'aria-expanded': String(!!isOpen) }, [
+            chevron,
+            elementCreator('span', { class: 'accordion-title' }, titleText)
         ]);
         const body = elementCreator('div', { class: 'accordion-content', style: isOpen ? 'display:block;' : 'display:none;' });
         body.append(contentNode);
         header.addEventListener('click', function() {
             const isShown = body.style.display !== 'none';
-            body.style.display = isShown ? 'none' : 'block';
-            header.setAttribute('aria-expanded', String(!isShown));
-            header.classList.toggle('is-open', !isShown);
+            const willShow = !isShown;
+            body.style.display = willShow ? 'block' : 'none';
+            header.setAttribute('aria-expanded', String(willShow));
+            header.classList.toggle('is-open', willShow);
+        });
+        acc.append(header, body);
+        return acc;
+    }
+
+    wrap.append(createAccordion('Questionnaire Data', dataDiv, false));
+    return wrap;
+}
+
+function renderVisitSummaryFromJSON(data, dateLabel) {
+    const wrap = elementCreator('div', { class: 'prose' });
+
+    // Encounter details rendered as compact card with 5-column row
+    var encounter = data['Encounter Details'];
+    if (encounter) {
+        const card = elementCreator('article', { class: 'encounter-card' });
+        const header = elementCreator('header', {}, [
+            elementCreator('span', {}, 'Encounter Details'),
+            elementCreator('span', { class: 'encounter-date-chip' }, dateLabel)
+        ]);
+        const grid = elementCreator('div', { class: 'encounter-grid' });
+        const fields = ['Speciality', 'Encounter ID', 'Date & Time', 'Meeting Status', 'Meeting Duration'];
+        for (var i = 0; i < fields.length; i++) {
+            const key = fields[i];
+            const value = encounter[key] || '';
+            const item = elementCreator('div', { class: 'encounter-item' }, [
+                elementCreator('div', { class: 'label' }, key),
+                elementCreator('div', { class: 'value' + (key === 'Meeting Status' ? ' status' : '') }, value)
+            ]);
+            grid.append(item);
+        }
+        card.append(header, grid);
+        wrap.append(card);
+    }
+
+    // Accordions: Summary (open) and Clinical Note (closed)
+    function createAccordion(titleText, contentNode, isOpen) {
+        const acc = elementCreator('div', { class: 'accordion' });
+        const chevron = elementCreator('img', { class: 'chevron-icon', src: ICONS.chevronDown, alt: '' });
+        const header = elementCreator('button', { class: `accordion-header ${isOpen ? 'is-open' : ''}`, 'aria-expanded': String(!!isOpen) }, [
+            chevron,
+            elementCreator('span', { class: 'accordion-title' }, titleText)
+        ]);
+        const body = elementCreator('div', { class: 'accordion-content', style: isOpen ? 'display:block;' : 'display:none;' });
+        body.append(contentNode);
+        header.addEventListener('click', function() {
+            const isShown = body.style.display !== 'none';
+            const willShow = !isShown;
+            body.style.display = willShow ? 'block' : 'none';
+            header.setAttribute('aria-expanded', String(willShow));
+            header.classList.toggle('is-open', willShow);
         });
         acc.append(header, body);
         return acc;
@@ -595,9 +770,21 @@ function renderVisitSummaryFromJSON(data, dateLabel) {
 function renderClinicalSummary() {
     const wrap = elementCreator('div', { class: 'clinical-summary' });
 
-    // Title
+    // Header with actions (View Original, Download PDF)
+    const header = elementCreator('div', { class: 'q-header' });
     const title = elementCreator('h3', {}, clinicalSummaryData.title);
-    wrap.append(title);
+    const actions = elementCreator('div', { class: 'q-actions' });
+    const viewOriginal = elementCreator('button', { class: 'q-link', type: 'button' }, [
+        elementCreator('img', { class: 'icon-16', src: ICONS.view, alt: '' }),
+        elementCreator('span', {}, 'View Original')
+    ]);
+    const downloadBtn = elementCreator('button', { class: 'q-link', type: 'button' }, [
+        elementCreator('img', { class: 'icon-16', src: ICONS.download, alt: '' }),
+        elementCreator('span', {}, 'Download PDF')
+    ]);
+    actions.append(viewOriginal, downloadBtn);
+    header.append(title, actions);
+    wrap.append(header);
 
     // Patient Overview
     const patientOverview = elementCreator('h4', {}, 'Patient Overview');
@@ -666,15 +853,8 @@ function renderClinicalSummary() {
     const patientGoalsText = elementCreator('p', {}, clinicalSummaryData.patientGoals);
     wrap.append(patientGoals, patientGoalsText);
 
-    // Button group for show original and download
-    const buttonGroup = elementCreator('div', { class: 'button-group' });
-    const showOriginalBtn = elementCreator('button', { class: 'btn show-original' }, 'View Original');
-    const downloadBtn = elementCreator('button', { class: 'btn download-original' }, 'Download Original');
-    buttonGroup.append(showOriginalBtn, downloadBtn);
-    wrap.append(buttonGroup);
-
     // Event listeners
-    showOriginalBtn.addEventListener('click', function() {
+    viewOriginal.addEventListener('click', function() {
         openFullFrameModal(renderPatientQuestionnaireContent());
     });
 
@@ -1113,7 +1293,6 @@ function downloadQuestionnaire(filename) {
 // Initialize app
 function init() {
     renderCards();
-    renderDateRail();
     attachTabHandlers();
     attachQuestionnaireTabHandlers();
 
