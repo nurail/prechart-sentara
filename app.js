@@ -479,6 +479,27 @@ function generateContent(iso, tab) {
                 visitData = visitSamples[0];
             }
             content = renderVisitSummaryFromJSON(visitData, dateFmt);
+            // Insert horizontal date pills above content per design
+            const pills = elementCreator('div', { class: 'date-pills' });
+            visitDates.forEach(function(dIso, idx) {
+                const d = new Date(dIso);
+                const label = d.toLocaleDateString(undefined, { month: 'short', day: '2-digit' });
+                const pill = elementCreator('button', { class: 'date-pill', 'aria-pressed': 'false' });
+                pill.dataset.iso = dIso;
+                const dateLine = elementCreator('span', { class: 'date-line' }, label);
+                const status = idx === 0 ? 'Current' : 'Completed';
+                const statusLine = elementCreator('span', { class: 'status-line' }, status);
+                pill.append(dateLine, statusLine);
+                pill.addEventListener('click', function() { selectDate(dIso); });
+                if (normalizeDateIso(dIso) === normalizeDateIso(iso)) {
+                    pill.classList.add('is-active');
+                    pill.setAttribute('aria-pressed', 'true');
+                }
+                pills.append(pill);
+            });
+            const wrapDiv = elementCreator('div');
+            wrapDiv.append(pills, content);
+            content = wrapDiv;
         } else {
             // Questionnaire content is now handled separately
             loadQuestionnaireContent();

@@ -282,6 +282,13 @@
     padding: 12px;
 }
 
+/* Date pills (top of Visit Summary) */
+.avm-prechart-app .date-pills { display: flex; gap: 10px; padding: 6px 0 12px; flex-wrap: wrap; }
+.avm-prechart-app .date-pill { padding: 8px 12px; border-radius: 9999px; border: 1px solid #e5e7eb; background: #ffffff; cursor: pointer; color: #334155; display: inline-flex; flex-direction: column; align-items: center; line-height: 1.1; }
+.avm-prechart-app .date-pill .date-line { font-weight: 700; font-size: 12px; }
+.avm-prechart-app .date-pill .status-line { font-size: 10px; color: #64748b; }
+.avm-prechart-app .date-pill.is-active { background: #eef2ff; border-color: #c7d2fe; color: #1e293b; }
+
 .avm-prechart-app .ai-toolbar {
     display: flex;
     align-items: center;
