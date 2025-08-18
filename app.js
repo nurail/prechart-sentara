@@ -358,16 +358,11 @@ function setActiveTab(tabName) {
     document.querySelectorAll('.pane').forEach(p => p.classList.remove('is-active'));
     document.getElementById(`${tabName}-pane`).classList.add('is-active');
 
-    // Hide/show date rail based on active tab
+    // New design removes the left date rail entirely; ensure hidden
     const dateRail = document.getElementById('date-rail');
     const sideContent = document.querySelector('.side-content');
-    if (tabName === 'questionnaire') {
-        dateRail.style.display = 'none';
-        sideContent.classList.add('no-date-rail');
-    } else {
-        dateRail.style.display = 'block';
-        sideContent.classList.remove('no-date-rail');
-    }
+    if (dateRail) dateRail.style.display = 'none';
+    if (sideContent) sideContent.classList.add('no-date-rail');
 };
 
 function attachTabHandlers() {
@@ -407,9 +402,17 @@ function setActiveQuestionnaireTab(tabName) {
 };
 
 function selectDate(iso, chip) {
+    // Left rail chips (if any)
     document.querySelectorAll('.date-chip').forEach(c => {
-        c.classList.toggle('is-active', c === chip);
-        c.setAttribute('aria-selected', String(c === chip));
+        const isActiveChip = chip ? (c === chip) : (normalizeDateIso(c.dataset.iso) === normalizeDateIso(iso));
+        c.classList.toggle('is-active', isActiveChip);
+        c.setAttribute('aria-selected', String(isActiveChip));
+    });
+    // Horizontal pills
+    document.querySelectorAll('.date-pill').forEach(p => {
+        const isActive = normalizeDateIso(p.dataset.iso) === normalizeDateIso(iso);
+        p.classList.toggle('is-active', isActive);
+        p.setAttribute('aria-pressed', String(isActive));
     });
     var activeTabEl = document.querySelector('.tab.is-active');
     const tab = activeTabEl ? activeTabEl.dataset.tab : 'visit';
@@ -479,6 +482,21 @@ function generateContent(iso, tab) {
                 visitData = visitSamples[0];
             }
             content = renderVisitSummaryFromJSON(visitData, dateFmt);
+            // Insert horizontal date pills above content to match design
+            const pills = elementCreator('div', { class: 'date-pills' });
+            visitDates.forEach(function(dIso, idx) {
+                const d = new Date(dIso);
+                const label = d.toLocaleDateString(undefined, { month: 'short', day: '2-digit' });
+                const pill = elementCreator('button', { class: 'date-pill' });
+                pill.textContent = label;
+                pill.dataset.iso = dIso;
+                pill.addEventListener('click', function() { selectDate(dIso); });
+                if (normalizeDateIso(dIso) === normalizeDateIso(iso)) pill.classList.add('is-active');
+                pills.append(pill);
+            });
+            const wrapDiv = elementCreator('div');
+            wrapDiv.append(pills, content);
+            content = wrapDiv;
         } else {
             // Questionnaire content is now handled separately
             loadQuestionnaireContent();
