@@ -593,17 +593,19 @@ function renderVisitSummaryFromJSON(data, dateLabel) {
     function createAccordion(titleText, contentNode, isOpen) {
         const acc = elementCreator('div', { class: 'accordion' });
         const chevron = elementCreator('img', { class: 'chevron-icon', src: ICONS.chevronDown, alt: '' });
-        const header = elementCreator('button', { class: 'accordion-header', 'aria-expanded': String(!!isOpen) }, [
+        const header = elementCreator('button', { class: `accordion-header ${!isOpen ? 'is-open' : ''}`, 'aria-expanded': String(!!isOpen) }, [
             chevron,
             elementCreator('span', { class: 'accordion-title' }, titleText)
         ]);
+        console.log("header", header);
         const body = elementCreator('div', { class: 'accordion-content', style: isOpen ? 'display:block;' : 'display:none;' });
         body.append(contentNode);
         header.addEventListener('click', function() {
             const isShown = body.style.display !== 'none';
+            console.log("isShown", isShown);
             body.style.display = isShown ? 'none' : 'block';
-            header.setAttribute('aria-expanded', String(!isShown));
-            header.classList.toggle('is-open', !isShown);
+            header.setAttribute('aria-expanded', String(isShown));
+            header.classList.toggle('is-open', isShown);
         });
         acc.append(header, body);
         return acc;
