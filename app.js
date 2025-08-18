@@ -507,7 +507,7 @@ function generateContent(iso, tab) {
                 const pill = elementCreator('button', { class: 'date-pill', 'aria-pressed': 'false' });
                 pill.dataset.iso = dIso;
                 const dateLine = elementCreator('span', { class: 'date-line' }, label);
-                const status = idx === 0 ? 'Current' : 'Completed';
+                const status = 'Completed';
                 const statusLine = elementCreator('span', { class: 'status-line' }, status);
                 pill.append(dateLine, statusLine);
                 pill.addEventListener('click', function() { selectDate(dIso); });
