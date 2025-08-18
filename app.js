@@ -546,11 +546,10 @@ function renderVisitSummaryFromJSON(data, dateLabel) {
     var encounter = data['Encounter Details'];
     if (encounter) {
         var encounterBox = elementCreator('div', { class: 'kv-container' });
-        // Header with small avatar placeholder like in comps
+        // Header like in comps
         var headerRow = elementCreator('div', { class: 'encounter-header-row' });
         var header = elementCreator('div', { class: 'section-title' }, 'Encounter Details — ' + dateLabel);
-        var avatar = elementCreator('div', { class: 'avatar-badge', title: 'Provider' }, 'N');
-        headerRow.append(header, avatar);
+        headerRow.append(header);
         encounterBox.append(headerRow);
         Object.keys(encounter).forEach(function(key) {
             var valueEl;

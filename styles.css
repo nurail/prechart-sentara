@@ -665,18 +665,6 @@
     padding: 6px 12px 0 12px;
 }
 
-.avm-prechart-app .avatar-badge {
-    width: 28px;
-    height: 28px;
-    border-radius: 9999px;
-    background: #e2e8f0;
-    color: #334155;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-}
-
 .avm-prechart-app .toggle-notes-div {
     justify-self: center;
 }
