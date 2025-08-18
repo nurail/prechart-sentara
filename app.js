@@ -543,7 +543,8 @@ function loadVisitQuestionnaire() {
     // Simulate AI generation delay
     const delayMs = 1000 + Math.random() * 500;
     setTimeout(() => {
-        const content = renderPatientQuestionnaire();
+        // Intake shows summarised questionnaire with actions (view original + download)
+        const content = renderClinicalSummary();
         container.innerHTML = '';
         container.append(content);
     }, delayMs);
@@ -556,16 +557,91 @@ function loadPatientQuestionnaire() {
     // Simulate AI generation delay
     const delayMs = 1000 + Math.random() * 500;
     setTimeout(() => {
-        const content = renderPatientCompletedAccordionView();
+        const content = renderCompletedFromQuestionnaireResponse(sampleQuestionnaireResponse);
         container.innerHTML = '';
         container.append(content);
     }, delayMs);
 };
 
-// Simplified Patient Completed view: Summary + View Original
-function renderPatientCompletedAccordionView() {
+// Sample QuestionnaireResponse used for Patient Completed summary/accordion
+const sampleQuestionnaireResponse = {
+    "resourceType": "QuestionnaireResponse",
+    "id": "eLT3wmcSO-FnPHnHQ2FkBbQ3",
+    "identifier": { "system": "urn:oid:1.2.840.114350.1.13.5325.1.7.2.728165", "value": "106731" },
+    "questionnaire": "Questionnaire/eU7pqmsZY1Mzn5Q6N3sr5CypVI-gW8oj3qZkRi4fCIS83",
+    "status": "completed",
+    "subject": { "reference": "Patient/eBJiv3SI2EuZFZSbARSALJz1qvR2nrHiiztqv0dgm9yM3", "display": "Johnson, Ken" },
+    "encounter": { "reference": "Encounter/et2BlG8rMcWAICw5GbF58AP2Qdnk9wkJy2jt1u7cM5Mg3" },
+    "authored": "2021-08-30T21:08:11Z",
+    "source": { "reference": "Patient/eBJiv3SI2EuZFZSbARSALJz1qvR2nrHiiztqv0dgm9yM3", "display": "Johnson, Ken" },
+    "item": [
+        { "linkId": "325236236|220423|55545", "text": "On a scale from one to ten, rate your back pain in severity (range: 1 - 10)", "answer": [{ "valueDecimal": 7 }] },
+        { "linkId": "325236236|220424|55545", "text": "When did you notice your back pain intensify?", "answer": [{ "valueDate": "2021-08-08" }] },
+        { "linkId": "325236236|220425|55545", "text": "When do you experience the most back pain?", "answer": [{ "valueString": "At morning" }] },
+        { "linkId": "325236236|220426|55545", "text": "Have the prescribed medications improved your back pain since?", "answer": [{ "valueBoolean": true }] },
+        { "linkId": "19393311|150297|55545", "text": " (range: 0 - 3)", "answer": [{ "extension": [{ "valueString": "This is a score of 3", "url": "http://open.epic.com/FHIR/StructureDefinition/extension/scoring-answer-description" }], "valueDecimal": 3 }] }
+    ]
+};
+
+function summariseQuestionnaireResponse(qr) {
+    if (!qr || !qr.item) return 'No questionnaire response available.';
+    const ansMap = {};
+    qr.item.forEach(it => {
+        const a = (it.answer || [])[0] || {};
+        const key = it.text || it.linkId;
+        let val = '';
+        if (typeof a.valueString !== 'undefined') val = a.valueString;
+        else if (typeof a.valueDecimal !== 'undefined') val = String(a.valueDecimal);
+        else if (typeof a.valueDate !== 'undefined') val = a.valueDate;
+        else if (typeof a.valueBoolean !== 'undefined') val = a.valueBoolean ? 'Yes' : 'No';
+        ansMap[key] = val;
+    });
+    const sev = Object.keys(ansMap).find(k => k.toLowerCase().includes('scale'));
+    const whenMost = Object.keys(ansMap).find(k => k.toLowerCase().includes('most back pain'));
+    const intensified = Object.keys(ansMap).find(k => k.toLowerCase().includes('intensify'));
+    const meds = Object.keys(ansMap).find(k => k.toLowerCase().includes('medications improved'));
+    const score = Object.keys(ansMap).find(k => k.trim() === '(range: 0 - 3)');
+    return `Back pain severity ${sev ? ansMap[sev] : 'n/a'}/10; worsened around ${intensified ? ansMap[intensified] : 'n/a'}; worst ${whenMost ? ansMap[whenMost] : 'n/a'}; meds helpful: ${meds ? ansMap[meds] : 'n/a'}; score: ${score ? ansMap[score] : 'n/a'}.`;
+}
+
+function renderCompletedFromQuestionnaireResponse(qr) {
     const wrap = elementCreator('div', { class: 'prose' });
 
+    const summaryText = summariseQuestionnaireResponse(qr);
+    wrap.append(elementCreator('div', { class: 'summary-box' }, summaryText));
+
+    // Accordion with parsed Q/A rows
+    const dataDiv = elementCreator('div', {});
+    const meta = elementCreator('div', { class: 'kv' });
+    meta.append(
+        elementCreator('div', { class: 'k' }, 'Patient'), elementCreator('div', { class: 'v' }, (qr.subject && qr.subject.display) || '—'),
+        elementCreator('div', { class: 'k' }, 'Authored'), elementCreator('div', { class: 'v' }, qr.authored || '—'),
+        elementCreator('div', { class: 'k' }, 'Status'), elementCreator('div', { class: 'v' }, qr.status || '—')
+    );
+    dataDiv.append(meta);
+
+    const table = elementCreator('table', {}, [
+        elementCreator('thead', {}, elementCreator('tr', {}, [
+            elementCreator('th', {}, 'QUESTION'),
+            elementCreator('th', {}, 'ANSWER')
+        ])),
+        elementCreator('tbody', {}, (qr.item || []).map(it => {
+            const a = (it.answer || [])[0] || {};
+            let val = '';
+            if (typeof a.valueString !== 'undefined') val = a.valueString;
+            else if (typeof a.valueDecimal !== 'undefined') val = String(a.valueDecimal);
+            else if (typeof a.valueDate !== 'undefined') val = a.valueDate;
+            else if (typeof a.valueBoolean !== 'undefined') val = a.valueBoolean ? 'Yes' : 'No';
+            else val = '—';
+            return elementCreator('tr', {}, [
+                elementCreator('td', {}, it.text || it.linkId),
+                elementCreator('td', {}, val)
+            ]);
+        }))
+    ]);
+    dataDiv.append(table);
+
+    // Local accordion creator mirroring visit summary style
     function createAccordion(titleText, contentNode, isOpen) {
         const acc = elementCreator('div', { class: 'accordion' });
         const chevron = elementCreator('img', { class: 'chevron-icon', src: ICONS.chevronDown, alt: '' });
@@ -586,27 +662,7 @@ function renderPatientCompletedAccordionView() {
         return acc;
     }
 
-    const summaryText = clinicalSummaryData.patientOverview + ' ' + clinicalSummaryData.chiefComplaint;
-    const summaryBox = elementCreator('div', { class: 'summary-box' }, summaryText);
-    wrap.append(createAccordion('Summary', summaryBox, true));
-
-    const actions = elementCreator('div', {});
-    const viewBtn = elementCreator('button', { class: 'q-link', type: 'button' }, [
-        elementCreator('img', { class: 'icon-16', src: ICONS.view, alt: '' }),
-        elementCreator('span', {}, 'View Original')
-    ]);
-    const dlBtn = elementCreator('button', { class: 'q-link', type: 'button' }, [
-        elementCreator('img', { class: 'icon-16', src: ICONS.download, alt: '' }),
-        elementCreator('span', {}, 'Download PDF')
-    ]);
-    actions.append(viewBtn, dlBtn);
-    wrap.append(createAccordion('View Original', actions, false));
-
-    viewBtn.addEventListener('click', function() {
-        openFullFrameModal(renderPatientQuestionnaireContent());
-    });
-    dlBtn.addEventListener('click', function() { downloadQuestionnaire('patient-questionnaire-sarah-mitchell.pdf'); });
-
+    wrap.append(createAccordion('Questionnaire Data', dataDiv, false));
     return wrap;
 }
 
