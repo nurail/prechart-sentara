@@ -181,8 +181,8 @@ const visitSamples = [{
 
 // Clinical Summary data
 const clinicalSummaryData = {
-    title: "Clinical Summary - Sarah Mitchell (Pre-Consultation Brief)",
-    patientOverview: "Sarah Mitchell, 45-year-old female presenting for neurological evaluation of progressive headaches, dizziness, and cognitive concerns.",
+    title: "Clinical Summary - CHRISTINE MYCHART (Pre-Consultation Brief)",
+    patientOverview: "CHRISTINE MYCHART, 45-year-old female presenting for neurological evaluation of progressive headaches, dizziness, and cognitive concerns.",
     chiefComplaint: "6-month history of worsening daily headaches with associated dizziness, memory difficulties, and concentration problems affecting work performance.",
     relevantMedicalHistory: {
         comorbidities: ["Hypertension (2019)", "Type 2 Diabetes (2020)", "Hyperlipidemia (2021)"],
@@ -219,7 +219,7 @@ const clinicalSummaryData = {
 // Original Questionnaire data
 const originalQuestionnaireData = {
     patientInformation: {
-        patientName: "Sarah Mitchell",
+        patientName: "CHRISTINE MYCHART",
         dateOfBirth: "March 15, 1978",
         handYouWriteWith: "R (Right)"
     },
@@ -613,16 +613,16 @@ function renderCompletedFromQuestionnaireResponse(qr) {
     const header = elementCreator('div', { class: 'q-header' });
     header.append(
         elementCreator('h3', {}, 'Patient Completed Questionnaire'),
-        elementCreator('div', { class: 'q-actions' }, [
-            elementCreator('button', { class: 'q-link', type: 'button' }, [elementCreator('img', { class: 'icon-16', src: ICONS.view, alt: '' }), elementCreator('span', {}, 'View Original')]),
-            elementCreator('button', { class: 'q-link', type: 'button' }, [elementCreator('img', { class: 'icon-16', src: ICONS.download, alt: '' }), elementCreator('span', {}, 'Download PDF')])
-        ])
+        // elementCreator('div', { class: 'q-actions' }, [
+        //     elementCreator('button', { class: 'q-link', type: 'button' }, [elementCreator('img', { class: 'icon-16', src: ICONS.view, alt: '' }), elementCreator('span', {}, 'View Original')]),
+        //     elementCreator('button', { class: 'q-link', type: 'button' }, [elementCreator('img', { class: 'icon-16', src: ICONS.download, alt: '' }), elementCreator('span', {}, 'Download PDF')])
+        // ])
     );
     wrap.append(header);
 
-    const actions = header.querySelectorAll('button.q-link');
-    actions[0].addEventListener('click', function() { openFullFrameModal(renderPatientQuestionnaireContent()); });
-    actions[1].addEventListener('click', function() { downloadQuestionnaire('patient-questionnaire-sarah-mitchell.pdf'); });
+    // const actions = header.querySelectorAll('button.q-link');
+    // actions[0].addEventListener('click', function() { openFullFrameModal(renderPatientQuestionnaireContent()); });
+    // actions[1].addEventListener('click', function() { downloadQuestionnaire('patient-questionnaire-christine-mychart.pdf'); });
 
     // Summary accordion
     const summaryText = summariseQuestionnaireResponse(qr);
@@ -788,103 +788,212 @@ function renderVisitSummaryFromJSON(data, dateLabel) {
     return wrap;
 };
 
+// function renderClinicalSummary() {
+//     const wrap = elementCreator('div', { class: 'clinical-summary' });
+
+//     // Header with actions (View Original, Download PDF)
+//     const header = elementCreator('div', { class: 'q-header' });
+//     const title = elementCreator('h3', {}, clinicalSummaryData.title);
+//     const actions = elementCreator('div', { class: 'q-actions' });
+//     const viewOriginal = elementCreator('button', { class: 'q-link', type: 'button' }, [
+//         elementCreator('img', { class: 'icon-16', src: ICONS.view, alt: '' }),
+//         elementCreator('span', {}, 'View Original')
+//     ]);
+//     const downloadBtn = elementCreator('button', { class: 'q-link', type: 'button' }, [
+//         elementCreator('img', { class: 'icon-16', src: ICONS.download, alt: '' }),
+//         elementCreator('span', {}, 'Download PDF')
+//     ]);
+//     actions.append(viewOriginal, downloadBtn);
+//     header.append(title, actions);
+//     wrap.append(header);
+
+//     // Patient Overview
+//     const patientOverview = elementCreator('h4', {}, 'Patient Overview');
+//     const patientOverviewText = elementCreator('p', {}, clinicalSummaryData.patientOverview);
+//     wrap.append(patientOverview, patientOverviewText);
+
+//     // Patient Goals
+//     const patientGoals = elementCreator('h4', {}, 'Patient Goals');
+//     const patientGoalsText = elementCreator('p', {}, clinicalSummaryData.patientGoals);
+//     wrap.append(patientGoals, patientGoalsText);
+
+//     // Chief Complaint
+//     const chiefComplaint = elementCreator('h4', {}, 'Chief Complaint');
+//     const chiefComplaintText = elementCreator('p', {}, clinicalSummaryData.chiefComplaint);
+//     wrap.append(chiefComplaint, chiefComplaintText);
+
+//     // Relevant Medical History
+//     const relevantMedicalHistory = elementCreator('h4', {}, 'Relevant Medical History');
+//     const relevantMedicalHistoryList = elementCreator('ul', {}, [
+//         elementCreator('li', {}, 'Comorbidities: ' + clinicalSummaryData.relevantMedicalHistory.comorbidities.join(', ')),
+//         elementCreator('li', {}, 'Prior Surgery: ' + clinicalSummaryData.relevantMedicalHistory.priorSurgery),
+//         elementCreator('li', {}, 'Current Medications: ' + clinicalSummaryData.relevantMedicalHistory.currentMedications.join(', ')),
+//         elementCreator('li', {}, 'Allergies: ' + clinicalSummaryData.relevantMedicalHistory.allergies.join(', '))
+//     ]);
+//     wrap.append(relevantMedicalHistory, relevantMedicalHistoryList);
+
+//     // Significant Family History
+//     const significantFamilyHistory = elementCreator('h4', {}, 'Significant Family History');
+//     const significantFamilyHistoryList = elementCreator('ul', {}, [
+//         elementCreator('li', {}, 'Neurological: ' + clinicalSummaryData.significantFamilyHistory.neurological.join(', ')),
+//         elementCreator('li', {}, 'Cardiovascular/Metabolic: ' + clinicalSummaryData.significantFamilyHistory.cardiovascularMetabolic.join(', '))
+//     ]);
+//     wrap.append(significantFamilyHistory, significantFamilyHistoryList);
+
+//     // Current Neurological Symptoms Table
+//     const currentNeurologicalSymptoms = elementCreator('h4', {}, 'Current Neurological Symptoms');
+//     const symptomsTable = elementCreator('table', {}, [
+//         elementCreator('thead', {}, elementCreator('tr', {}, [
+//             elementCreator('th', {}, 'SYMPTOM'),
+//             elementCreator('th', {}, 'STATUS'),
+//             elementCreator('th', {}, 'CLINICAL SIGNIFICANCE')
+//         ])),
+//         elementCreator('tbody', {}, clinicalSummaryData.currentNeurologicalSymptoms.map(symptom =>
+//             elementCreator('tr', {}, [
+//                 elementCreator('td', {}, symptom.symptom),
+//                 elementCreator('td', {}, symptom.status),
+//                 elementCreator('td', {}, symptom.clinicalSignificance)
+//             ])
+//         ))
+//     ]);
+//     wrap.append(currentNeurologicalSymptoms, symptomsTable);
+
+//     // Clinical Considerations
+//     const clinicalConsiderations = elementCreator('h4', {}, 'Clinical Considerations');
+//     const clinicalConsiderationsList = elementCreator('ul', {}, [
+//         elementCreator('li', {}, 'Differential Diagnosis: ' + clinicalSummaryData.clinicalConsiderations.differentialDiagnosis.join(', ')),
+//         elementCreator('li', {}, 'Risk Factors: ' + clinicalSummaryData.clinicalConsiderations.riskFactors.join(', ')),
+//         elementCreator('li', {}, 'Red Flags: ' + clinicalSummaryData.clinicalConsiderations.redFlags.join(', '))
+//     ]);
+//     wrap.append(clinicalConsiderations, clinicalConsiderationsList);
+
+//     // Recommended Assessment Focus
+//     const recommendedAssessmentFocus = elementCreator('h4', {}, 'Recommended Assessment Focus');
+//     const recommendedAssessmentFocusList = elementCreator('ul', {},
+//         clinicalSummaryData.recommendedAssessmentFocus.map(item => elementCreator('li', {}, item))
+//     );
+//     wrap.append(recommendedAssessmentFocus, recommendedAssessmentFocusList);
+
+//     // Event listeners
+//     viewOriginal.addEventListener('click', function() {
+//         openFullFrameModal(renderPatientQuestionnaireContent());
+//     });
+
+//     downloadBtn.addEventListener('click', function() {
+//         downloadQuestionnaire('clinical-questionnaire-christine-mychart.pdf');
+//     });
+
+//     return wrap;
+// };
+
+
 function renderClinicalSummary() {
     const wrap = elementCreator('div', { class: 'clinical-summary' });
 
-    // Header with actions (View Original, Download PDF)
+    // Header with actions
     const header = elementCreator('div', { class: 'q-header' });
-    const title = elementCreator('h3', {}, clinicalSummaryData.title);
+    const title = elementCreator('h3', { class: 'summary-title' }, clinicalSummaryData.title);
     const actions = elementCreator('div', { class: 'q-actions' });
-    const viewOriginal = elementCreator('button', { class: 'q-link', type: 'button' }, [
+
+    const viewOriginal = elementCreator('button', { class: 'q-link q-view-original', type: 'button' }, [
         elementCreator('img', { class: 'icon-16', src: ICONS.view, alt: '' }),
         elementCreator('span', {}, 'View Original')
     ]);
-    const downloadBtn = elementCreator('button', { class: 'q-link', type: 'button' }, [
+    const downloadBtn = elementCreator('button', { class: 'q-link q-download', type: 'button' }, [
         elementCreator('img', { class: 'icon-16', src: ICONS.download, alt: '' }),
         elementCreator('span', {}, 'Download PDF')
     ]);
+
     actions.append(viewOriginal, downloadBtn);
     header.append(title, actions);
     wrap.append(header);
 
     // Patient Overview
-    const patientOverview = elementCreator('h4', {}, 'Patient Overview');
-    const patientOverviewText = elementCreator('p', {}, clinicalSummaryData.patientOverview);
-    wrap.append(patientOverview, patientOverviewText);
-
-    // Chief Complaint
-    const chiefComplaint = elementCreator('h4', {}, 'Chief Complaint');
-    const chiefComplaintText = elementCreator('p', {}, clinicalSummaryData.chiefComplaint);
-    wrap.append(chiefComplaint, chiefComplaintText);
-
-    // Relevant Medical History
-    const relevantMedicalHistory = elementCreator('h4', {}, 'Relevant Medical History');
-    const relevantMedicalHistoryList = elementCreator('ul', {}, [
-        elementCreator('li', {}, 'Comorbidities: ' + clinicalSummaryData.relevantMedicalHistory.comorbidities.join(', ')),
-        elementCreator('li', {}, 'Prior Surgery: ' + clinicalSummaryData.relevantMedicalHistory.priorSurgery),
-        elementCreator('li', {}, 'Current Medications: ' + clinicalSummaryData.relevantMedicalHistory.currentMedications.join(', ')),
-        elementCreator('li', {}, 'Allergies: ' + clinicalSummaryData.relevantMedicalHistory.allergies.join(', '))
-    ]);
-    wrap.append(relevantMedicalHistory, relevantMedicalHistoryList);
-
-    // Significant Family History
-    const significantFamilyHistory = elementCreator('h4', {}, 'Significant Family History');
-    const significantFamilyHistoryList = elementCreator('ul', {}, [
-        elementCreator('li', {}, 'Neurological: ' + clinicalSummaryData.significantFamilyHistory.neurological.join(', ')),
-        elementCreator('li', {}, 'Cardiovascular/Metabolic: ' + clinicalSummaryData.significantFamilyHistory.cardiovascularMetabolic.join(', '))
-    ]);
-    wrap.append(significantFamilyHistory, significantFamilyHistoryList);
-
-    // Current Neurological Symptoms Table
-    const currentNeurologicalSymptoms = elementCreator('h4', {}, 'Current Neurological Symptoms');
-    const symptomsTable = elementCreator('table', {}, [
-        elementCreator('thead', {}, elementCreator('tr', {}, [
-            elementCreator('th', {}, 'SYMPTOM'),
-            elementCreator('th', {}, 'STATUS'),
-            elementCreator('th', {}, 'CLINICAL SIGNIFICANCE')
-        ])),
-        elementCreator('tbody', {}, clinicalSummaryData.currentNeurologicalSymptoms.map(symptom =>
-            elementCreator('tr', {}, [
-                elementCreator('td', {}, symptom.symptom),
-                elementCreator('td', {}, symptom.status),
-                elementCreator('td', {}, symptom.clinicalSignificance)
-            ])
-        ))
-    ]);
-    wrap.append(currentNeurologicalSymptoms, symptomsTable);
-
-    // Clinical Considerations
-    const clinicalConsiderations = elementCreator('h4', {}, 'Clinical Considerations');
-    const clinicalConsiderationsList = elementCreator('ul', {}, [
-        elementCreator('li', {}, 'Differential Diagnosis: ' + clinicalSummaryData.clinicalConsiderations.differentialDiagnosis.join(', ')),
-        elementCreator('li', {}, 'Risk Factors: ' + clinicalSummaryData.clinicalConsiderations.riskFactors.join(', ')),
-        elementCreator('li', {}, 'Red Flags: ' + clinicalSummaryData.clinicalConsiderations.redFlags.join(', '))
-    ]);
-    wrap.append(clinicalConsiderations, clinicalConsiderationsList);
-
-    // Recommended Assessment Focus
-    const recommendedAssessmentFocus = elementCreator('h4', {}, 'Recommended Assessment Focus');
-    const recommendedAssessmentFocusList = elementCreator('ul', {},
-        clinicalSummaryData.recommendedAssessmentFocus.map(item => elementCreator('li', {}, item))
+    wrap.append(
+        elementCreator('h4', { class: 'section-title' }, 'Patient Overview'),
+        elementCreator('p', { class: 'section-text' }, clinicalSummaryData.patientOverview)
     );
-    wrap.append(recommendedAssessmentFocus, recommendedAssessmentFocusList);
 
     // Patient Goals
-    const patientGoals = elementCreator('h4', {}, 'Patient Goals');
-    const patientGoalsText = elementCreator('p', {}, clinicalSummaryData.patientGoals);
-    wrap.append(patientGoals, patientGoalsText);
+    wrap.append(
+        elementCreator('h4', { class: 'section-title' }, 'Patient Goals'),
+        elementCreator('p', { class: 'section-text' }, clinicalSummaryData.patientGoals)
+    );
+
+    // Chief Complaint
+    wrap.append(
+        elementCreator('h4', { class: 'section-title' }, 'Chief Complaint'),
+        elementCreator('p', { class: 'section-text' }, clinicalSummaryData.chiefComplaint)
+    );
+
+    // Relevant Medical History
+    wrap.append(
+        elementCreator('h4', { class: 'section-title' }, 'Relevant Medical History'),
+        elementCreator('ul', { class: 'section-list medical-history' }, [
+            elementCreator('li', {}, 'Comorbidities: ' + clinicalSummaryData.relevantMedicalHistory.comorbidities.join(', ')),
+            elementCreator('li', {}, 'Prior Surgery: ' + clinicalSummaryData.relevantMedicalHistory.priorSurgery),
+            elementCreator('li', {}, 'Current Medications: ' + clinicalSummaryData.relevantMedicalHistory.currentMedications.join(', ')),
+            elementCreator('li', {}, 'Allergies: ' + clinicalSummaryData.relevantMedicalHistory.allergies.join(', '))
+        ])
+    );
+
+    // Significant Family History
+    wrap.append(
+        elementCreator('h4', { class: 'section-title' }, 'Significant Family History'),
+        elementCreator('ul', { class: 'section-list family-history' }, [
+            elementCreator('li', {}, 'Neurological: ' + clinicalSummaryData.significantFamilyHistory.neurological.join(', ')),
+            elementCreator('li', {}, 'Cardiovascular/Metabolic: ' + clinicalSummaryData.significantFamilyHistory.cardiovascularMetabolic.join(', '))
+        ])
+    );
+
+    // Current Neurological Symptoms Table
+    wrap.append(
+        elementCreator('h4', { class: 'section-title' }, 'Current Neurological Symptoms'),
+        elementCreator('table', { class: 'symptoms-table' }, [
+            elementCreator('thead', {}, elementCreator('tr', {}, [
+                elementCreator('th', { class: 'col-symptom' }, 'SYMPTOM'),
+                elementCreator('th', { class: 'col-status' }, 'STATUS'),
+                elementCreator('th', { class: 'col-significance' }, 'CLINICAL SIGNIFICANCE')
+            ])),
+            elementCreator('tbody', {}, clinicalSummaryData.currentNeurologicalSymptoms.map(symptom =>
+                elementCreator('tr', {}, [
+                    elementCreator('td', { class: 'cell-symptom' }, symptom.symptom),
+                    elementCreator('td', { class: 'cell-status' }, symptom.status),
+                    elementCreator('td', { class: 'cell-significance' }, symptom.clinicalSignificance)
+                ])
+            ))
+        ])
+    );
+
+    // Clinical Considerations
+    wrap.append(
+        elementCreator('h4', { class: 'section-title' }, 'Clinical Considerations'),
+        elementCreator('ul', { class: 'section-list clinical-considerations' }, [
+            elementCreator('li', {}, 'Differential Diagnosis: ' + clinicalSummaryData.clinicalConsiderations.differentialDiagnosis.join(', ')),
+            elementCreator('li', {}, 'Risk Factors: ' + clinicalSummaryData.clinicalConsiderations.riskFactors.join(', ')),
+            elementCreator('li', {}, 'Red Flags: ' + clinicalSummaryData.clinicalConsiderations.redFlags.join(', '))
+        ])
+    );
+
+    // Recommended Assessment Focus
+    wrap.append(
+        elementCreator('h4', { class: 'section-title' }, 'Recommended Assessment Focus'),
+        elementCreator('ul', { class: 'section-list assessment-focus' },
+            clinicalSummaryData.recommendedAssessmentFocus.map(item => elementCreator('li', {}, item))
+        )
+    );
 
     // Event listeners
     viewOriginal.addEventListener('click', function() {
         openFullFrameModal(renderPatientQuestionnaireContent());
     });
-
     downloadBtn.addEventListener('click', function() {
-        downloadQuestionnaire('clinical-questionnaire-sarah-mitchell.pdf');
+        downloadQuestionnaire('clinical-questionnaire-christine-mychart.pdf');
     });
 
     return wrap;
 };
+
 
 // Modal to show original questionnaire over the entire main pane frame
 function openFullFrameModal(contentNode) {
@@ -1023,7 +1132,7 @@ function renderPatientQuestionnaire() {
 
     // Event listener for download
     downloadBtn.addEventListener('click', function() {
-        downloadQuestionnaire('patient-questionnaire-sarah-mitchell.pdf');
+        downloadQuestionnaire('patient-questionnaire-christine-mychart.pdf');
     });
 
     return wrap;
@@ -1194,7 +1303,7 @@ function downloadQuestionnaire(filename) {
 
     if (filename.includes('clinical-summary')) {
         // Clinical Summary PDF
-        yPosition = addSectionHeader('Clinical Summary - Sarah Mitchell (Pre-Consultation Brief)', yPosition);
+        yPosition = addSectionHeader('Clinical Summary - CHRISTINE MYCHART (Pre-Consultation Brief)', yPosition);
         yPosition += 5;
 
         yPosition = addSectionHeader('Patient Overview', yPosition);
