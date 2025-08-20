@@ -13,7 +13,7 @@
     height: 100%;
     font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
     color: #0f172a;
-    background: #f8fafc;
+    background: #fff;
     margin: 0;
 }
 
@@ -37,7 +37,7 @@
     grid-template-columns: 1fr 400px;
     gap: 16px;
     padding: 16px;
-    max-width: 1700px;
+    max-width: 1400px;
 }
 
 .avm-prechart-app .main-pane {
@@ -66,6 +66,8 @@
     border-bottom: 1px solid #eef2f7;
     font-weight: 600;
     color: #111827;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
 }
 
 .avm-prechart-app .card .card-body {
@@ -89,7 +91,7 @@
 }
 
 .avm-prechart-app .kv-container {
-    margin-top: 12px;
+    margin-top: 0px;
 }
 
 .avm-prechart-app .kv-row {
@@ -105,13 +107,13 @@
 }
 
 .avm-prechart-app .kv-row .k {
-    color: #6b7280;
+    color: #111827;
     font-weight: 600;
     font-size: 13px;
 }
 
 .avm-prechart-app .kv-row .v {
-    color: #111827;
+    color: #6b7280;
     line-height: 1.4;
 }
 
@@ -158,14 +160,14 @@
 
 .avm-prechart-app .tabs {
     display: flex;
-    border-bottom: 1px solid #e5e7eb;
-    background: #f9fafb;
+    /* border-bottom: 1px solid #e5e7eb; */
+    background: #e4ecfa;
 }
 
 .avm-prechart-app .tab {
     flex: 1 1 0;
     padding: 12px 14px;
-    background: transparent;
+    background: #e4ecfa;
     border: none;
     cursor: pointer;
     font-weight: 600;
@@ -207,11 +209,13 @@
 }
 
 .avm-prechart-app .tab.ai.is-active {
-    box-shadow: inset 0 -2px 0 0 #5c2bee;
-    color: white;
-    background-color: #a794e0;
+    /* box-shadow: inset 0 -2px 0 0 #5c2bee; */
+    box-shadow: inset 0px 3px 0px 0px #e4ecfa;
+    color: #5c2bee;
+    background-color: #fff;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
+    border-bottom: 0;
 }
 
 .avm-prechart-app .tab.ai.is-active::after,
@@ -256,15 +260,17 @@
 /* Date pills (top of Visit Summary) */
 
 .avm-prechart-app .date-pills {
-    display: flex;
-    gap: 10px;
+    /* display: flex; */
+    display: grid;
+    grid-template-columns: repeat(5, auto);
+    gap: 0px;
     padding: 6px 0 12px;
     flex-wrap: wrap;
 }
 
 .avm-prechart-app .date-pill {
     padding: 8px 12px;
-    border-radius: 9999px;
+    border-radius: 8px;
     border: 1px solid #e5e7eb;
     background: #ffffff;
     cursor: pointer;
@@ -273,16 +279,23 @@
     flex-direction: column;
     align-items: center;
     line-height: 1.1;
+    width: 174px;
+    height: 50px;
+    place-content: center;
 }
 
 .avm-prechart-app .date-pill .date-line {
-    font-weight: 700;
-    font-size: 12px;
+    font-weight: 600;
+    font-size: 14px;
 }
 
 .avm-prechart-app .date-pill .status-line {
-    font-size: 10px;
-    color: #64748b;
+    font-size: 12px;
+    color: #4d5469;
+}
+
+.date-pill.is-active .status-line {
+    color: #642bf3;
 }
 
 .avm-prechart-app .date-pill.is-active {
@@ -561,46 +574,56 @@
 .avm-prechart-app .summary-box {
     margin: 10px 0 12px;
     padding: 10px 12px;
-    background: #eef2ff;
-    border: 1px solid #c7d2fe;
-    color: #1e293b;
+    background: #fff;
+    border: 0px solid #c7d2fe;
+    color: #4d5469;
     border-radius: 8px;
-    font-weight: 600;
+    /* font-weight: 600; */
 }
 
 
 /* Encounter details card */
 
 .avm-prechart-app .encounter-card {
-    border: 1px solid #e5e7eb;
+    border: 0px solid #e5e7eb;
     border-radius: 10px;
-    background: #ffffff;
+    background: #fff;
     margin: 10px 0 14px;
     position: relative;
 }
 
 .avm-prechart-app .encounter-card header {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: space-between;
     padding: 10px 12px;
-    border-bottom: 1px solid #eef2f7;
+    border-bottom: 0px solid #eef2f7;
     font-weight: 600;
+    background: #fff;
+    font-size: 20px;
 }
 
 .avm-prechart-app .encounter-date-chip {
     font-size: 12px;
     color: #475569;
+    border: 1px solid #c3d0da;
+    border-radius: 44px;
+    height: 30px;
+    width: 110px;
+    place-content: center;
+    margin-left: 8px;
 }
 
 .avm-prechart-app .encounter-grid {
     display: grid;
-    grid-template-columns: repeat(5, minmax(120px, 1fr));
+    /* grid-template-columns: repeat(5, minmax(120px, 1fr)); */
+    grid-template-columns: repeat(5, auto);
+    background-color: #f9f9f9;
 }
 
 .avm-prechart-app .encounter-item {
-    padding: 10px 12px;
-    border-right: 1px solid #f1f5f9;
+    padding: 10px 20px;
+    border-right: 0px solid #f1f5f9;
 }
 
 .avm-prechart-app .encounter-item:last-child {
@@ -608,15 +631,15 @@
 }
 
 .avm-prechart-app .encounter-item .label {
-    font-size: 12px;
-    color: #6b7280;
-    font-weight: 700;
+    font-size: 16px;
+    color: #000;
+    font-weight: 600;
 }
 
 .avm-prechart-app .encounter-item .value {
-    font-size: 13px;
-    color: #111827;
-    font-weight: 600;
+    font-size: 14px;
+    color: #4d5469;
+    font-weight: 400;
     margin-top: 4px;
 }
 
@@ -678,25 +701,26 @@
     display: flex;
     gap: 10px;
     padding: 12px 12px 0 12px;
-    background: #f9fafb;
-    border-bottom: 1px solid #e5e7eb;
+    background: #fff;
+    border-bottom: 0px solid #e5e7eb;
 }
 
 .avm-prechart-app .questionnaire-tab {
     padding: 8px 12px;
-    border-radius: 9999px;
+    border-radius: 8px;
     border: 1px solid #e5e7eb;
-    background: #ffffff;
+    background: #fff;
     cursor: pointer;
     color: #334155;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 600;
+    height: 40px;
 }
 
 .avm-prechart-app .questionnaire-tab.is-active {
-    background: #eef2ff;
+    background: #f5f0ff;
     border-color: #c7d2fe;
-    color: #1e293b;
+    color: #642bf3;
 }
 
 .avm-prechart-app .questionnaire-tab:hover {
@@ -730,6 +754,7 @@ section#questionnaire-pane.is-active {
     border-radius: 8px;
     padding: 16px;
     margin-bottom: 16px;
+    line-height: 20px;
 }
 
 .avm-prechart-app .clinical-summary h3 {
@@ -795,6 +820,7 @@ section#questionnaire-pane.is-active {
     border-radius: 8px;
     padding: 16px;
     margin-bottom: 16px;
+    line-height: 20px;
 }
 
 .avm-prechart-app .patient-questionnaire h3 {
@@ -921,6 +947,7 @@ section#questionnaire-pane.is-active {
     padding: 6px 10px;
     cursor: pointer;
     font-weight: 700;
+    font-size: 20px;
 }
 
 
@@ -930,18 +957,24 @@ section#questionnaire-pane.is-active {
     width: 100%;
     text-align: left;
     padding: 10px 12px;
-    background: #f8fafc;
+    background: #fff;
     border: 0;
     cursor: pointer;
     display: flex;
     gap: 8px;
     align-items: center;
     font-weight: 600;
-    color: #334155;
+    color: #642bf3;
+    margin-left: 10px;
+}
+
+span.accordion-title {
+    font-size: 16px;
+    font-weight: 600;
 }
 
 .avm-prechart-app .accordion-header.is-open {
-    background: #eef2ff;
+    background: #fff;
 }
 
 .avm-prechart-app .accordion-header .chevron-icon {
@@ -960,6 +993,9 @@ section#questionnaire-pane.is-active {
 
 .avm-prechart-app .accordion-content {
     padding: 10px 12px;
+    font-size: 16px;
+    line-height: 25px;
+    color: #4d5469;
 }
 
 
@@ -970,7 +1006,7 @@ section#questionnaire-pane.is-active {
     align-items: center;
     justify-content: space-between;
     padding-bottom: 8px;
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 0px solid #e5e7eb;
     margin-bottom: 12px;
 }
 
@@ -983,13 +1019,14 @@ section#questionnaire-pane.is-active {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    border: 1px solid #e5e7eb;
+    border: 0px solid #e5e7eb;
     background: #ffffff;
-    color: #334155;
+    color: #642bf3;
     font-weight: 600;
     padding: 6px 10px;
     border-radius: 6px;
     cursor: pointer;
+    font-size: 14px;
 }
 
 .avm-prechart-app .q-link:hover {
@@ -997,24 +1034,37 @@ section#questionnaire-pane.is-active {
 }
 
 .avm-prechart-app .icon-16 {
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
 }
 
 
 /* Right cards tinted backgrounds */
 
 .avm-prechart-app .card.card-medications {
-    background: #f0fdf4;
+    background: #f7ffe2;
     border-color: #bbf7d0;
 }
 
+.avm-prechart-app .card.card-medications .card-header {
+    background: #e5f3bf;
+}
+
 .avm-prechart-app .card.card-labs {
-    background: #eff6ff;
+    background: #ebf6ff;
     border-color: #bfdbfe;
 }
 
+.avm-prechart-app .card.card-labs .card-header {
+    background: #d7eeff;
+}
+
 .avm-prechart-app .card.card-imaging {
-    background: #f5f3ff;
+    background: #f7f2ff;
     border-color: #ddd6fe;
+}
+
+.avm-prechart-app .card.card-imaging .card-header {
+    background: #f2e2ff;
 }

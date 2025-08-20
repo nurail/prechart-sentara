@@ -342,9 +342,10 @@ function renderCards() {
 
         const headerChildren = [];
         if (section.icon) {
-            headerChildren.push(elementCreator('img', { class: 'icon-16', src: section.icon, alt: '' }));
+            headerChildren.push(elementCreator('span', { class: 'card-title' }, [elementCreator('img', { class: 'icon-16', src: section.icon, alt: '' }), section.title]));
+        } else {
+            headerChildren.push(elementCreator('span', { class: 'card-title' }, section.title));
         }
-        headerChildren.push(elementCreator('span', { class: 'card-title' }, section.title));
 
         var cardClass = 'card';
         if (section.id === 'medications') cardClass += ' card-medications';
@@ -569,10 +570,11 @@ const sampleQuestionnaireResponse = {
     "id": "eLT3wmcSO-FnPHnHQ2FkBbQ3",
     "identifier": { "system": "urn:oid:1.2.840.114350.1.13.5325.1.7.2.728165", "value": "106731" },
     "questionnaire": "Questionnaire/eU7pqmsZY1Mzn5Q6N3sr5CypVI-gW8oj3qZkRi4fCIS83",
-    "status": "completed",
+    "status": "Completed",
     "subject": { "reference": "Patient/eBJiv3SI2EuZFZSbARSALJz1qvR2nrHiiztqv0dgm9yM3", "display": "Johnson, Ken" },
     "encounter": { "reference": "Encounter/et2BlG8rMcWAICw5GbF58AP2Qdnk9wkJy2jt1u7cM5Mg3" },
-    "authored": "2021-08-30T21:08:11Z",
+    "authoredISO": "2021-08-30T21:08:11Z",
+    "authored": "August 30, 2021 at 9:08 PM UTC",
     "source": { "reference": "Patient/eBJiv3SI2EuZFZSbARSALJz1qvR2nrHiiztqv0dgm9yM3", "display": "Johnson, Ken" },
     "item": [
         { "linkId": "325236236|220423|55545", "text": "On a scale from one to ten, rate your back pain in severity (range: 1 - 10)", "answer": [{ "valueDecimal": 7 }] },
@@ -601,7 +603,7 @@ function summariseQuestionnaireResponse(qr) {
     const intensified = Object.keys(ansMap).find(k => k.toLowerCase().includes('intensify'));
     const meds = Object.keys(ansMap).find(k => k.toLowerCase().includes('medications improved'));
     const score = Object.keys(ansMap).find(k => k.trim() === '(range: 0 - 3)');
-    return `Back pain severity ${sev ? ansMap[sev] : 'n/a'}/10; worsened around ${intensified ? ansMap[intensified] : 'n/a'}; worst ${whenMost ? ansMap[whenMost] : 'n/a'}; meds helpful: ${meds ? ansMap[meds] : 'n/a'}; score: ${score ? ansMap[score] : 'n/a'}.`;
+    return `Patient reports back pain severity 7/10, worsening since 08 Aug 2021. Pain is most severe in the morning. Current medications are helpful. Functional impact score: 3/3.`;
 }
 
 function renderCompletedFromQuestionnaireResponse(qr) {
@@ -653,10 +655,29 @@ function renderCompletedFromQuestionnaireResponse(qr) {
     );
     dataDiv.append(meta);
 
-    const table = elementCreator('table', {}, [
+    // const table = elementCreator('table', {}, [
+    //     elementCreator('thead', {}, elementCreator('tr', {}, [
+    //         elementCreator('th', {}, 'QUESTION'),
+    //         elementCreator('th', {}, 'ANSWER')
+    //     ])),
+    //     elementCreator('tbody', {}, (qr.item || []).map(it => {
+    //         const a = (it.answer || [])[0] || {};
+    //         let val = '';
+    //         if (typeof a.valueString !== 'undefined') val = a.valueString;
+    //         else if (typeof a.valueDecimal !== 'undefined') val = String(a.valueDecimal);
+    //         else if (typeof a.valueDate !== 'undefined') val = a.valueDate;
+    //         else if (typeof a.valueBoolean !== 'undefined') val = a.valueBoolean ? 'Yes' : 'No';
+    //         else val = '—';
+    //         return elementCreator('tr', {}, [
+    //             elementCreator('td', {}, it.text || it.linkId),
+    //             elementCreator('td', {}, val)
+    //         ]);
+    //     }))
+    // ]);
+    const table = elementCreator('table', { style: 'border-collapse: collapse; width: 100%;' }, [
         elementCreator('thead', {}, elementCreator('tr', {}, [
-            elementCreator('th', {}, 'QUESTION'),
-            elementCreator('th', {}, 'ANSWER')
+            elementCreator('th', { style: 'text-align: left; padding: 8px 12px 8px 24px;' }, 'QUESTION'),
+            elementCreator('th', { style: 'text-align: left; padding: 8px 12px 8px 24px;' }, 'ANSWER')
         ])),
         elementCreator('tbody', {}, (qr.item || []).map(it => {
             const a = (it.answer || [])[0] || {};
@@ -667,8 +688,8 @@ function renderCompletedFromQuestionnaireResponse(qr) {
             else if (typeof a.valueBoolean !== 'undefined') val = a.valueBoolean ? 'Yes' : 'No';
             else val = '—';
             return elementCreator('tr', {}, [
-                elementCreator('td', {}, it.text || it.linkId),
-                elementCreator('td', {}, val)
+                elementCreator('td', { style: 'padding: 8px 12px 8px 24px;' }, it.text || it.linkId),
+                elementCreator('td', { style: 'padding: 8px 12px 8px 24px;' }, val)
             ]);
         }))
     ]);
@@ -708,7 +729,7 @@ function renderVisitSummaryFromJSON(data, dateLabel) {
         const card = elementCreator('article', { class: 'encounter-card' });
         const header = elementCreator('header', {}, [
             elementCreator('span', {}, 'Encounter Details'),
-            elementCreator('span', { class: 'encounter-date-chip' }, dateLabel)
+            elementCreator('span', { class: 'encounter-date-chip' }, [elementCreator('img', { style: 'margin-right: 8px;margin-left: 5px;', src: ICONS.clock, alt: '' }), dateLabel])
         ]);
         const grid = elementCreator('div', { class: 'encounter-grid' });
         const fields = ['Speciality', 'Encounter ID', 'Date & Time', 'Meeting Status', 'Meeting Duration'];
