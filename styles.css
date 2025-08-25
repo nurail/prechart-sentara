@@ -652,6 +652,82 @@
 }
 
 
+/* Each encounter card wrapper */
+
+.avm-prechart-app .encounter-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    /* subtle gray border */
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    margin: 2rem 0;
+    /* vertical spacing between encounters */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+
+/* Encounter header bar */
+
+.avm-prechart-app .encounter-card header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    font-size: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #f0f0f0;
+    margin-bottom: 1rem;
+}
+
+
+/* Date chip */
+
+
+/* .avm-prechart-app .encounter-date-chip {
+    display: inline-flex;
+    align-items: center;
+    background: #f3f4f6;
+    color: #374151;
+    font-size: 0.875rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 9999px;
+} */
+
+
+/* Grid of details inside encounter */
+
+.avm-prechart-app .encounter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 0.75rem 1rem;
+    margin-bottom: 1rem;
+}
+
+
+/* Label/value pairs */
+
+.avm-prechart-app .encounter-item .label {
+    font-size: 0.75rem;
+    color: #6b7280;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+}
+
+.avm-prechart-app .encounter-item .value {
+    font-size: 0.9rem;
+    color: #111827;
+}
+
+
+/* Add a faint divider between encounters */
+
+.avm-prechart-app .prose>.encounter-card:not(:last-child) {
+    border-bottom: 2px solid #f9fafb;
+    padding-bottom: 0rem;
+    margin-bottom: 2rem;
+}
+
+
 /* Encounter details header extras */
 
 .avm-prechart-app .encounter-header-row {
@@ -825,13 +901,13 @@ section#questionnaire-pane.is-active {
     border-radius: 8px;
     padding: 16px;
     margin-bottom: 16px;
-    line-height: 20px;
+    line-height: 24px;
 }
 
 .avm-prechart-app .patient-questionnaire h3 {
     margin: 0 0 12px 0;
     color: #1e293b;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
 }
 
@@ -1128,4 +1204,13 @@ span.accordion-title {
 
 .avm-prechart-app .section-list li strong {
     color: #111827 !important;
+}
+
+.avm-prechart-app .details-block {
+    margin-top: 20px;
+}
+
+.avm-prechart-app .details-title {
+    font-weight: bold;
+    cursor: pointer;
 }

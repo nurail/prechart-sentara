@@ -75,10 +75,10 @@ const visitSamples = [{
         "Summary": "Patient presented for routine follow-up and reports being symptom-free over the past month. Headaches have completely resolved with consistent CPAP use and improved sleep hygiene. No new neurological complaints or changes in physical examination findings. Patient demonstrates good understanding of therapy compliance and lifestyle recommendations. Continue current management and monitor periodically.",
         "Encounter Details": {
             "Speciality": "Neurology",
-            "Encounter ID": "NEU20250820A",
+            "Encounter ID": "20250820",
             "Date & Time": "August 20, 2025, 10:30 AM",
-            "Meeting Status": "Completed",
-            "Meeting Duration": "30 minutes"
+            "Encounter Status": "Completed",
+            "Encounter Duration": "30 minutes"
         }
     },
     {
@@ -99,10 +99,10 @@ const visitSamples = [{
         "Summary": "Patient presented for follow-up after CPAP mask change. Headache frequency and severity have improved significantly, now occurring only 1–2 times per week. Mild photophobia noted but otherwise symptoms well controlled. Neurological examination remains normal, and vitals stable. Patient educated on continuing therapy compliance, lifestyle modifications, and monitoring triggers. Plan to maintain current therapy and review progress at the next scheduled visit.",
         "Encounter Details": {
             "Speciality": "Neurology",
-            "Encounter ID": "NEU20250605B",
+            "Encounter ID": "20250605",
             "Date & Time": "June 5, 2025, 9:00 AM",
-            "Meeting Status": "Completed",
-            "Meeting Duration": "25 minutes"
+            "Encounter Status": "Completed",
+            "Encounter Duration": "25 minutes"
         }
     },
     {
@@ -123,10 +123,10 @@ const visitSamples = [{
         "Summary": "Patient reports worsening headaches after discontinuing CPAP therapy. Headaches now occur 4–5 times per week and are occasionally associated with photophobia. No neurological deficits were noted on examination. Education provided regarding the importance of CPAP adherence and mask selection. Referred to sleep specialist for further management and advised to keep a detailed headache diary. Therapy compliance emphasized to prevent further symptom escalation.",
         "Encounter Details": {
             "Speciality": "Neurology",
-            "Encounter ID": "NEU20250418C",
+            "Encounter ID": "20250418",
             "Date & Time": "April 18, 2025, 11:00 AM",
-            "Meeting Status": "Completed",
-            "Meeting Duration": "30 minutes"
+            "Encounter Status": "Completed",
+            "Encounter Duration": "30 minutes"
         }
     },
     {
@@ -147,10 +147,10 @@ const visitSamples = [{
         "Summary": "Patient demonstrated improvement in headache frequency after adjusting sleep schedule and initiating CPAP therapy. Headaches now occur only twice per week and are mild. No new neurological deficits noted. Patient adheres well to therapy, understands lifestyle recommendations, and is motivated to continue compliance. Reinforced importance of sleep hygiene, caffeine moderation, and follow-up monitoring.",
         "Encounter Details": {
             "Speciality": "Neurology",
-            "Encounter ID": "NEU20250110D",
+            "Encounter ID": "20250110",
             "Date & Time": "January 10, 2025, 2:00 PM",
-            "Meeting Status": "Completed",
-            "Meeting Duration": "20 minutes"
+            "Encounter Status": "Completed",
+            "Encounter Duration": "20 minutes"
         }
     },
     {
@@ -171,17 +171,17 @@ const visitSamples = [{
         "Summary": "Patient reports frequent morning headaches over the past two months, predominantly occurring upon waking and lasting 1–2 hours. Headaches are dull and not associated with neurological deficits. Examination and vitals are within normal limits. Suspected underlying sleep disruption, potentially mild sleep apnea. Sleep study recommended, lifestyle adjustments suggested, and follow-up planned to evaluate response to interventions.",
         "Encounter Details": {
             "Speciality": "Neurology",
-            "Encounter ID": "NEU20241115E",
+            "Encounter ID": "20241115",
             "Date & Time": "November 15, 2024, 10:00 AM",
-            "Meeting Status": "Completed",
-            "Meeting Duration": "25 minutes"
+            "Encounter Status": "Completed",
+            "Encounter Duration": "25 minutes"
         }
     }
 ];
 
 // Clinical Summary data
 const clinicalSummaryData = {
-    title: "Clinical Summary - CHRISTINE MYCHART (Pre-Consultation Brief)",
+    title: "CHRISTINE MYCHART (Pre-Consultation Brief)",
     patientOverview: "CHRISTINE MYCHART, 45-year-old female presenting for neurological evaluation of progressive headaches, dizziness, and cognitive concerns.",
     chiefComplaint: "6-month history of worsening daily headaches with associated dizziness, memory difficulties, and concentration problems affecting work performance.",
     relevantMedicalHistory: {
@@ -195,11 +195,11 @@ const clinicalSummaryData = {
         cardiovascularMetabolic: ["Both parents with hypertension", "Mother with diabetes", "Father with MI at age 62"]
     },
     currentNeurologicalSymptoms: [
-        { symptom: "Headaches", status: "Daily, worsening", clinicalSignificance: "Primary concern - rule out secondary causes" },
-        { symptom: "Dizziness", status: "Present", clinicalSignificance: "May suggest vestibular or vascular etiology" },
-        { symptom: "Memory Loss", status: "Present", clinicalSignificance: "Concerning given family history of dementia" },
-        { symptom: "Attention/Concentration", status: "Impaired", clinicalSignificance: "Affecting occupational function" },
-        { symptom: "Sleep Disturbance", status: "Present", clinicalSignificance: "May contribute to cognitive symptoms" }
+        { symptom: "Headaches", present: "Yes", status: "Daily, worsening", clinicalSignificance: "Primary concern - rule out secondary causes" },
+        { symptom: "Dizziness", present: "Yes", status: "Present", clinicalSignificance: "May suggest vestibular or vascular etiology" },
+        { symptom: "Memory Loss", present: "Yes", status: "Present", clinicalSignificance: "Concerning given family history of dementia" },
+        { symptom: "Attention/Concentration", present: "Yes", status: "Impaired", clinicalSignificance: "Affecting occupational function" },
+        { symptom: "Sleep Disturbance", present: "Yes", status: "Present", clinicalSignificance: "May contribute to cognitive symptoms" }
     ],
     clinicalConsiderations: {
         differentialDiagnosis: ["Tension-type vs. migraine headaches", "Medication overuse headache", "Secondary headache (given HTN/DM)", "Early cognitive impairment"],
@@ -228,7 +228,7 @@ const originalQuestionnaireData = {
         { medication: "Lisinopril", dosage: "10mg", frequency: "Once daily" },
         { medication: "Metformin", dosage: "500mg", frequency: "Twice daily" },
         { medication: "Ibuprofen", dosage: "400mg", frequency: "As needed for headaches" },
-        { medication: "Vitamin D3", dosage: "2000 IU", frequency: "Once daily" }
+        // { medication: "Vitamin D3", dosage: "2000 IU", frequency: "Once daily" }
     ],
     medicationAllergies: [
         "Penicillin (causes rash)",
@@ -360,22 +360,6 @@ function renderCards() {
     });
 };
 
-function renderDateRail() {
-    const rail = document.getElementById('date-rail');
-    rail.innerHTML = '';
-    visitDates.forEach((iso, idx) => {
-        const date = new Date(iso);
-        const dateLabel = date.getDate().toString().padStart(2, '0');
-        const monthLabel = date.toString().split(" ")[1];
-        const chip = elementCreator('button', { class: 'date-chip', role: 'tab', 'aria-selected': idx === 0 ? 'true' : 'false' });
-        chip.textContent = monthLabel + ' ' + dateLabel;
-        chip.dataset.iso = iso;
-        if (idx === 0) chip.classList.add('is-active');
-        chip.addEventListener('click', () => selectDate(iso, chip));
-        rail.append(chip);
-    });
-};
-
 function setActiveTab(tabName) {
     document.querySelectorAll('.tab').forEach(btn => {
         const isActive = btn.dataset.tab === tabName;
@@ -393,12 +377,36 @@ function attachTabHandlers() {
         var activeEl = document.querySelector('.date-chip.is-active');
         var activeDateIso = activeEl ? activeEl.dataset.iso : null;
         if (activeDateIso) generateContent(activeDateIso, 'visit');
+
+        // renderAllVisits(visitSamples);
     });
-    document.getElementById('tab-questionnaire').addEventListener('click', () => {
-        setActiveTab('questionnaire');
-        // Load questionnaire content when switching to questionnaire tab
-        loadQuestionnaireContent();
+    // document.getElementById('tab-questionnaire').addEventListener('click', () => {
+    //     // setActiveTab('questionnaire');
+    //     // Load questionnaire content when switching to questionnaire tab
+    //     loadQuestionnaireContent();
+    // });
+};
+
+function attachSummaryTabHandlers() {
+    document.getElementById('tab-encounter-summary').addEventListener('click', () => {
+        setActiveSummaryTab('encounter-summary');
+        generateContent(visitDates[0], 'visit');;
     });
+    document.getElementById('tab-questionnaire-summary').addEventListener('click', () => {
+        setActiveSummaryTab('questionnaire-summary');
+        loadPatientQuestionnaire();
+    });
+};
+
+function setActiveSummaryTab(tabName) {
+    document.querySelectorAll('.summary-tab').forEach(btn => {
+        const isActive = btn.dataset.summaryTab === tabName;
+        btn.classList.toggle('is-active', isActive);
+        btn.setAttribute('aria-selected', String(isActive));
+    });
+    document.querySelectorAll('.encounter-pane').forEach(p => p.classList.remove('is-active'));
+    console.log(tabName);
+    document.getElementById(`${tabName}-content`).classList.add('is-active');
 };
 
 function attachQuestionnaireTabHandlers() {
@@ -435,6 +443,8 @@ function selectDate(iso, chip) {
     var activeTabEl = document.querySelector('.tab.is-active');
     const tab = activeTabEl ? activeTabEl.dataset.tab : 'visit';
     generateContent(iso, tab);
+
+    // renderAllVisits(visitSamples);
 };
 
 function showSkeleton(container) {
@@ -486,41 +496,51 @@ function generateContent(iso, tab) {
         });
         var content;
         if (tab === 'visit') {
-            // Find matching visit data by normalized date
-            var targetIso = normalizeDateIso(iso);
-            var visitData = null;
-            for (var i = 0; i < visitSamples.length; i++) {
-                if (normalizeDateIso(visitSamples[i].date) === targetIso) {
-                    visitData = visitSamples[i];
-                    break;
-                }
-            }
-            if (!visitData) {
-                // Fallback to first entry if no match
-                visitData = visitSamples[0];
-            }
-            content = renderVisitSummaryFromJSON(visitData, dateFmt);
-            // Insert horizontal date pills above content per design
-            const pills = elementCreator('div', { class: 'date-pills' });
-            visitDates.forEach(function(dIso, idx) {
-                const d = new Date(dIso);
-                const label = d.toLocaleDateString(undefined, { month: 'short', day: '2-digit' });
-                const pill = elementCreator('button', { class: 'date-pill', 'aria-pressed': 'false' });
-                pill.dataset.iso = dIso;
-                const dateLine = elementCreator('span', { class: 'date-line' }, label);
-                const status = 'Completed';
-                const statusLine = elementCreator('span', { class: 'status-line' }, status);
-                pill.append(dateLine, statusLine);
-                pill.addEventListener('click', function() { selectDate(dIso); });
-                if (normalizeDateIso(dIso) === normalizeDateIso(iso)) {
-                    pill.classList.add('is-active');
-                    pill.setAttribute('aria-pressed', 'true');
-                }
-                pills.append(pill);
-            });
-            const wrapDiv = elementCreator('div');
-            wrapDiv.append(pills, content);
-            content = wrapDiv;
+
+            // // For single visit
+            // // Find matching visit data by normalized date
+            //  var targetIso = normalizeDateIso(iso);
+            // var visitData = null;
+            // for (var i = 0; i < visitSamples.length; i++) {
+            //     if (normalizeDateIso(visitSamples[i].date) === targetIso) {
+            //         visitData = visitSamples[i];
+            //         break;
+            //     }
+            // }
+            // if (!visitData) {
+            //     // Fallback to first entry if no match
+            //     visitData = visitSamples[0];
+            // }
+            // content = renderVisitSummaryFromJSON(visitData, dateFmt);
+
+            // // Insert horizontal date pills above content per design
+            // const pills = elementCreator('div', { class: 'date-pills' });
+            // visitDates.forEach(function(dIso, idx) {
+            //     const d = new Date(dIso);
+            //     const label = d.toLocaleDateString(undefined, { month: 'short', day: '2-digit' });
+            //     const pill = elementCreator('button', { class: 'date-pill', 'aria-pressed': 'false' });
+            //     pill.dataset.iso = dIso;
+            //     const dateLine = elementCreator('span', { class: 'date-line' }, label);
+            //     const status = 'Completed';
+            //     const statusLine = elementCreator('span', { class: 'status-line' }, status);
+            //     pill.append(dateLine, statusLine);
+            //     pill.addEventListener('click', function() { selectDate(dIso); });
+            //     if (normalizeDateIso(dIso) === normalizeDateIso(iso)) {
+            //         pill.classList.add('is-active');
+            //         pill.setAttribute('aria-pressed', 'true');
+            //     }
+            //     pills.append(pill);
+            // });
+
+            // // For all visits
+            // content = renderAllVisits(visitSamples);
+
+            // const wrapDiv = elementCreator('div');
+            // // wrapDiv.append(pills, content);
+            // wrapDiv.append(content);
+            // content = wrapDiv;
+
+            content = loadSummaryContent();
         } else {
             // Questionnaire content is now handled separately
             loadQuestionnaireContent();
@@ -530,6 +550,36 @@ function generateContent(iso, tab) {
         container.append(content);
     }, delayMs);
 };
+
+function renderAllVisits(visits) {
+    const wrap = elementCreator('div', { class: 'prose' });
+
+    visits.forEach(v => {
+        const dateFmt = new Date(v.date).toLocaleDateString(undefined, {
+            year: 'numeric',
+            month: 'short',
+            day: '2-digit'
+        });
+        wrap.append(renderVisitSummaryFromJSON(v, dateFmt));
+    });
+
+    return wrap;
+}
+
+
+function loadSummaryContent() {
+    // Load the default questionnaire tab (visit questionnaire)
+    setActiveSummaryTab('encounter-summary');
+
+    let content = renderAllVisits(visitSamples);
+
+    const wrapDiv = elementCreator('div');
+    // wrapDiv.append(pills, content);
+    wrapDiv.append(content);
+    content = wrapDiv;
+    return content;
+};
+
 
 function loadQuestionnaireContent() {
     // Load the default questionnaire tab (visit questionnaire)
@@ -571,14 +621,14 @@ const sampleQuestionnaireResponse = {
     "identifier": { "system": "urn:oid:1.2.840.114350.1.13.5325.1.7.2.728165", "value": "106731" },
     "questionnaire": "Questionnaire/eU7pqmsZY1Mzn5Q6N3sr5CypVI-gW8oj3qZkRi4fCIS83",
     "status": "Completed",
-    "subject": { "reference": "Patient/eBJiv3SI2EuZFZSbARSALJz1qvR2nrHiiztqv0dgm9yM3", "display": "Johnson, Ken" },
+    "subject": { "reference": "Patient/eBJiv3SI2EuZFZSbARSALJz1qvR2nrHiiztqv0dgm9yM3", "display": "MYCHART, CHRISTINE" },
     "encounter": { "reference": "Encounter/et2BlG8rMcWAICw5GbF58AP2Qdnk9wkJy2jt1u7cM5Mg3" },
-    "authoredISO": "2021-08-30T21:08:11Z",
-    "authored": "August 30, 2021 at 9:08 PM UTC",
-    "source": { "reference": "Patient/eBJiv3SI2EuZFZSbARSALJz1qvR2nrHiiztqv0dgm9yM3", "display": "Johnson, Ken" },
+    "authoredISO": "2025-08-20T21:08:11Z",
+    "authored": "August 20, 2025 at 9:08 PM UTC",
+    "source": { "reference": "Patient/eBJiv3SI2EuZFZSbARSALJz1qvR2nrHiiztqv0dgm9yM3", "display": "MYCHART, CHRISTINE" },
     "item": [
         { "linkId": "325236236|220423|55545", "text": "On a scale from one to ten, rate your back pain in severity (range: 1 - 10)", "answer": [{ "valueDecimal": 7 }] },
-        { "linkId": "325236236|220424|55545", "text": "When did you notice your back pain intensify?", "answer": [{ "valueDate": "2021-08-08" }] },
+        { "linkId": "325236236|220424|55545", "text": "When did you notice your back pain intensify?", "answer": [{ "valueDate": "2024-08-08" }] },
         { "linkId": "325236236|220425|55545", "text": "When do you experience the most back pain?", "answer": [{ "valueString": "At morning" }] },
         { "linkId": "325236236|220426|55545", "text": "Have the prescribed medications improved your back pain since?", "answer": [{ "valueBoolean": true }] },
         { "linkId": "19393311|150297|55545", "text": " (range: 0 - 3)", "answer": [{ "extension": [{ "valueString": "This is a score of 3", "url": "http://open.epic.com/FHIR/StructureDefinition/extension/scoring-answer-description" }], "valueDecimal": 3 }] }
@@ -603,7 +653,7 @@ function summariseQuestionnaireResponse(qr) {
     const intensified = Object.keys(ansMap).find(k => k.toLowerCase().includes('intensify'));
     const meds = Object.keys(ansMap).find(k => k.toLowerCase().includes('medications improved'));
     const score = Object.keys(ansMap).find(k => k.trim() === '(range: 0 - 3)');
-    return `Patient reports back pain severity 7/10, worsening since 08 Aug 2021. Pain is most severe in the morning. Current medications are helpful. Functional impact score: 3/3.`;
+    return `Patient reports back pain severity 7/10, worsening since 08 Aug 2024. Pain is most severe in the morning. Current medications are helpful. Functional impact score: 3/3.`;
 }
 
 function renderCompletedFromQuestionnaireResponse(qr) {
@@ -732,13 +782,13 @@ function renderVisitSummaryFromJSON(data, dateLabel) {
             elementCreator('span', { class: 'encounter-date-chip' }, [elementCreator('img', { style: 'margin-right: 8px;margin-left: 5px;', src: ICONS.clock, alt: '' }), dateLabel])
         ]);
         const grid = elementCreator('div', { class: 'encounter-grid' });
-        const fields = ['Speciality', 'Encounter ID', 'Date & Time', 'Meeting Status', 'Meeting Duration'];
+        const fields = ['Speciality', 'Encounter ID', 'Date & Time', 'Encounter Status', 'Encounter Duration'];
         for (var i = 0; i < fields.length; i++) {
             const key = fields[i];
             const value = encounter[key] || '';
             const item = elementCreator('div', { class: 'encounter-item' }, [
                 elementCreator('div', { class: 'label' }, key),
-                elementCreator('div', { class: 'value' + (key === 'Meeting Status' ? ' status' : '') }, value)
+                elementCreator('div', { class: 'value' + (key === 'Encounter Status' ? ' status' : '') }, value)
             ]);
             grid.append(item);
         }
@@ -899,12 +949,13 @@ function renderClinicalSummary() {
         elementCreator('img', { class: 'icon-16', src: ICONS.view, alt: '' }),
         elementCreator('span', {}, 'View Original')
     ]);
-    const downloadBtn = elementCreator('button', { class: 'q-link q-download', type: 'button' }, [
-        elementCreator('img', { class: 'icon-16', src: ICONS.download, alt: '' }),
-        elementCreator('span', {}, 'Download PDF')
-    ]);
+    // const downloadBtn = elementCreator('button', { class: 'q-link q-download', type: 'button' }, [
+    //     elementCreator('img', { class: 'icon-16', src: ICONS.download, alt: '' }),
+    //     elementCreator('span', {}, 'Download PDF')
+    // ]);
 
-    actions.append(viewOriginal, downloadBtn);
+    // actions.append(viewOriginal, downloadBtn);
+    actions.append(viewOriginal);
     header.append(title, actions);
     wrap.append(header);
 
@@ -926,20 +977,36 @@ function renderClinicalSummary() {
         elementCreator('p', { class: 'section-text' }, clinicalSummaryData.chiefComplaint)
     );
 
+    // Current Medications
+    wrap.append(
+        elementCreator('h4', { class: 'section-title' }, 'Current Medications'),
+        elementCreator('ul', { class: 'section-list current-medications' }, [
+            elementCreator('li', {}, 'Current Medications: ' + clinicalSummaryData.relevantMedicalHistory.currentMedications.join(', ')),
+        ])
+    );
+
+    // Medication Allergies
+    wrap.append(
+        elementCreator('h4', { class: 'section-title' }, 'Medication Allergies'),
+        elementCreator('ul', { class: 'section-list medication-allergies' }, [
+            elementCreator('li', {}, 'Allergies: ' + clinicalSummaryData.relevantMedicalHistory.allergies.join(', '))
+        ])
+    );
+
     // Relevant Medical History
     wrap.append(
-        elementCreator('h4', { class: 'section-title' }, 'Relevant Medical History'),
+        elementCreator('h4', { class: 'section-title' }, 'Medical History'),
         elementCreator('ul', { class: 'section-list medical-history' }, [
             elementCreator('li', {}, 'Comorbidities: ' + clinicalSummaryData.relevantMedicalHistory.comorbidities.join(', ')),
             elementCreator('li', {}, 'Prior Surgery: ' + clinicalSummaryData.relevantMedicalHistory.priorSurgery),
-            elementCreator('li', {}, 'Current Medications: ' + clinicalSummaryData.relevantMedicalHistory.currentMedications.join(', ')),
-            elementCreator('li', {}, 'Allergies: ' + clinicalSummaryData.relevantMedicalHistory.allergies.join(', '))
+            // elementCreator('li', {}, 'Current Medications: ' + clinicalSummaryData.relevantMedicalHistory.currentMedications.join(', ')),
+            // elementCreator('li', {}, 'Allergies: ' + clinicalSummaryData.relevantMedicalHistory.allergies.join(', '))
         ])
     );
 
     // Significant Family History
     wrap.append(
-        elementCreator('h4', { class: 'section-title' }, 'Significant Family History'),
+        elementCreator('h4', { class: 'section-title' }, 'Family History'),
         elementCreator('ul', { class: 'section-list family-history' }, [
             elementCreator('li', {}, 'Neurological: ' + clinicalSummaryData.significantFamilyHistory.neurological.join(', ')),
             elementCreator('li', {}, 'Cardiovascular/Metabolic: ' + clinicalSummaryData.significantFamilyHistory.cardiovascularMetabolic.join(', '))
@@ -952,44 +1019,114 @@ function renderClinicalSummary() {
         elementCreator('table', { class: 'symptoms-table' }, [
             elementCreator('thead', {}, elementCreator('tr', {}, [
                 elementCreator('th', { class: 'col-symptom' }, 'SYMPTOM'),
-                elementCreator('th', { class: 'col-status' }, 'STATUS'),
-                elementCreator('th', { class: 'col-significance' }, 'CLINICAL SIGNIFICANCE')
+                elementCreator('th', { class: 'col-status' }, 'PRESENT'),
+                // elementCreator('th', { class: 'col-status' }, 'STATUS'),
+                // elementCreator('th', { class: 'col-significance' }, 'CLINICAL SIGNIFICANCE')
             ])),
             elementCreator('tbody', {}, clinicalSummaryData.currentNeurologicalSymptoms.map(symptom =>
                 elementCreator('tr', {}, [
                     elementCreator('td', { class: 'cell-symptom' }, symptom.symptom),
-                    elementCreator('td', { class: 'cell-status' }, symptom.status),
-                    elementCreator('td', { class: 'cell-significance' }, symptom.clinicalSignificance)
+                    elementCreator('td', { class: 'cell-status' }, symptom.present),
+                    // elementCreator('td', { class: 'cell-status' }, symptom.status),
+                    // elementCreator('td', { class: 'cell-significance' }, symptom.clinicalSignificance)
                 ])
             ))
         ])
     );
 
-    // Clinical Considerations
-    wrap.append(
-        elementCreator('h4', { class: 'section-title' }, 'Clinical Considerations'),
-        elementCreator('ul', { class: 'section-list clinical-considerations' }, [
-            elementCreator('li', {}, 'Differential Diagnosis: ' + clinicalSummaryData.clinicalConsiderations.differentialDiagnosis.join(', ')),
-            elementCreator('li', {}, 'Risk Factors: ' + clinicalSummaryData.clinicalConsiderations.riskFactors.join(', ')),
-            elementCreator('li', {}, 'Red Flags: ' + clinicalSummaryData.clinicalConsiderations.redFlags.join(', '))
-        ])
-    );
+    // // Clinical Considerations
+    // wrap.append(
+    //     elementCreator('h4', { class: 'section-title' }, 'Clinical Considerations'),
+    //     elementCreator('ul', { class: 'section-list clinical-considerations' }, [
+    //         elementCreator('li', {}, 'Differential Diagnosis: ' + clinicalSummaryData.clinicalConsiderations.differentialDiagnosis.join(', ')),
+    //         elementCreator('li', {}, 'Risk Factors: ' + clinicalSummaryData.clinicalConsiderations.riskFactors.join(', ')),
+    //         elementCreator('li', {}, 'Red Flags: ' + clinicalSummaryData.clinicalConsiderations.redFlags.join(', '))
+    //     ])
+    // );
 
-    // Recommended Assessment Focus
-    wrap.append(
-        elementCreator('h4', { class: 'section-title' }, 'Recommended Assessment Focus'),
-        elementCreator('ul', { class: 'section-list assessment-focus' },
-            clinicalSummaryData.recommendedAssessmentFocus.map(item => elementCreator('li', {}, item))
-        )
-    );
+    // // Recommended Assessment Focus
+    // wrap.append(
+    //     elementCreator('h4', { class: 'section-title' }, 'Recommended Assessment Focus'),
+    //     elementCreator('ul', { class: 'section-list assessment-focus' },
+    //         clinicalSummaryData.recommendedAssessmentFocus.map(item => elementCreator('li', {}, item))
+    //     )
+    // );
+
+    // // --- Relevant Medical History ---
+    // wrap.append(
+    //     elementCreator('details', { class: 'details-block', open: true }, [
+    //         elementCreator('summary', { class: 'details-title' }, 'Relevant Medical History'),
+    //         elementCreator('ul', { class: 'section-list medical-history' }, [
+    //             elementCreator('li', {}, 'Comorbidities: ' + clinicalSummaryData.relevantMedicalHistory.comorbidities.join(', ')),
+    //             elementCreator('li', {}, 'Prior Surgery: ' + clinicalSummaryData.relevantMedicalHistory.priorSurgery),
+    //             elementCreator('li', {}, 'Current Medications: ' + clinicalSummaryData.relevantMedicalHistory.currentMedications.join(', ')),
+    //             elementCreator('li', {}, 'Allergies: ' + clinicalSummaryData.relevantMedicalHistory.allergies.join(', '))
+    //         ])
+    //     ])
+    // );
+
+    // // --- Significant Family History ---
+    // wrap.append(
+    //     elementCreator('details', { class: 'details-block', }, [
+    //         elementCreator('summary', { class: 'details-title' }, 'Significant Family History'),
+    //         elementCreator('ul', { class: 'section-list family-history' }, [
+    //             elementCreator('li', {}, 'Neurological: ' + clinicalSummaryData.significantFamilyHistory.neurological.join(', ')),
+    //             elementCreator('li', {}, 'Cardiovascular/Metabolic: ' + clinicalSummaryData.significantFamilyHistory.cardiovascularMetabolic.join(', '))
+    //         ])
+    //     ])
+    // );
+
+    // // --- Current Neurological Symptoms ---
+    // wrap.append(
+    //     elementCreator('details', { class: 'details-block', }, [
+    //         elementCreator('summary', { class: 'details-title' }, 'Current Neurological Symptoms'),
+    //         elementCreator('table', { class: 'symptoms-table' }, [
+    //             elementCreator('thead', {}, elementCreator('tr', {}, [
+    //                 elementCreator('th', { class: 'col-symptom' }, 'SYMPTOM'),
+    //                 elementCreator('th', { class: 'col-status' }, 'STATUS'),
+    //                 elementCreator('th', { class: 'col-significance' }, 'CLINICAL SIGNIFICANCE')
+    //             ])),
+    //             elementCreator('tbody', {}, clinicalSummaryData.currentNeurologicalSymptoms.map(symptom =>
+    //                 elementCreator('tr', {}, [
+    //                     elementCreator('td', { class: 'cell-symptom' }, symptom.symptom),
+    //                     elementCreator('td', { class: 'cell-status' }, symptom.status),
+    //                     elementCreator('td', { class: 'cell-significance' }, symptom.clinicalSignificance)
+    //                 ])
+    //             ))
+    //         ])
+    //     ])
+    // );
+
+    // // --- Clinical Considerations ---
+    // wrap.append(
+    //     elementCreator('details', { class: 'details-block', }, [
+    //         elementCreator('summary', { class: 'details-title' }, 'Clinical Considerations'),
+    //         elementCreator('ul', { class: 'section-list clinical-considerations' }, [
+    //             elementCreator('li', {}, 'Differential Diagnosis: ' + clinicalSummaryData.clinicalConsiderations.differentialDiagnosis.join(', ')),
+    //             elementCreator('li', {}, 'Risk Factors: ' + clinicalSummaryData.clinicalConsiderations.riskFactors.join(', ')),
+    //             elementCreator('li', {}, 'Red Flags: ' + clinicalSummaryData.clinicalConsiderations.redFlags.join(', '))
+    //         ])
+    //     ])
+    // );
+
+    // // --- Recommended Assessment Focus ---
+    // wrap.append(
+    //     elementCreator('details', { class: 'details-block', }, [
+    //         elementCreator('summary', { class: 'details-title' }, 'Recommended Assessment Focus'),
+    //         elementCreator('ul', { class: 'section-list assessment-focus' },
+    //             clinicalSummaryData.recommendedAssessmentFocus.map(item => elementCreator('li', {}, item))
+    //         )
+    //     ])
+    // );
+
 
     // Event listeners
     viewOriginal.addEventListener('click', function() {
         openFullFrameModal(renderPatientQuestionnaireContent());
     });
-    downloadBtn.addEventListener('click', function() {
-        downloadQuestionnaire('clinical-questionnaire-christine-mychart.pdf');
-    });
+    // downloadBtn.addEventListener('click', function() {
+    //     downloadQuestionnaire('clinical-questionnaire-christine-mychart.pdf');
+    // });
 
     return wrap;
 };
@@ -1303,49 +1440,56 @@ function downloadQuestionnaire(filename) {
 
     if (filename.includes('clinical-summary')) {
         // Clinical Summary PDF
-        yPosition = addSectionHeader('Clinical Summary - CHRISTINE MYCHART (Pre-Consultation Brief)', yPosition);
+        yPosition = addSectionHeader('CHRISTINE MYCHART (Pre-Consultation Brief)', yPosition);
         yPosition += 5;
 
         yPosition = addSectionHeader('Patient Overview', yPosition);
         yPosition = addRegularText(clinicalSummaryData.patientOverview, yPosition);
         yPosition += 5;
 
+        yPosition = addSectionHeader('Patient Goals', yPosition);
+        yPosition = addRegularText(clinicalSummaryData.patientGoals, yPosition);
+        yPosition += 5;
+
         yPosition = addSectionHeader('Chief Complaint', yPosition);
         yPosition = addRegularText(clinicalSummaryData.chiefComplaint, yPosition);
         yPosition += 5;
 
-        yPosition = addSectionHeader('Relevant Medical History', yPosition);
-        yPosition = addRegularText(`Comorbidities: ${clinicalSummaryData.relevantMedicalHistory.comorbidities.join(', ')}`, yPosition);
-        yPosition = addRegularText(`Prior Surgery: ${clinicalSummaryData.relevantMedicalHistory.priorSurgery}`, yPosition);
+        yPosition = addSectionHeader('Current Medications', yPosition);
         yPosition = addRegularText(`Current Medications: ${clinicalSummaryData.relevantMedicalHistory.currentMedications.join(', ')}`, yPosition);
+        yPosition += 5;
+
+        yPosition = addSectionHeader('Medication Allergies', yPosition);
         yPosition = addRegularText(`Allergies: ${clinicalSummaryData.relevantMedicalHistory.allergies.join(', ')}`, yPosition);
         yPosition += 5;
 
-        yPosition = addSectionHeader('Significant Family History', yPosition);
+        yPosition = addSectionHeader('Medical History', yPosition);
+        yPosition = addRegularText(`Comorbidities: ${clinicalSummaryData.relevantMedicalHistory.comorbidities.join(', ')}`, yPosition);
+        yPosition = addRegularText(`Prior Surgery: ${clinicalSummaryData.relevantMedicalHistory.priorSurgery}`, yPosition);
+        yPosition += 5;
+
+        yPosition = addSectionHeader('Family History', yPosition);
         yPosition = addRegularText(`Neurological: ${clinicalSummaryData.significantFamilyHistory.neurological.join(', ')}`, yPosition);
         yPosition = addRegularText(`Cardiovascular/Metabolic: ${clinicalSummaryData.significantFamilyHistory.cardiovascularMetabolic.join(', ')}`, yPosition);
         yPosition += 5;
 
         yPosition = addSectionHeader('Current Neurological Symptoms', yPosition);
         clinicalSummaryData.currentNeurologicalSymptoms.forEach(symptom => {
-            yPosition = addRegularText(`${symptom.symptom}: ${symptom.status} - ${symptom.clinicalSignificance}`, yPosition);
+            yPosition = addRegularText(`${symptom.symptom}: ${symptom.present}}`, yPosition);
+            // yPosition = addRegularText(`${symptom.symptom}: ${symptom.status} - ${symptom.clinicalSignificance}`, yPosition);
         });
-        yPosition += 5;
+        // yPosition += 5;
 
-        yPosition = addSectionHeader('Clinical Considerations', yPosition);
-        yPosition = addRegularText(`Differential Diagnosis: ${clinicalSummaryData.clinicalConsiderations.differentialDiagnosis.join(', ')}`, yPosition);
-        yPosition = addRegularText(`Risk Factors: ${clinicalSummaryData.clinicalConsiderations.riskFactors.join(', ')}`, yPosition);
-        yPosition = addRegularText(`Red Flags: ${clinicalSummaryData.clinicalConsiderations.redFlags.join(', ')}`, yPosition);
-        yPosition += 5;
+        // yPosition = addSectionHeader('Clinical Considerations', yPosition);
+        // yPosition = addRegularText(`Differential Diagnosis: ${clinicalSummaryData.clinicalConsiderations.differentialDiagnosis.join(', ')}`, yPosition);
+        // yPosition = addRegularText(`Risk Factors: ${clinicalSummaryData.clinicalConsiderations.riskFactors.join(', ')}`, yPosition);
+        // yPosition = addRegularText(`Red Flags: ${clinicalSummaryData.clinicalConsiderations.redFlags.join(', ')}`, yPosition);
+        // yPosition += 5;
 
-        yPosition = addSectionHeader('Recommended Assessment Focus', yPosition);
-        clinicalSummaryData.recommendedAssessmentFocus.forEach(item => {
-            yPosition = addRegularText(`• ${item}`, yPosition);
-        });
-        yPosition += 5;
-
-        yPosition = addSectionHeader('Patient Goals', yPosition);
-        yPosition = addRegularText(clinicalSummaryData.patientGoals, yPosition);
+        // yPosition = addSectionHeader('Recommended Assessment Focus', yPosition);
+        // clinicalSummaryData.recommendedAssessmentFocus.forEach(item => {
+        //     yPosition = addRegularText(`• ${item}`, yPosition);
+        // });
 
     } else {
         // Patient Questionnaire PDF
@@ -1424,11 +1568,12 @@ function downloadQuestionnaire(filename) {
 function init() {
     renderCards();
     attachTabHandlers();
-    attachQuestionnaireTabHandlers();
+    attachSummaryTabHandlers();
+    // attachQuestionnaireTabHandlers();
 
     // default selection
     setActiveTab('visit');
-    generateContent(visitDates[0], 'visit');
+    generateContent(visitDates[0], 'visit');;
 };
 
 document.addEventListener('DOMContentLoaded', init);

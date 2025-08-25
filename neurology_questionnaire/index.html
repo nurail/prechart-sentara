@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Questionnaire</title>
+    <!-- <link id="favicon" rel="shortcut icon" type="image/x-icon" /> -->
+    <link id="favicon" rel="icon" type="image/jpeg" href="sentara-logo.jpeg" />
+</head>
+
+<body>
+    <script type="text/javascript">
+        function deviceType() {
+            const ua = navigator.userAgent;
+            if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
+                return 'tablet';
+            } else if (
+                /Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/i.test(ua)
+            ) {
+                return 'mobile';
+            }
+            return 'desktop';
+        }
+
+        function setBackground() {
+            let device = deviceType();
+            let body = document.getElementsByTagName("body")[0];
+            body.style.background = (device == "tablet" || device == "mobile") ?
+                "url('https://mountsinaiassetsbucket.s3.us-west-1.amazonaws.com/maintenance-portrait.png')" :
+                "url('https://mountsinaiassetsbucket.s3.us-west-1.amazonaws.com/maintenance-landscape.png')";
+            body.style.backgroundColor = "#01AEF0";
+            body.style.backgroundRepeat = "no-repeat";
+            body.style.backgroundSize = "cover";
+        }
+
+        function launchQuestionnaire(url) {
+            var AvaamoChatBot = function(t) {
+                function o(t, o) {
+                    var n = document.createElement("script");
+                    n.setAttribute("src", t), n.setAttribute("id", "avm-web-channel"), n.onload = o, document.body
+                        .appendChild(n)
+                }
+                return this.options = t || {}, this.load = function(t) {
+                    o(this.options.url, function() {
+                        window.Avaamo.addFrame(), t && "function" == typeof(t) && t(window.Avaamo)
+                    })
+                }, this
+            };
+
+            var chatBox = new AvaamoChatBot({
+                url: url
+            });
+            chatBox.load((avaamo) => {
+                Avaamo.Notification.play = function() {}
+                avaamo.openChatBox();
+            });
+        }
+
+        function resolveUrlParams(urlParams) {
+            if (!urlParams) return false;
+
+            urlParams = urlParams.split("&");
+            let finalURL = "";
+
+            for (let i = 0; i < urlParams.length; i++) {
+                if (urlParams[i].includes("type")) {
+                    const type = urlParams[i].split("=");
+                    finalURL = finalURL.includes("?") ? `${finalURL}&custom_properties[type]=${type[1]}` : `${finalURL}?custom_properties[type]=${type[1]}`;
+                } else if (urlParams[i].includes("fhirServiceUrl")) {
+                    const fhirServiceUrl = urlParams[i].split("=");
+                    finalURL = finalURL.includes("?") ? `${finalURL}&custom_properties[fhirServiceUrl]=${decodeURIComponent(fhirServiceUrl[1])}` : `${finalURL}?custom_properties[fhirServiceUrl]=${decodeURIComponent(fhirServiceUrl[1])}`;
+                } else if (urlParams[i].includes("launch")) {
+                    const launch = urlParams[i].split("=");
+                    finalURL = finalURL.includes("?") ? `${finalURL}&custom_properties[launch]=${launch[1]}` : `${finalURL}?custom_properties[launch]=${launch[1]}`;
+                } else if (urlParams[i].includes("user_type")) {
+                    const user_type = urlParams[i].split("=");
+                    finalURL = finalURL.includes("?") ? `${finalURL}&custom_properties[user_type]=${user_type[1]}` : `${finalURL}?custom_properties[user_type]=${user_type[1]}`;
+                }
+            }
+            if (finalURL == "") return false;
+            else return finalURL;
+        }
+
+        function getURLParameter(ele, urlParams) {
+            if (!urlParams) return false;
+
+            urlParams = urlParams.split("&");
+
+            for (let i = 0; i < urlParams.length; i++) {
+                if (urlParams[i].includes("type")) {
+                    let type = urlParams[i].split("=");
+                    if (type[0] == "type") return type[1];
+                    else return false;
+                }
+            }
+            return false;
+        }
+
+        (function initiateProcess() {
+            console.log("AVAAMO INFO: Questionnaire chatbot script start");
+
+            var premier_favicon = "https://mountsinaiassetsbucket.s3.us-west-1.amazonaws.com/hchy-fav-icon.ico";
+            var error_favicon = "https://mountsinaiassetsbucket.s3.us-west-1.amazonaws.com/alert-64.png";
+
+            var botUrl = "https://h1.avaamo.com/ios_channels/3cb9f15a-cdb1-4afd-bf26-109692c6002c";
+
+            var baseUrl = document.location.origin.toLowerCase(); //Get domain.
+            var urlParams = (window.location.search) ? window.location.search.replace("?", "") : false;
+            launchQuestionnaire(botUrl);
+        }());
+    </script>
+</body>
+
+</html>
