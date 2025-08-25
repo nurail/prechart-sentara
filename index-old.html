@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pre-Chart | Visit Workspace</title>
+    <link rel="stylesheet" href="./styles.css" />
+</head>
+
+<body>
+    <div class="avm-prechart-app">
+        <main class="two-column-layout" role="main">
+            <!-- Left: Main content area with cards -->
+            <section class="main-pane" aria-label="Main content">
+                <div class="tabs" role="tablist" aria-label="Content tabs">
+                    <button class="tab ai is-active" role="tab" aria-selected="true" aria-controls="visit-pane" id="tab-visit" data-tab="visit">
+              <!-- Visit Summary -->
+              Pre-Chart Summary
+              <!-- </button>
+                    <button class="tab ai" role="tab" aria-selected="false" aria-controls="questionnaire-pane" id="tab-questionnaire" data-tab="questionnaire">
+              Questionnaire -->
+            </button>
+                </div>
+
+                <div class="side-content">
+                    <div class="generated-content" id="generated-content">
+                        <section id="summary-pane" class="pane is-active" role="tabpanel" aria-labelledby="tab-summary">
+                            <div class="summary-tabs" role="tablist" aria-label="Summary tabs">
+                                <button class="summary-tab is-active" role="tab" aria-selected="true" aria-controls="encounter-summary-content" id="tab-encounter-summary" data-summary-tab="encounter-summary">
+                    Encounter Summary
+                  </button>
+                                <button class="summary-tab" role="tab" aria-selected="false" aria-controls="questionnaire-summary-content" id="tab-questionnaire-summary" data-summary-tab="questionnaire-summary">
+                    Patient Intake Questionnaire Summary
+                  </button>
+                            </div>
+
+                            <div class="summary-content">
+                                <section id="encounter-summary-content" class="summary-pane is-active" role="tabpanel" aria-labelledby="tab-encounter-summary"></section>
+                                <section id="questionnaire-summary-content" class="summary-pane" role="tabpanel" aria-labelledby="tab-questionnaire-summary"></section>
+                            </div>
+                        </section>
+                        <section id="questionnaire-pane" class="pane" role="tabpanel" aria-labelledby="tab-questionnaire">
+                            <!-- Questionnaire sub-tabs (horizontal pills) -->
+                            <div class="questionnaire-tabs" role="tablist" aria-label="Questionnaire tabs">
+                                <button class="questionnaire-tab is-active" role="tab" aria-selected="true" aria-controls="visit-questionnaire-content" id="tab-visit-questionnaire" data-questionnaire-tab="visit-questionnaire">
+                    Patient Intake Questionnaire
+                  </button>
+                                <button class="questionnaire-tab" role="tab" aria-selected="false" aria-controls="patient-questionnaire-content" id="tab-patient-questionnaire" data-questionnaire-tab="patient-questionnaire">
+                    Patient Completed Questionnaire
+                  </button>
+                            </div>
+
+                            <!-- Questionnaire content areas -->
+                            <div class="questionnaire-content">
+                                <section id="visit-questionnaire-content" class="questionnaire-pane is-active" role="tabpanel" aria-labelledby="tab-visit-questionnaire"></section>
+                                <section id="patient-questionnaire-content" class="questionnaire-pane" role="tabpanel" aria-labelledby="tab-patient-questionnaire"></section>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right: Side pane with tabs + date rail + generated content -->
+            <aside class="side-pane" aria-label="Right panel">
+                <div id="cards-container" class="cards-grid" aria-live="polite"></div>
+            </aside>
+        </main>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="./app.js"></script>
+</body>
+
+</html>

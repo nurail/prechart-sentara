@@ -371,8 +371,8 @@ function setActiveTab(tabName) {
 };
 
 function attachTabHandlers() {
-    document.getElementById('tab-visit').addEventListener('click', () => {
-        setActiveTab('visit');
+    document.getElementById('tab-summary').addEventListener('click', () => {
+        setActiveTab('summary');
         // re-generate for current date
         var activeEl = document.querySelector('.date-chip.is-active');
         var activeDateIso = activeEl ? activeEl.dataset.iso : null;
@@ -389,12 +389,13 @@ function attachTabHandlers() {
 
 function attachSummaryTabHandlers() {
     document.getElementById('tab-encounter-summary').addEventListener('click', () => {
+
         setActiveSummaryTab('encounter-summary');
-        generateContent(visitDates[0], 'visit');;
+        loadEncounterSummary();
     });
     document.getElementById('tab-questionnaire-summary').addEventListener('click', () => {
         setActiveSummaryTab('questionnaire-summary');
-        loadPatientQuestionnaire();
+        loadVisitQuestionnaire();
     });
 };
 
@@ -404,10 +405,90 @@ function setActiveSummaryTab(tabName) {
         btn.classList.toggle('is-active', isActive);
         btn.setAttribute('aria-selected', String(isActive));
     });
-    document.querySelectorAll('.encounter-pane').forEach(p => p.classList.remove('is-active'));
-    console.log(tabName);
+    document.querySelectorAll('.summary-pane').forEach(p => p.classList.remove('is-active'));
     document.getElementById(`${tabName}-content`).classList.add('is-active');
 };
+
+function loadEncounterSummary() {
+    const container = document.getElementById("encounter-summary-content");
+    showSkeleton(container);
+
+    // Simulate AI generation delay
+    const delayMs = 1000 + Math.random() * 700;
+    setTimeout(() => {
+        container.innerHTML = "";
+
+        const header = elementCreator('div', { class: 'q-header' });
+        const title = elementCreator('h3', { class: 'summary-title' }, 'Encounter Summary');
+        header.append(title);
+        container.append(header);
+
+        visitSamples.forEach(enc => {
+
+            // Create hyperlink for the date
+            const dateLink = elementCreator("a", {
+                href: "#",
+                class: "encounter-date-link"
+            }, enc["Encounter Details"]["Date & Time"]);
+
+
+            // Wrap into a sentence: "On <a>date</a>, summary..."
+            const summaryPara = elementCreator("p", { class: "encounter-summary" }, [
+                "On ", dateLink, `, ${enc.Summary}`
+            ]);
+
+            // Item container
+            const item = elementCreator("div", { class: "encounter-item" }, summaryPara);
+
+            // Click handler for opening modal
+            dateLink.addEventListener("click", (e) => {
+                e.preventDefault();
+
+                const notes = elementCreator('div', { class: 'kv-container notes-section' });
+
+                // Collect extra details for this encounter
+                Object.keys(enc).forEach(function(key) {
+                    if (key === 'date' || key === 'Summary' || key === 'Encounter Details') return;
+                    // Only build rows for additional keys
+                    const row = elementCreator('div', { class: 'kv-row' }, [
+                        elementCreator('div', { class: 'k' }, key),
+                        elementCreator('div', { class: 'v' }, enc[key])
+                    ]);
+                    notes.append(row);
+                });
+
+                // Build modal content
+                const contentNode = elementCreator("div", { class: "encounter-modal-content" }, [
+                    elementCreator("h3", {}, "Clinical Note - " + enc["Encounter Details"]["Date & Time"]),
+                    notes
+                ]);
+
+                // Open full-frame modal
+                openFullFrameModal(contentNode);
+            });
+
+            container.append(item);
+        });
+    }, delayMs);
+}
+
+
+/* ----- Modal Popup for Clinical Note ----- */
+function openClinicalNoteModal(enc) {
+    const overlay = elementCreator("div", { class: "modal-overlay" });
+    const sheet = elementCreator("div", { class: "modal-sheet" });
+    const closeBtn = elementCreator("button", { class: "modal-close" }, "×");
+    closeBtn.addEventListener("click", () => overlay.remove());
+
+    sheet.append(
+        closeBtn,
+        elementCreator("h3", {}, "Clinical Note - " + enc["Encounter Details"]["Date & Time"]),
+        elementCreator("p", {}, enc.Summary)
+    );
+    overlay.append(sheet);
+    document.body.append(overlay);
+}
+
 
 function attachQuestionnaireTabHandlers() {
     document.getElementById('tab-visit-questionnaire').addEventListener('click', () => {
@@ -482,20 +563,20 @@ function showSkeleton(container) {
 };
 
 function generateContent(iso, tab) {
-    const containerId = tab === 'visit' ? 'visit-pane' : 'questionnaire-pane';
-    const container = document.getElementById(containerId);
-    showSkeleton(container);
+    // const containerId = tab === 'summary' ? 'summary-pane' : 'questionnaire-pane';
+    // const container = document.getElementById(containerId);
+    // showSkeleton(container);
 
     // Simulate AI generation delay
     const delayMs = 1000 + Math.random() * 700;
     setTimeout(() => {
-        const dateFmt = new Date(iso).toLocaleDateString(undefined, {
-            year: 'numeric',
-            month: 'short',
-            day: '2-digit'
-        });
+        // const dateFmt = new Date(iso).toLocaleDateString(undefined, {
+        //     year: 'numeric',
+        //     month: 'short',
+        //     day: '2-digit'
+        // });
         var content;
-        if (tab === 'visit') {
+        if (tab === 'summary') {
 
             // // For single visit
             // // Find matching visit data by normalized date
@@ -540,14 +621,15 @@ function generateContent(iso, tab) {
             // wrapDiv.append(content);
             // content = wrapDiv;
 
-            content = loadSummaryContent();
+            loadEncounterSummary();
+            return;
         } else {
             // Questionnaire content is now handled separately
             loadQuestionnaireContent();
             return;
         }
-        container.innerHTML = '';
-        container.append(content);
+        // container.innerHTML = '';
+        // container.append(content);
     }, delayMs);
 };
 
@@ -568,18 +650,9 @@ function renderAllVisits(visits) {
 
 
 function loadSummaryContent() {
-    // Load the default questionnaire tab (visit questionnaire)
     setActiveSummaryTab('encounter-summary');
-
-    let content = renderAllVisits(visitSamples);
-
-    const wrapDiv = elementCreator('div');
-    // wrapDiv.append(pills, content);
-    wrapDiv.append(content);
-    content = wrapDiv;
-    return content;
+    loadVisitSummary();
 };
-
 
 function loadQuestionnaireContent() {
     // Load the default questionnaire tab (visit questionnaire)
@@ -587,8 +660,23 @@ function loadQuestionnaireContent() {
     loadVisitQuestionnaire();
 };
 
+function loadVisitSummary() {
+    const container = document.getElementById('encounter-summary-content');
+    showSkeleton(container);
+
+    // Simulate AI generation delay
+    const delayMs = 1000 + Math.random() * 500;
+    setTimeout(() => {
+        // Intake shows summarised questionnaire with actions (view original + download)
+        const content = generateContent(visitDates[0], 'summary');
+        container.innerHTML = '';
+        container.append(content);
+    }, delayMs);
+};
+
+
 function loadVisitQuestionnaire() {
-    const container = document.getElementById('visit-questionnaire-content');
+    const container = document.getElementById('questionnaire-summary-content');
     showSkeleton(container);
 
     // Simulate AI generation delay
@@ -1571,9 +1659,11 @@ function init() {
     attachSummaryTabHandlers();
     // attachQuestionnaireTabHandlers();
 
-    // default selection
-    setActiveTab('visit');
-    generateContent(visitDates[0], 'visit');;
+    // // default selection
+    // setActiveTab('summary');
+    // generateContent(visitDates[0], 'summary');
+
+    loadEncounterSummary();
 };
 
 document.addEventListener('DOMContentLoaded', init);

@@ -248,7 +248,7 @@
     display: grid;
     grid-template-columns: 1fr;
     min-height: 400px;
-    min-width: 65vw;
+    min-width: 70vw;
 }
 
 
@@ -468,7 +468,7 @@
     box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15);
     position: relative;
     overflow: hidden;
-    min-width: 65vw;
+    min-width: 70vw;
 }
 
 .avm-prechart-app .ai-loading::before {
@@ -777,7 +777,8 @@
 
 /* Questionnaire sub-tabs styling - horizontal pills */
 
-.avm-prechart-app .questionnaire-tabs {
+.avm-prechart-app .questionnaire-tabs,
+.avm-prechart-app .summary-tabs {
     display: flex;
     gap: 10px;
     padding: 12px 12px 0 12px;
@@ -785,7 +786,8 @@
     border-bottom: 0px solid #e5e7eb;
 }
 
-.avm-prechart-app .questionnaire-tab {
+.avm-prechart-app .questionnaire-tab,
+.avm-prechart-app .summary-tab {
     padding: 8px 12px;
     border-radius: 8px;
     border: 1px solid #e5e7eb;
@@ -797,31 +799,37 @@
     height: 40px;
 }
 
-.avm-prechart-app .questionnaire-tab.is-active {
+.avm-prechart-app .questionnaire-tab.is-active,
+.avm-prechart-app .summary-tab.is-active {
     background: #f5f0ff;
     border-color: #c7d2fe;
     color: #642bf3;
 }
 
-.avm-prechart-app .questionnaire-tab:hover {
+.avm-prechart-app .questionnaire-tab:hover,
+.avm-prechart-app .summary-tab:hover {
     background: #f1f5f9;
 }
 
-.avm-prechart-app .questionnaire-content {
+.avm-prechart-app .questionnaire-content,
+.avm-prechart-app .summary-content {
     flex: 1;
     padding: 16px;
     overflow-y: auto;
 }
 
-.avm-prechart-app .questionnaire-pane {
+.avm-prechart-app .questionnaire-pane,
+.avm-prechart-app .summary-pane {
     display: none;
 }
 
-.avm-prechart-app .questionnaire-pane.is-active {
+.avm-prechart-app .questionnaire-pane.is-active,
+.avm-prechart-app .summary-pane.is-active {
     display: block;
 }
 
-section#questionnaire-pane.is-active {
+section#questionnaire-pane.is-active,
+section#summary-pane.is-active {
     display: block;
 }
 
@@ -1010,7 +1018,7 @@ section#questionnaire-pane.is-active {
 }
 
 .avm-prechart-app .modal-sheet {
-    background: #ffffff;
+    background: #f8fafc;
     width: 100%;
     height: 100%;
     overflow: auto;
@@ -1088,11 +1096,12 @@ span.accordion-title {
     justify-content: space-between;
     padding-bottom: 8px;
     border-bottom: 0px solid #e5e7eb;
-    margin-bottom: 12px;
+    /* margin-bottom: 12px; */
 }
 
 .avm-prechart-app .q-header h3 {
     font-size: 20px;
+    margin-block: 10px 0px;
 }
 
 .avm-prechart-app .q-actions {
@@ -1213,4 +1222,16 @@ span.accordion-title {
 .avm-prechart-app .details-title {
     font-weight: bold;
     cursor: pointer;
+}
+
+.avm-prechart-app .encounter-date-link {
+    display: inline-block;
+    color: #0066cc;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.25s ease;
+}
+
+.avm-prechart-app .encounter-date-link:hover {
+    text-decoration: underline;
 }
