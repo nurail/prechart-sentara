@@ -100,7 +100,8 @@
     grid-template-columns: 200px 1fr;
     gap: 8px 12px;
     padding: 8px 12px;
-    border-bottom: 1px solid #f1f5f9;
+    border-bottom: 1px solid #dae1e7;
+    /* border-bottom: 1px solid #f1f5f9; */
 }
 
 .avm-prechart-app .kv-row:last-child {
@@ -159,6 +160,33 @@
     overflow: hidden;
 }
 
+.avm-prechart-app .footer-branding {
+    position: fixed;
+    /* Sticks it to the viewport */
+    bottom: 20px;
+    /* Distance from bottom */
+    right: 20px;
+    /* Distance from right */
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    font-size: 14px;
+    font-family: Inter, sans-serif;
+    color: #89a2b7;
+    z-index: 9999;
+    /* Ensures it stays above other elements */
+}
+
+.avm-prechart-app .footer-text {
+    margin-right: 6px;
+    line-height: 1;
+}
+
+.avm-prechart-app .footer-logo {
+    width: 64px;
+    height: auto;
+}
+
 .avm-prechart-app .tabs {
     display: flex;
     /* border-bottom: 1px solid #e5e7eb; */
@@ -212,6 +240,7 @@
 .avm-prechart-app .tab.ai.is-active {
     /* box-shadow: inset 0 -2px 0 0 #5c2bee; */
     box-shadow: inset 0px 3px 0px 0px #e4ecfa;
+    font-size: 24px;
     color: #5c2bee;
     background-color: #fff;
     border-top-left-radius: 10px;
@@ -249,7 +278,7 @@
     display: grid;
     grid-template-columns: 1fr;
     min-height: 400px;
-    min-width: 70vw;
+    min-width: 60vw;
 }
 
 
@@ -469,7 +498,7 @@
     box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15);
     position: relative;
     overflow: hidden;
-    min-width: 70vw;
+    min-width: 60vw;
 }
 
 .avm-prechart-app .ai-loading::before {
@@ -628,7 +657,12 @@
 
 .avm-prechart-app .encounter-item {
     padding: 10px 20px;
-    border-right: 0px solid #f1f5f9;
+    font-size: 18px;
+    line-height: 28px;
+    background: #f5f8ff;
+    border: 1px solid var(--Borders, #cad8ef);
+    border-radius: 10px;
+    margin-top: 12px;
 }
 
 .avm-prechart-app .encounter-item:last-child {
@@ -769,6 +803,13 @@
     background: #f8fafc;
 }
 
+@container (max-height: 1100px) {
+    .avm-prechart-app .modal-sheet,
+    .avm-prechart-app .side-content {
+        height: 110px;
+    }
+}
+
 @media (max-width: 1100px) {
     .avm-prechart-app .two-column-layout {
         grid-template-columns: 1fr;
@@ -843,7 +884,7 @@ section#summary-pane.is-active {
     border-radius: 8px;
     padding: 16px;
     margin-bottom: 16px;
-    line-height: 20px;
+    line-height: 22px;
 }
 
 .avm-prechart-app .clinical-summary h3 {
@@ -868,7 +909,7 @@ section#summary-pane.is-active {
 }
 
 .avm-prechart-app .clinical-summary ul {
-    margin: 6px 0 12px 18px;
+    margin: 6px 0 12px -8px;
 }
 
 .avm-prechart-app .clinical-summary li {
@@ -906,7 +947,7 @@ section#summary-pane.is-active {
 
 .avm-prechart-app .patient-questionnaire {
     background: #f8fafc;
-    border: 1px solid #e2e8f0;
+    border: 0px solid #e2e8f0;
     border-radius: 8px;
     padding: 16px;
     margin-bottom: 16px;
@@ -934,7 +975,7 @@ section#summary-pane.is-active {
 }
 
 .avm-prechart-app .patient-questionnaire ul {
-    margin: 6px 0 12px 18px;
+    margin: 6px 0 12px -8px;
 }
 
 .avm-prechart-app .patient-questionnaire li {
@@ -1031,13 +1072,17 @@ section#summary-pane.is-active {
     position: absolute;
     top: 10px;
     right: 12px;
-    border: 1px solid #e5e7eb;
-    background: #ffffff;
+    border: 0px solid #e5e7eb;
+    background: transparent;
     border-radius: 6px;
     padding: 6px 10px;
     cursor: pointer;
-    font-weight: 700;
-    font-size: 20px;
+    font-weight: 400;
+    font-size: 40px;
+}
+
+.avm-prechart-app .modal-close:hover {
+    font-weight: 600;
 }
 
 
@@ -1164,7 +1209,7 @@ span.accordion-title {
     background: #f2e2ff;
 }
 
-.summary-card {
+.avm-prechart-app .summary-card {
     background: #f9fafb !important;
     border-left: 4px solid #2563eb !important;
     padding: 1rem !important;
@@ -1172,12 +1217,12 @@ span.accordion-title {
     border-radius: 0.5rem !important;
 }
 
-.summary-card p {
+.avm-prechart-app .summary-card p {
     margin: 0.25rem 0 !important;
     font-weight: 500 !important;
 }
 
-.symptoms-table {
+.avm-prechart-app .symptoms-table {
     width: 100% !important;
     border-collapse: collapse !important;
     margin: 1rem 0 !important;
@@ -1188,16 +1233,28 @@ span.accordion-title {
     background: #f3f4f6 !important;
     text-align: left !important;
     padding: 0.5rem !important;
+    padding-left: 1rem !important;
     font-weight: 600 !important;
 }
 
 .avm-prechart-app .symptoms-table td {
     border-top: 1px solid #e5e7eb !important;
     padding: 0.5rem !important;
+    padding-left: 1rem !important;
 }
 
 .avm-prechart-app .symptoms-table tr:nth-child(even) {
     background: #fafafa !important;
+}
+
+.avm-prechart-app .symptoms-table .two-col {
+    display: flex;
+    gap: 2rem;
+    /* space between the columns */
+}
+
+.avm-prechart-app .symptoms-table .two-col .col {
+    flex: 1;
 }
 
 .avm-prechart-app .section-title {
@@ -1216,6 +1273,41 @@ span.accordion-title {
     color: #111827 !important;
 }
 
+.avm-prechart-app .section-text.collapsed {
+    max-height: 3.5em;
+    /* ~2 lines */
+    overflow: hidden;
+}
+
+.avm-prechart-app .section-text.expanded {
+    max-height: none;
+}
+
+.avm-prechart-app .toggle-link {
+    display: inline-flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    color: #5f44d8;
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 0.3rem;
+    cursor: pointer;
+    text-decoration: none;
+    gap: 8px;
+    padding-top: 10px;
+}
+
+.avm-prechart-app .toggle-link .toggle-icon {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.2s ease;
+    margin-left: 4px;
+}
+
+.avm-prechart-app .toggle-link:not(.expanded) .toggle-icon {
+    transform: rotate(180deg);
+}
+
 .avm-prechart-app .details-block {
     margin-top: 20px;
 }
@@ -1227,12 +1319,12 @@ span.accordion-title {
 
 .avm-prechart-app .encounter-date-link {
     display: inline-block;
-    color: #0066cc;
+    color: #642bf3;
     font-weight: 600;
-    text-decoration: none;
     transition: all 0.25s ease;
 }
 
 .avm-prechart-app .encounter-date-link:hover {
     text-decoration: underline;
+    font-weight: 700;
 }

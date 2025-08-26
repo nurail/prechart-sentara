@@ -16,9 +16,12 @@ const listViewData = [{
         title: 'Medications',
         icon: ICONS.meds,
         bullets: [
-            'Topiramate 50mg BID (start: 2025-04-03)',
-            'Sumatriptan 50mg PRN migraine (last refill: 2025-06-01)',
-            'Sertraline 50mg daily',
+            'Lisinopril 10mg daily',
+            "Metformin 500mg BID",
+            "PRN Ibuprofen"
+            // 'Topiramate 50mg BID (start: 2025-04-03)',
+            // 'Sumatriptan 50mg PRN migraine (last refill: 2025-06-01)',
+            // 'Sertraline 50mg daily',
         ],
         // highlight: [
         //     'Track start date, dose, last refill',
@@ -181,8 +184,8 @@ const visitSamples = [{
 
 // Clinical Summary data
 const clinicalSummaryData = {
-    title: "CHRISTINE MYCHART (Pre-Consultation Brief)",
-    patientOverview: "CHRISTINE MYCHART, 45-year-old female presenting for neurological evaluation of progressive headaches, dizziness, and cognitive concerns.",
+    title: "Outlined below is a pre-consultation brief summarizing key patient details to help guide the upcoming visit.",
+    patientOverview: "CHRISTINE MYCHART is a 47-year-old female presenting for a neurological evaluation due to progressive headaches, dizziness, and cognitive concerns. ",
     chiefComplaint: "6-month history of worsening daily headaches with associated dizziness, memory difficulties, and concentration problems affecting work performance.",
     relevantMedicalHistory: {
         comorbidities: ["Hypertension (2019)", "Type 2 Diabetes (2020)", "Hyperlipidemia (2021)"],
@@ -213,7 +216,7 @@ const clinicalSummaryData = {
         "Blood pressure assessment and diabetic complications screening",
         "Consider neuroimaging given progressive symptoms and risk factors"
     ],
-    patientGoals: "Seeking diagnosis and treatment plan for headaches and memory concerns, particularly worried about family history of Alzheimer's disease."
+    patientGoals: "She is seeking a diagnosis and treatment plan, with particular concern about memory issues and a family history of Alzheimer's disease."
 };
 
 // Original Questionnaire data
@@ -419,7 +422,8 @@ function loadEncounterSummary() {
         container.innerHTML = "";
 
         const header = elementCreator('div', { class: 'q-header' });
-        const title = elementCreator('h3', { class: 'summary-title' }, 'Encounter Summary');
+        // const title = elementCreator('h3', { class: 'summary-title' }, 'Encounter Summary');
+        const title = elementCreator('h3', { class: 'summary-title' }, 'Outlined below are prior encounters relevant to the patient’s upcoming visit for headache and memory difficulties.');
         header.append(title);
         container.append(header);
 
@@ -1047,63 +1051,136 @@ function renderClinicalSummary() {
     header.append(title, actions);
     wrap.append(header);
 
-    // Patient Overview
-    wrap.append(
-        elementCreator('h4', { class: 'section-title' }, 'Patient Overview'),
-        elementCreator('p', { class: 'section-text' }, clinicalSummaryData.patientOverview)
+    // Patient Overview & Goals with expandable details
+    const overviewWrapper = elementCreator('div', { class: 'overview-wrapper' });
+
+    const overviewText = elementCreator(
+        'p', { class: 'section-text' },
+        clinicalSummaryData.patientOverview + ' ' + clinicalSummaryData.patientGoals
     );
 
-    // Patient Goals
-    wrap.append(
-        elementCreator('h4', { class: 'section-title' }, 'Patient Goals'),
-        elementCreator('p', { class: 'section-text' }, clinicalSummaryData.patientGoals)
+    const toggleLink = elementCreator(
+        'a', { href: '#', class: 'toggle-link' },
+        'View more'
     );
 
-    // Chief Complaint
-    wrap.append(
-        elementCreator('h4', { class: 'section-title' }, 'Chief Complaint'),
-        elementCreator('p', { class: 'section-text' }, clinicalSummaryData.chiefComplaint)
+    const toggleIcon = elementCreator('img', {
+        src: 'https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/fi_chevron-down.svg',
+        class: 'toggle-icon'
+    });
+
+    toggleLink.appendChild(toggleIcon);
+
+    let extraSections; // placeholder for appended sections
+
+    toggleLink.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        if (!extraSections) {
+            // Create extra sections container
+            extraSections = elementCreator('div', { class: 'extra-sections' });
+
+            extraSections.append(elementCreator('h4', { class: 'section-title' }, 'Patient Medical Overview'));
+
+            // Others Table
+            extraSections.append(
+                elementCreator('table', { class: 'symptoms-table' }, [
+                    elementCreator('thead', {}, elementCreator('tr', {}, [
+                        elementCreator('th', { class: 'col-symptom' }, 'CATEGORY'),
+                        elementCreator('th', { class: 'col-status' }, 'DETAILS'),
+                    ])),
+                    elementCreator('tbody', {}, [
+                        elementCreator('tr', {}, [
+                            elementCreator('td', { class: 'cell-symptom' }, 'Current Medications'),
+                            elementCreator('td', { class: 'cell-status' },
+                                elementCreator('ul', {},
+                                    clinicalSummaryData.relevantMedicalHistory.currentMedications.map(medication =>
+                                        elementCreator('li', {}, medication)
+                                    )
+                                )
+                            )
+                        ]),
+                        elementCreator('tr', {}, [
+                            elementCreator('td', { class: 'cell-symptom' }, 'Medication Allergies'),
+                            elementCreator('td', { class: 'cell-status' },
+                                elementCreator('ul', {},
+                                    clinicalSummaryData.relevantMedicalHistory.allergies.map(allergy =>
+                                        elementCreator('li', {}, allergy)
+                                    )
+                                )
+                            )
+                        ]),
+                        elementCreator('tr', {}, [
+                            elementCreator('td', { class: 'cell-symptom' }, 'Medical History'),
+                            elementCreator('td', { class: 'cell-status', colspan: 2 }, // span both columns
+                                elementCreator('div', { class: 'two-col' }, [
+                                    elementCreator('div', { class: 'col' }, [
+                                        elementCreator('strong', {}, 'Comorbidities:'),
+                                        elementCreator('ul', {}, clinicalSummaryData.relevantMedicalHistory.comorbidities.map(comorbidity =>
+                                            elementCreator('li', {}, comorbidity)
+                                        ))
+                                    ]),
+                                    elementCreator('div', { class: 'col' }, [
+                                        elementCreator('strong', {}, 'Prior Surgery:'),
+                                        elementCreator('ul', {}, [
+                                            elementCreator('li', {}, clinicalSummaryData.relevantMedicalHistory.priorSurgery)
+                                        ])
+                                    ])
+                                ])
+                            )
+                        ]),
+                        elementCreator('tr', {}, [
+                            elementCreator('td', { class: 'cell-symptom' }, 'Family History'),
+                            elementCreator('td', { class: 'cell-status', colspan: 2 }, // span both columns
+                                elementCreator('div', { class: 'two-col' }, [
+                                    elementCreator('div', { class: 'col' }, [
+                                        elementCreator('strong', {}, 'Neurological:'),
+                                        elementCreator('ul', {}, clinicalSummaryData.significantFamilyHistory.neurological.map(item =>
+                                            elementCreator('li', {}, item)
+                                        ))
+                                    ]),
+                                    elementCreator('div', { class: 'col' }, [
+                                        elementCreator('strong', {}, 'Cardiovascular/Metabolic:'),
+                                        elementCreator('ul', {}, [
+                                            elementCreator('li', {}, clinicalSummaryData.significantFamilyHistory.cardiovascularMetabolic.map(item =>
+                                                elementCreator('li', {}, item)))
+                                        ])
+                                    ])
+                                ])
+                            )
+                        ]),
+                    ])
+                ])
+            );
+        }
+
+        if (toggleLink.classList.contains('expanded')) {
+            // Collapse → remove extra sections
+            extraSections.remove();
+            toggleLink.classList.remove('expanded');
+            toggleLink.firstChild.textContent = 'View more';
+            toggleIcon.src = 'https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/fi_chevron-down.svg';
+        } else {
+            // Expand → append extra sections
+            // overviewWrapper.append(extraSections);
+            overviewWrapper.after(extraSections);
+            toggleLink.classList.add('expanded');
+            toggleLink.firstChild.textContent = 'View less';
+            toggleIcon.src = 'https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/fi_chevron-down.svg';
+        }
+    });
+
+    overviewWrapper.append(
+        elementCreator('h4', { class: 'section-title' }, 'Patient Overview & Goals'),
+        overviewText,
+        toggleLink
     );
 
-    // Current Medications
-    wrap.append(
-        elementCreator('h4', { class: 'section-title' }, 'Current Medications'),
-        elementCreator('ul', { class: 'section-list current-medications' }, [
-            elementCreator('li', {}, 'Current Medications: ' + clinicalSummaryData.relevantMedicalHistory.currentMedications.join(', ')),
-        ])
-    );
-
-    // Medication Allergies
-    wrap.append(
-        elementCreator('h4', { class: 'section-title' }, 'Medication Allergies'),
-        elementCreator('ul', { class: 'section-list medication-allergies' }, [
-            elementCreator('li', {}, 'Allergies: ' + clinicalSummaryData.relevantMedicalHistory.allergies.join(', '))
-        ])
-    );
-
-    // Relevant Medical History
-    wrap.append(
-        elementCreator('h4', { class: 'section-title' }, 'Medical History'),
-        elementCreator('ul', { class: 'section-list medical-history' }, [
-            elementCreator('li', {}, 'Comorbidities: ' + clinicalSummaryData.relevantMedicalHistory.comorbidities.join(', ')),
-            elementCreator('li', {}, 'Prior Surgery: ' + clinicalSummaryData.relevantMedicalHistory.priorSurgery),
-            // elementCreator('li', {}, 'Current Medications: ' + clinicalSummaryData.relevantMedicalHistory.currentMedications.join(', ')),
-            // elementCreator('li', {}, 'Allergies: ' + clinicalSummaryData.relevantMedicalHistory.allergies.join(', '))
-        ])
-    );
-
-    // Significant Family History
-    wrap.append(
-        elementCreator('h4', { class: 'section-title' }, 'Family History'),
-        elementCreator('ul', { class: 'section-list family-history' }, [
-            elementCreator('li', {}, 'Neurological: ' + clinicalSummaryData.significantFamilyHistory.neurological.join(', ')),
-            elementCreator('li', {}, 'Cardiovascular/Metabolic: ' + clinicalSummaryData.significantFamilyHistory.cardiovascularMetabolic.join(', '))
-        ])
-    );
+    wrap.append(overviewWrapper);
 
     // Current Neurological Symptoms Table
     wrap.append(
-        elementCreator('h4', { class: 'section-title' }, 'Current Neurological Symptoms'),
+        elementCreator('h4', { class: 'section-title' }, 'Current Symptoms'),
         elementCreator('table', { class: 'symptoms-table' }, [
             elementCreator('thead', {}, elementCreator('tr', {}, [
                 elementCreator('th', { class: 'col-symptom' }, 'SYMPTOM'),
@@ -1121,6 +1198,88 @@ function renderClinicalSummary() {
             ))
         ])
     );
+
+
+    // // Patient Overview
+    // wrap.append(
+    //     elementCreator('h4', { class: 'section-title' }, 'Patient Overview'),
+    //     elementCreator('p', { class: 'section-text' }, clinicalSummaryData.patientOverview)
+    // );
+
+    // // Patient Goals
+    // wrap.append(
+    //     elementCreator('h4', { class: 'section-title' }, 'Patient Goals'),
+    //     elementCreator('p', { class: 'section-text' }, clinicalSummaryData.patientGoals)
+    // );
+
+    // // Patient Overview & Goals
+    // wrap.append(
+    //     elementCreator('h4', { class: 'section-title' }, 'Patient Overview & Goals'),
+    //     elementCreator('p', { class: 'section-text' }, clinicalSummaryData.patientOverview + ' ' + clinicalSummaryData.patientGoals)
+    // );
+
+    // // // Chief Complaint
+    // // wrap.append(
+    // //     elementCreator('h4', { class: 'section-title' }, 'Chief Complaint'),
+    // //     elementCreator('p', { class: 'section-text' }, clinicalSummaryData.chiefComplaint)
+    // // );
+
+    // // Current Medications
+    // wrap.append(
+    //     elementCreator('h4', { class: 'section-title' }, 'Current Medications'),
+    //     elementCreator('ul', { class: 'section-list current-medications' }, [
+    //         elementCreator('li', {}, 'Current Medications: ' + clinicalSummaryData.relevantMedicalHistory.currentMedications.join(', ')),
+    //     ])
+    // );
+
+    // // Medication Allergies
+    // wrap.append(
+    //     elementCreator('h4', { class: 'section-title' }, 'Medication Allergies'),
+    //     elementCreator('ul', { class: 'section-list medication-allergies' }, [
+    //         elementCreator('li', {}, 'Allergies: ' + clinicalSummaryData.relevantMedicalHistory.allergies.join(', '))
+    //     ])
+    // );
+
+    // // Relevant Medical History
+    // wrap.append(
+    //     elementCreator('h4', { class: 'section-title' }, 'Medical History'),
+    //     elementCreator('ul', { class: 'section-list medical-history' }, [
+    //         elementCreator('li', {}, 'Comorbidities: ' + clinicalSummaryData.relevantMedicalHistory.comorbidities.join(', ')),
+    //         elementCreator('li', {}, 'Prior Surgery: ' + clinicalSummaryData.relevantMedicalHistory.priorSurgery),
+    //         // elementCreator('li', {}, 'Current Medications: ' + clinicalSummaryData.relevantMedicalHistory.currentMedications.join(', ')),
+    //         // elementCreator('li', {}, 'Allergies: ' + clinicalSummaryData.relevantMedicalHistory.allergies.join(', '))
+    //     ])
+    // );
+
+    // // Significant Family History
+    // wrap.append(
+    //     elementCreator('h4', { class: 'section-title' }, 'Family History'),
+    //     elementCreator('ul', { class: 'section-list family-history' }, [
+    //         elementCreator('li', {}, 'Neurological: ' + clinicalSummaryData.significantFamilyHistory.neurological.join(', ')),
+    //         elementCreator('li', {}, 'Cardiovascular/Metabolic: ' + clinicalSummaryData.significantFamilyHistory.cardiovascularMetabolic.join(', '))
+    //     ])
+    // );
+
+    // // Current Neurological Symptoms Table
+    // wrap.append(
+    //     elementCreator('h4', { class: 'section-title' }, 'Current Symptoms'),
+    //     elementCreator('table', { class: 'symptoms-table' }, [
+    //         elementCreator('thead', {}, elementCreator('tr', {}, [
+    //             elementCreator('th', { class: 'col-symptom' }, 'SYMPTOM'),
+    //             elementCreator('th', { class: 'col-status' }, 'PRESENT'),
+    //             // elementCreator('th', { class: 'col-status' }, 'STATUS'),
+    //             // elementCreator('th', { class: 'col-significance' }, 'CLINICAL SIGNIFICANCE')
+    //         ])),
+    //         elementCreator('tbody', {}, clinicalSummaryData.currentNeurologicalSymptoms.map(symptom =>
+    //             elementCreator('tr', {}, [
+    //                 elementCreator('td', { class: 'cell-symptom' }, symptom.symptom),
+    //                 elementCreator('td', { class: 'cell-status' }, symptom.present),
+    //                 // elementCreator('td', { class: 'cell-status' }, symptom.status),
+    //                 // elementCreator('td', { class: 'cell-significance' }, symptom.clinicalSignificance)
+    //             ])
+    //         ))
+    //     ])
+    // );
 
     // // Clinical Considerations
     // wrap.append(
@@ -1260,12 +1419,12 @@ function renderPatientQuestionnaire() {
     wrap.append(patientInfo, patientInfoList);
 
     // Chief Complaint
-    const chiefComplaint = elementCreator('h4', {}, '2. Chief Complaint');
-    const chiefComplaintText = elementCreator('p', {}, originalQuestionnaireData.chiefComplaint);
-    wrap.append(chiefComplaint, chiefComplaintText);
+    // const chiefComplaint = elementCreator('h4', {}, '2. Chief Complaint');
+    // const chiefComplaintText = elementCreator('p', {}, originalQuestionnaireData.chiefComplaint);
+    // wrap.append(chiefComplaint, chiefComplaintText);
 
     // Current Medications
-    const currentMedications = elementCreator('h4', {}, '3. Current Medications');
+    const currentMedications = elementCreator('h4', {}, '2. Current Medications');
     const medicationsTable = elementCreator('table', {}, [
         elementCreator('thead', {}, elementCreator('tr', {}, [
             elementCreator('th', {}, 'MEDICATION'),
@@ -1283,14 +1442,14 @@ function renderPatientQuestionnaire() {
     wrap.append(currentMedications, medicationsTable);
 
     // Medication Allergies
-    const medicationAllergies = elementCreator('h4', {}, '4. Medication Allergies');
+    const medicationAllergies = elementCreator('h4', {}, '3. Medication Allergies');
     const medicationAllergiesList = elementCreator('ul', {},
         originalQuestionnaireData.medicationAllergies.map(allergy => elementCreator('li', {}, allergy))
     );
     wrap.append(medicationAllergies, medicationAllergiesList);
 
     // Medical History
-    const medicalHistory = elementCreator('h4', {}, '5. Medical History');
+    const medicalHistory = elementCreator('h4', {}, '4. Medical History');
     const currentAndPastProblems = elementCreator('p', {}, 'Current and Past Medical Problems:');
     const currentAndPastProblemsList = elementCreator('ul', {},
         originalQuestionnaireData.medicalHistory.currentAndPastMedicalProblems.map(problem => elementCreator('li', {}, problem))
@@ -1302,7 +1461,7 @@ function renderPatientQuestionnaire() {
     wrap.append(medicalHistory, currentAndPastProblems, currentAndPastProblemsList, familyHistory, familyHistoryList);
 
     // Social History
-    const socialHistory = elementCreator('h4', {}, '6. Social History');
+    const socialHistory = elementCreator('h4', {}, '5. Social History');
     const socialHistoryList = elementCreator('ul', {}, [
         elementCreator('li', {}, 'Smoking: ' + originalQuestionnaireData.socialHistory.smoking),
         elementCreator('li', {}, 'Alcohol: ' + originalQuestionnaireData.socialHistory.alcohol),
@@ -1314,7 +1473,7 @@ function renderPatientQuestionnaire() {
     wrap.append(socialHistory, socialHistoryList);
 
     // Current Symptoms
-    const currentSymptoms = elementCreator('h4', {}, '7. Current Symptoms');
+    const currentSymptoms = elementCreator('h4', {}, '6. Current Symptoms');
     const symptomsTable = elementCreator('table', {}, [
         elementCreator('thead', {}, elementCreator('tr', {}, [
             elementCreator('th', {}, 'SYMPTOM'),
@@ -1330,7 +1489,7 @@ function renderPatientQuestionnaire() {
     wrap.append(currentSymptoms, symptomsTable);
 
     // Top 3 Questions for Doctor
-    const top3Questions = elementCreator('h4', {}, '8. Top 3 Questions for Doctor');
+    const top3Questions = elementCreator('h4', {}, '7. Top 3 Questions for Doctor');
     const top3QuestionsList = elementCreator('ol', {},
         originalQuestionnaireData.top3QuestionsForDoctor.map((question, index) =>
             elementCreator('li', {}, question)
@@ -1339,7 +1498,7 @@ function renderPatientQuestionnaire() {
     wrap.append(top3Questions, top3QuestionsList);
 
     // Visit Goals and Concerns
-    const visitGoals = elementCreator('h4', {}, '9. Visit Goals and Concerns');
+    const visitGoals = elementCreator('h4', {}, '8. Visit Goals and Concerns');
     const primaryGoal = elementCreator('p', {}, 'Primary Goal: ' + originalQuestionnaireData.visitGoalsAndConcerns.primaryGoal);
     const top3Concerns = elementCreator('p', {}, 'Top 3 Concerns:');
     const top3ConcernsList = elementCreator('ol', {},
@@ -1380,13 +1539,13 @@ function renderPatientQuestionnaireContent() {
     ]);
     wrap.append(patientInfo, patientInfoList);
 
-    // Chief Complaint
-    const chiefComplaint = elementCreator('h4', {}, '2. Chief Complaint');
-    const chiefComplaintText = elementCreator('p', {}, originalQuestionnaireData.chiefComplaint);
-    wrap.append(chiefComplaint, chiefComplaintText);
+    // // Chief Complaint
+    // const chiefComplaint = elementCreator('h4', {}, '2. Chief Complaint');
+    // const chiefComplaintText = elementCreator('p', {}, originalQuestionnaireData.chiefComplaint);
+    // wrap.append(chiefComplaint, chiefComplaintText);
 
     // Current Medications
-    const currentMedications = elementCreator('h4', {}, '3. Current Medications');
+    const currentMedications = elementCreator('h4', {}, '2. Current Medications');
     const medicationsTable = elementCreator('table', {}, [
         elementCreator('thead', {}, elementCreator('tr', {}, [
             elementCreator('th', {}, 'MEDICATION'),
@@ -1404,14 +1563,14 @@ function renderPatientQuestionnaireContent() {
     wrap.append(currentMedications, medicationsTable);
 
     // Medication Allergies
-    const medicationAllergies = elementCreator('h4', {}, '4. Medication Allergies');
+    const medicationAllergies = elementCreator('h4', {}, '3. Medication Allergies');
     const medicationAllergiesList = elementCreator('ul', {},
         originalQuestionnaireData.medicationAllergies.map(allergy => elementCreator('li', {}, allergy))
     );
     wrap.append(medicationAllergies, medicationAllergiesList);
 
     // Medical History
-    const medicalHistory = elementCreator('h4', {}, '5. Medical History');
+    const medicalHistory = elementCreator('h4', {}, '4. Medical History');
     const currentAndPastProblems = elementCreator('p', {}, 'Current and Past Medical Problems:');
     const currentAndPastProblemsList = elementCreator('ul', {},
         originalQuestionnaireData.medicalHistory.currentAndPastMedicalProblems.map(problem => elementCreator('li', {}, problem))
@@ -1423,7 +1582,7 @@ function renderPatientQuestionnaireContent() {
     wrap.append(medicalHistory, currentAndPastProblems, currentAndPastProblemsList, familyHistory, familyHistoryList);
 
     // Social History
-    const socialHistory = elementCreator('h4', {}, '6. Social History');
+    const socialHistory = elementCreator('h4', {}, '5. Social History');
     const socialHistoryList = elementCreator('ul', {}, [
         elementCreator('li', {}, 'Smoking: ' + originalQuestionnaireData.socialHistory.smoking),
         elementCreator('li', {}, 'Alcohol: ' + originalQuestionnaireData.socialHistory.alcohol),
@@ -1435,7 +1594,7 @@ function renderPatientQuestionnaireContent() {
     wrap.append(socialHistory, socialHistoryList);
 
     // Current Symptoms
-    const currentSymptoms = elementCreator('h4', {}, '7. Current Symptoms');
+    const currentSymptoms = elementCreator('h4', {}, '6. Current Symptoms');
     const symptomsTable = elementCreator('table', {}, [
         elementCreator('thead', {}, elementCreator('tr', {}, [
             elementCreator('th', {}, 'SYMPTOM'),
@@ -1451,7 +1610,7 @@ function renderPatientQuestionnaireContent() {
     wrap.append(currentSymptoms, symptomsTable);
 
     // Top 3 Questions for Doctor
-    const top3Questions = elementCreator('h4', {}, '8. Top 3 Questions for Doctor');
+    const top3Questions = elementCreator('h4', {}, '7. Top 3 Questions for Doctor');
     const top3QuestionsList = elementCreator('ol', {},
         originalQuestionnaireData.top3QuestionsForDoctor.map((question, index) =>
             elementCreator('li', {}, question)
@@ -1460,7 +1619,7 @@ function renderPatientQuestionnaireContent() {
     wrap.append(top3Questions, top3QuestionsList);
 
     // Visit Goals and Concerns
-    const visitGoals = elementCreator('h4', {}, '9. Visit Goals and Concerns');
+    const visitGoals = elementCreator('h4', {}, '8. Visit Goals and Concerns');
     const primaryGoal = elementCreator('p', {}, 'Primary Goal: ' + originalQuestionnaireData.visitGoalsAndConcerns.primaryGoal);
     const top3Concerns = elementCreator('p', {}, 'Top 3 Concerns:');
     const top3ConcernsList = elementCreator('ol', {},
@@ -1528,7 +1687,8 @@ function downloadQuestionnaire(filename) {
 
     if (filename.includes('clinical-summary')) {
         // Clinical Summary PDF
-        yPosition = addSectionHeader('CHRISTINE MYCHART (Pre-Consultation Brief)', yPosition);
+        // yPosition = addSectionHeader('Pre-Consultation Brief', yPosition);
+        yPosition = addSectionHeader('Outlined below is a pre-consultation brief summarizing key patient details to help guide the upcoming visit.', yPosition);
         yPosition += 5;
 
         yPosition = addSectionHeader('Patient Overview', yPosition);
@@ -1539,9 +1699,9 @@ function downloadQuestionnaire(filename) {
         yPosition = addRegularText(clinicalSummaryData.patientGoals, yPosition);
         yPosition += 5;
 
-        yPosition = addSectionHeader('Chief Complaint', yPosition);
-        yPosition = addRegularText(clinicalSummaryData.chiefComplaint, yPosition);
-        yPosition += 5;
+        // yPosition = addSectionHeader('Chief Complaint', yPosition);
+        // yPosition = addRegularText(clinicalSummaryData.chiefComplaint, yPosition);
+        // yPosition += 5;
 
         yPosition = addSectionHeader('Current Medications', yPosition);
         yPosition = addRegularText(`Current Medications: ${clinicalSummaryData.relevantMedicalHistory.currentMedications.join(', ')}`, yPosition);
@@ -1561,7 +1721,7 @@ function downloadQuestionnaire(filename) {
         yPosition = addRegularText(`Cardiovascular/Metabolic: ${clinicalSummaryData.significantFamilyHistory.cardiovascularMetabolic.join(', ')}`, yPosition);
         yPosition += 5;
 
-        yPosition = addSectionHeader('Current Neurological Symptoms', yPosition);
+        yPosition = addSectionHeader('Current Symptoms', yPosition);
         clinicalSummaryData.currentNeurologicalSymptoms.forEach(symptom => {
             yPosition = addRegularText(`${symptom.symptom}: ${symptom.present}}`, yPosition);
             // yPosition = addRegularText(`${symptom.symptom}: ${symptom.status} - ${symptom.clinicalSignificance}`, yPosition);
