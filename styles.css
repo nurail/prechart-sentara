@@ -784,6 +784,88 @@
     font-weight: 700;
 }
 
+.avm-prechart-app .toggle-container {
+    width: 30%;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    text-align: left;
+    font-size: 14px;
+    color: #4d5469;
+    font-family: Inter, sans-serif;
+}
+
+.avm-prechart-app .toggle-wrapper {
+    width: 239px;
+    border-radius: 60px;
+    background-color: #cad8ef;
+    height: 36px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 3px 4px;
+    box-sizing: border-box;
+}
+
+.avm-prechart-app .toggle-group {
+    width: 204px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    /* gap: 15px; */
+}
+
+.avm-prechart-app .toggle-option {
+    width: 195px;
+    border-radius: 60px;
+    background-color: #fff;
+    height: 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0px 9px;
+    box-sizing: border-box;
+    gap: 7px;
+}
+
+.avm-prechart-app .toggle-icon {
+    width: 20px;
+    position: relative;
+    max-height: 100%;
+}
+
+.avm-prechart-app .toggle-label {
+    width: 146px;
+    position: relative;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    height: 29px;
+    flex-shrink: 0;
+}
+
+.avm-prechart-app .toggle-option.active {
+    background-color: #fff;
+    font-weight: 600;
+}
+
+.avm-prechart-app .toggle-option:not(.active) {
+    background-color: transparent;
+    font-weight: 400;
+    opacity: 0.6;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.avm-prechart-app .toggle-option:not(.active):hover {
+    opacity: 0.8;
+}
+
 .avm-prechart-app .toggle-notes-div {
     justify-self: center;
 }
@@ -1328,4 +1410,278 @@ span.accordion-title {
 .avm-prechart-app .encounter-date-link:hover {
     text-decoration: underline;
     font-weight: 700;
+}
+
+
+/* Feedback Element */
+
+.avm-prechart-app .feedback-container {
+    width: 22%;
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    /* ensure it's aligned to bottom-right */
+    border-radius: 10px;
+    background-color: #eef4ff;
+    border: 1px solid #cad8ef;
+    box-sizing: border-box;
+    min-height: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    /* better vertical alignment */
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 14px;
+    color: #000;
+    font-family: Inter, sans-serif;
+}
+
+.avm-prechart-app .feedback-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    /* spacing out text and icons */
+    width: 100%;
+    gap: 12px;
+}
+
+.avm-prechart-app .feedback-question {
+    flex: 1;
+    line-height: 22px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+}
+
+.avm-prechart-app .feedback-actions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 14px;
+}
+
+.avm-prechart-app .feedback-icon {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.avm-prechart-app .feedback-icon:hover {
+    transform: scale(1.2);
+    opacity: 0.8;
+}
+
+.feedback-card {
+    width: 334px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 18px;
+}
+
+.feedback-group-content {
+    width: 333px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+.feedback-message {
+    width: 333px;
+    position: relative;
+    line-height: 22px;
+    display: flex;
+    align-items: center;
+    height: 33px;
+    flex-shrink: 0;
+}
+
+.feedback-label {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 6px;
+    color: #1e1c1c;
+}
+
+.feedback-comments {
+    width: 333px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 6px;
+    color: #1e1c1c;
+}
+
+.feedback-input {
+    width: 333px;
+    position: relative;
+    border-radius: 10px;
+    background-color: #fff;
+    height: 64px;
+    border: 1px solid #cad8ef;
+    padding: 8px;
+    resize: vertical;
+}
+
+.feedback-actions-row {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 10px;
+    color: #642bf3;
+    align-self: self-end;
+}
+
+.feedback-btn {
+    cursor: pointer;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 10px;
+}
+
+.feedback-btn.dismiss {
+    background-color: #eae2ff;
+    color: #642bf3;
+    border: 0px;
+    position: relative;
+    font-weight: 600;
+}
+
+.feedback-btn.submit {
+    background-color: #642bf3;
+    border: 1px solid #642bf3;
+    color: #eef4ff;
+}
+
+
+/*  */
+
+.avm-prechart-app .problem-card {
+    border: 1px solid #cad8ef;
+    border-radius: 12px;
+    padding: 20px 20px 16px 20px;
+    margin: 16px 0 20px;
+    background: #ffffff;
+    box-shadow: none;
+    font-family: system-ui, sans-serif;
+}
+
+.avm-prechart-app .problem-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.avm-prechart-app .problem-header h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.avm-prechart-app .copy-btn {
+    font-size: 0.85rem;
+    padding: 6px 8px;
+    margin-left: 6px;
+    background: #f3f4f6;
+    color: #334155;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.avm-prechart-app .toggle-btn,
+.avm-prechart-app .toggle-view-btn {
+    font-size: 14px;
+    font-weight: 600;
+    padding: 8px 12px;
+    margin: 10px 0 8px 0;
+    background: #fff;
+    color: #642bf3;
+    border: 2px solid #642bf3;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.avm-prechart-app .copy-btn:hover {
+    background: #e5e7eb;
+}
+
+.avm-prechart-app .toggle-btn:hover {
+    background: #f5f0ff;
+}
+
+.avm-prechart-app .problem-summary p {
+    margin: 4px 0;
+}
+
+.avm-prechart-app .problem-causes {
+    background: #eaf2ff;
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin: 8px 0 14px;
+}
+
+.avm-prechart-app .problem-causes h4 {
+    margin: 0 0 6px 0;
+    font-size: 14px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.avm-prechart-app .problem-details.hidden {
+    display: none;
+}
+
+.avm-prechart-app .timeline {
+    list-style: none;
+    padding-left: 0;
+    border-left: 2px solid #e5e7eb;
+    margin: 8px 0 12px 0;
+}
+
+.avm-prechart-app .timeline-item {
+    padding-left: 12px;
+    margin: 6px 0;
+    position: relative;
+}
+
+.avm-prechart-app .timeline-item::before {
+    content: '●';
+    position: absolute;
+    left: -10px;
+    color: #7c3aed;
+}
+
+.avm-prechart-app .timeline-date {
+    display: inline-block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    background: #f5f8ff;
+    border: 1px solid #cad8ef;
+    border-radius: 9999px;
+    padding: 6px 12px;
+    margin-bottom: 6px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.avm-prechart-app .hidden {
+    display: none;
 }

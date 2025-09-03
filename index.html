@@ -46,6 +46,54 @@
             <aside class="side-pane" aria-label="Right panel">
                 <div id="cards-container" class="cards-grid" aria-live="polite"></div>
 
+                <div class="feedback-container">
+                    <div class="feedback-group">
+                        <div class="feedback-question">Was this solution helpful?</div>
+                        <div class="feedback-actions">
+                            <img id="thumbsUpBtn" class="feedback-icon" alt="Thumbs up" src="https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/uil_thumbs-up.svg" />
+                            <img id="thumbsDownBtn" class="feedback-icon" alt="Thumbs down" src="https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/uil_thumbs-down.svg" />
+                        </div>
+                    </div>
+
+                    <!-- Positive feedback card -->
+                    <div id="positiveFeedback" class="feedback-card hidden">
+                        <div class="feedback-wrapper">
+                            <div class="feedback-group-content">
+                                <div class="feedback-message">
+                                    Great! Anything we can do to make it even better?
+                                </div>
+                                <div class="feedback-comments">
+                                    <div class="feedback-label">Comments</div>
+                                    <textarea id="positiveComments" name="positiveComments" class="feedback-input"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feedback-actions-row">
+                            <button class="feedback-btn dismiss">Dismiss</button>
+                            <button class="feedback-btn submit">Submit</button>
+                        </div>
+                    </div>
+
+                    <!-- Negative feedback card -->
+                    <div id="negativeFeedback" class="feedback-card hidden">
+                        <div class="feedback-wrapper">
+                            <div class="feedback-group-content">
+                                <div class="feedback-message">
+                                    Sorry it wasn’t helpful. Tell us what didn’t work?
+                                </div>
+                                <div class="feedback-comments">
+                                    <div class="feedback-label">Comments</div>
+                                    <textarea id="negativeComments" name="negativeComments" class="feedback-input"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feedback-actions-row">
+                            <button class="feedback-btn dismiss">Dismiss</button>
+                            <button class="feedback-btn submit">Submit</button>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="footer-branding">
                     <span class="footer-text">Powered by</span>
                     <img class="footer-logo" alt="Company Logo" src="https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/avaamo_icon.svg" />

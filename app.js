@@ -7,7 +7,9 @@ const ICONS = {
     imaging: 'https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/imaging_icon.svg',
     meds: 'https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/medications_icon.svg',
     tests: 'https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/test_results_icon.svg',
-    view: 'https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/view_pdf_icon.svg'
+    view: 'https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/view_pdf_icon.svg',
+    bx_detail: 'https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/bx_detail.svg',
+    mdi_timeline_outline: 'https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/mdi_timeline-outline.svg'
 };
 
 // Data model for right-pane cards (with icons)
@@ -17,38 +19,34 @@ const listViewData = [{
         icon: ICONS.meds,
         bullets: [
             'Lisinopril 10mg daily',
-            "Metformin 500mg BID",
-            "PRN Ibuprofen"
-            // 'Topiramate 50mg BID (start: 2025-04-03)',
-            // 'Sumatriptan 50mg PRN migraine (last refill: 2025-06-01)',
-            // 'Sertraline 50mg daily',
+            'Metformin 500mg BID',
+            'PRN Ibuprofen'
         ],
-        // highlight: [
-        //     'Track start date, dose, last refill',
-        //     'Flag high-risk meds or non-adherence',
-        // ],
     },
     {
         id: 'labs',
         title: 'Recent Test Results',
         icon: ICONS.tests,
-        bullets: [
-            'CBC/CMP: within baseline',
-            'B12 520 pg/mL; Folate normal; TSH 1.8 µIU/mL',
-            'ESR/CRP normal',
-        ],
+        entries: [
+            { label: 'CBC/CMP', value: 'within baseline', date: '2025-06-15' },
+            { label: 'B12', value: '520 pg/mL', date: '2025-07-10' },
+            { label: 'Folate', value: 'normal', date: '2025-07-10' },
+            { label: 'TSH', value: '1.8 µIU/mL', date: '2025-07-10' },
+            { label: 'ESR/CRP', value: 'normal', date: '2025-07-18' }
+        ]
     },
     {
         id: 'imaging',
         title: 'Imaging',
         icon: ICONS.imaging,
-        bullets: [
-            'MRI Brain (2024-11-05): no acute findings',
-            'EEG (2025-06-10): normal, no epileptiform discharges',
-            'No EMG/NCS to date',
-        ],
-    },
+        entries: [
+            { label: 'MRI Brain', value: 'No acute findings', date: '2024-11-05', image: 'mri-brain.png' },
+            { label: 'EEG', value: 'Normal, no epileptiform discharges', date: '2025-06-10', image: 'eeg-result.png' },
+            { label: 'EMG/NCS', value: 'Not performed', date: null }
+        ]
+    }
 ];
+
 
 // Simulated visit dates - matching the dates in visitSamples JSON
 const visitDates = [
@@ -179,6 +177,108 @@ const visitSamples = [{
             "Encounter Status": "Completed",
             "Encounter Duration": "25 minutes"
         }
+    }
+];
+
+// Data model for left-pane cards based on the problem (3 problems)
+const visitProblems = [{
+        problem: "Sleep Apnea",
+        onset: "Diagnosed Jan 2025 (sleep study)",
+        causes: ["Obstructive airway during sleep"],
+        course: [{
+                date: "2024-11-15",
+                status: "Suspected sleep apnea",
+                reason: "Morning headaches, poor sleep",
+                notes: "Sleep study recommended"
+            },
+            {
+                date: "2025-01-10",
+                status: "Confirmed mild OSA",
+                reason: "Sleep study results",
+                notes: "CPAP initiated"
+            },
+            {
+                date: "2025-04-18",
+                status: "Non-adherence",
+                reason: "Mask discomfort → stopped CPAP",
+                notes: "Headaches worsened"
+            },
+            {
+                date: "2025-06-05",
+                status: "Improved adherence",
+                reason: "Mask switched",
+                notes: "Headaches reduced"
+            },
+            {
+                date: "2025-08-20",
+                status: "Well controlled",
+                reason: "Consistent CPAP compliance",
+                notes: "Headaches resolved"
+            }
+        ],
+        currentStatus: "Stable with CPAP",
+        priority: "High — root cause of headaches",
+        relatedConditions: ["Headaches", "Hypertension"],
+        position: 1
+    },
+    {
+        problem: "Headaches",
+        onset: "Reported since 2024-11",
+        causes: [
+            "Poor sleep and suspected sleep apnea (2024-11)",
+            "Discontinuation of CPAP therapy (2025-04)",
+            "Non-compliance with CPAP mask due to discomfort"
+        ],
+        course: [{
+                date: "2024-11-15",
+                status: "Frequent morning headaches",
+                reason: "Likely related to sleep apnea and disrupted sleep",
+                notes: "Recommended sleep study"
+            },
+            {
+                date: "2025-01-10",
+                status: "Improved, ~2 headaches/week",
+                reason: "Initiation of CPAP and lifestyle adjustments",
+                notes: "Adhering to therapy"
+            },
+            {
+                date: "2025-04-18",
+                status: "Worsening, 4–5 headaches/week",
+                reason: "Stopped CPAP due to mask discomfort",
+                notes: "Restarted CPAP, referred to sleep specialist"
+            },
+            {
+                date: "2025-06-05",
+                status: "Reduced to 1–2 headaches/week",
+                reason: "Switched CPAP mask improved adherence",
+                notes: "Mild photophobia, otherwise stable"
+            },
+            {
+                date: "2025-08-20",
+                status: "Resolved, no headaches",
+                reason: "Consistent CPAP use and improved sleep hygiene",
+                notes: "Neurologically stable"
+            }
+        ],
+        currentStatus: "Resolved with CPAP compliance",
+        priority: "High — directly tied to untreated sleep apnea",
+        relatedConditions: ["Sleep Apnea", "Migraines", "Hypertension"],
+        position: 2
+    },
+    {
+        problem: "Hypertension",
+        onset: "Prior to 2024",
+        causes: ["Chronic condition"],
+        course: [{
+            date: "2024-11-15 → 2025-08-20",
+            status: "Controlled with Lisinopril",
+            reason: "Medication adherence",
+            notes: "BP stable at follow-ups"
+        }],
+        currentStatus: "Stable, well-controlled",
+        priority: "Medium",
+        relatedConditions: ["Headaches", "Sleep Apnea"],
+        position: 3
     }
 ];
 
@@ -421,58 +521,359 @@ function loadEncounterSummary() {
     setTimeout(() => {
         container.innerHTML = "";
 
+        // === Header with toggle ===
         const header = elementCreator('div', { class: 'q-header' });
-        // const title = elementCreator('h3', { class: 'summary-title' }, 'Encounter Summary');
-        const title = elementCreator('h3', { class: 'summary-title' }, 'Outlined below are prior encounters relevant to the patient’s upcoming visit for headache and memory difficulties.');
-        header.append(title);
+
+        const title = elementCreator(
+            'h3', { class: 'summary-title' },
+            'Outlined below are prior encounters relevant to the patient’s upcoming visit for headache and sleep apnea.'
+        );
+
+        // // Toggle button
+        // const toggleBtn = elementCreator(
+        //     'button', { class: 'toggle-view-btn' },
+        //     'Switch to Problems View'
+        // );
+
+        // Toggle button structure
+        // Toggle component
+        const toggleComponent = elementCreator("div", { class: "toggle-container" }, [
+            elementCreator("div", { class: "toggle-wrapper" }, [
+                elementCreator("div", { class: "toggle-group" }, [
+                    elementCreator("div", { class: "toggle-option encounters-option active" }, [
+                        elementCreator("img", {
+                            class: "toggle-icon",
+                            alt: "",
+                            src: ICONS.bx_detail
+                        }),
+                        elementCreator("div", { class: "toggle-label" }, "Encounter Summary")
+                    ]),
+                    elementCreator("div", { class: "toggle-option problems-option" }, [
+                        elementCreator("img", {
+                            class: "toggle-icon",
+                            alt: "",
+                            src: ICONS.mdi_timeline_outline
+                        }),
+                        elementCreator("div", { class: "toggle-label hidden" }, "Problem View")
+                    ])
+                ])
+            ])
+        ]);
+
+
+        header.append(title, toggleComponent);
         container.append(header);
 
-        visitSamples.forEach(enc => {
+        // === Content container (this will swap views) ===
+        const contentContainer = elementCreator('div', { class: 'content-wrapper' });
+        container.append(contentContainer);
 
-            // Create hyperlink for the date
-            const dateLink = elementCreator("a", {
-                href: "#",
-                class: "encounter-date-link"
-            }, enc["Encounter Details"]["Date & Time"]);
+        // === Render functions ===
+        function renderEncounters() {
+            contentContainer.innerHTML = ""; // clear old content
 
+            visitSamples.forEach(enc => {
+                // Create hyperlink for the date
+                const dateLink = elementCreator("a", {
+                    href: "#",
+                    class: "encounter-date-link"
+                }, enc["Encounter Details"]["Date & Time"]);
 
-            // Wrap into a sentence: "On <a>date</a>, summary..."
-            const summaryPara = elementCreator("p", { class: "encounter-summary" }, [
-                "On ", dateLink, `, ${enc.Summary}`
-            ]);
-
-            // Item container
-            const item = elementCreator("div", { class: "encounter-item" }, summaryPara);
-
-            // Click handler for opening modal
-            dateLink.addEventListener("click", (e) => {
-                e.preventDefault();
-
-                const notes = elementCreator('div', { class: 'kv-container notes-section' });
-
-                // Collect extra details for this encounter
-                Object.keys(enc).forEach(function(key) {
-                    if (key === 'date' || key === 'Summary' || key === 'Encounter Details') return;
-                    // Only build rows for additional keys
-                    const row = elementCreator('div', { class: 'kv-row' }, [
-                        elementCreator('div', { class: 'k' }, key),
-                        elementCreator('div', { class: 'v' }, enc[key])
-                    ]);
-                    notes.append(row);
-                });
-
-                // Build modal content
-                const contentNode = elementCreator("div", { class: "encounter-modal-content" }, [
-                    elementCreator("h3", {}, "Clinical Note - " + enc["Encounter Details"]["Date & Time"]),
-                    notes
+                // Wrap into a sentence: "On <a>date</a>, summary..."
+                const summaryPara = elementCreator("p", { class: "encounter-summary" }, [
+                    "On ", dateLink, `, ${enc.Summary}`
                 ]);
 
-                // Open full-frame modal
-                openFullFrameModal(contentNode);
+                // Item container
+                const item = elementCreator("div", { class: "encounter-item" }, summaryPara);
+
+                // Click handler for opening modal
+                dateLink.addEventListener("click", (e) => {
+                    e.preventDefault();
+
+                    const notes = elementCreator('div', { class: 'kv-container notes-section' });
+
+                    // Collect extra details for this encounter
+                    Object.keys(enc).forEach(function(key) {
+                        if (key === 'date' || key === 'Summary' || key === 'Encounter Details') return;
+                        // Only build rows for additional keys
+                        const row = elementCreator('div', { class: 'kv-row' }, [
+                            elementCreator('div', { class: 'k' }, key),
+                            elementCreator('div', { class: 'v' }, enc[key])
+                        ]);
+                        notes.append(row);
+                    });
+
+                    // Build modal content
+                    const contentNode = elementCreator("div", { class: "encounter-modal-content" }, [
+                        elementCreator("h3", {}, "Clinical Note - " + enc["Encounter Details"]["Date & Time"]),
+                        notes
+                    ]);
+
+                    // Open full-frame modal
+                    openFullFrameModal(contentNode);
+                });
+
+                contentContainer.append(item);
+            });
+        }
+
+        function renderProblems() {
+            contentContainer.innerHTML = ""; // clear old content
+
+            visitProblems.forEach(problem => {
+                // --- Copy Button with fallback ---
+                const copyButton = elementCreator("button", { class: "copy-btn" }, "Copy");
+
+                // Attach click handler separately
+                copyButton.addEventListener("click", () => {
+                    const textToCopy = formatProblemText(problem); // formatted note text instead of raw JSON
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                        navigator.clipboard.writeText(textToCopy).then(() => {
+                            copyButton.innerHTML = "Copied";
+                            copyButton.style.backgroundColor = "#299029";
+                            copyButton.style.color = "#fff";
+                            setTimeout(() => {
+                                copyButton.innerHTML = "Copy";
+                                copyButton.style.backgroundColor = "";
+                                copyButton.style.color = "";
+                            }, 2000);
+                        }).catch(err => console.error("Clipboard write failed:", err));
+                    } else {
+                        const textarea = document.createElement("textarea");
+                        textarea.value = textToCopy;
+                        document.body.appendChild(textarea);
+                        textarea.select();
+                        document.execCommand("copy");
+                        document.body.removeChild(textarea);
+                        copyButton.innerHTML = "Copied";
+                        copyButton.style.backgroundColor = "#299029";
+                        copyButton.style.color = "#fff";
+                        setTimeout(() => {
+                            copyButton.innerHTML = "Copy";
+                            copyButton.style.backgroundColor = "";
+                            copyButton.style.color = "";
+                        }, 2000);
+                    }
+                });
+
+
+                // --- Header Row ---
+                const header = elementCreator("div", { class: "problem-header" }, [
+                    elementCreator("h3", {}, problem.problem),
+                    copyButton
+                ]);
+
+                // --- Quick Summary ---
+                const summary = elementCreator("div", { class: "problem-summary" }, [
+                    elementCreator("p", {}, "🕒 Onset: " + problem.onset),
+                    elementCreator("p", {}, "📌 Status: " + problem.currentStatus),
+                    elementCreator("p", {}, "⚠️ Priority: " + problem.priority)
+                ]);
+
+                // --- Collapsible Details ---
+                const details = elementCreator("div", { class: "problem-details hidden" }, [
+                    elementCreator("div", { class: "problem-causes" }, [
+                        elementCreator("h4", {}, "Causes"),
+                        elementCreator("ul", {}, problem.causes.map(c => elementCreator("li", {}, c)))
+                    ]),
+                    elementCreator("div", { class: "problem-course" }, [
+                        elementCreator("h4", {}, "Course Timeline"),
+                        elementCreator("ul", { class: "timeline" }, problem.course.map(ev => {
+                            const dateLink = elementCreator("a", { href: "#", class: "timeline-date encounter-date-link" }, ev.date);
+                            // open clinical note from visitSamples if available; fallback to problem context
+                            dateLink.addEventListener("click", (e) => {
+                                e.preventDefault();
+                                const matchingEnc = visitSamples.find(v => (v.date || "").startsWith(ev.date));
+                                if (matchingEnc) {
+                                    const notes = elementCreator('div', { class: 'kv-container notes-section' });
+                                    Object.keys(matchingEnc).forEach(function(key) {
+                                        if (key === 'date' || key === 'Summary' || key === 'Encounter Details') return;
+                                        const row = elementCreator('div', { class: 'kv-row' }, [
+                                            elementCreator('div', { class: 'k' }, key),
+                                            elementCreator('div', { class: 'v' }, matchingEnc[key])
+                                        ]);
+                                        notes.append(row);
+                                    });
+                                    const contentNode = elementCreator("div", { class: "encounter-modal-content" }, [
+                                        elementCreator("h3", {}, "Clinical Note - " + ((matchingEnc["Encounter Details"] && matchingEnc["Encounter Details"]["Date & Time"]) || ev.date)),
+                                        notes
+                                    ]);
+                                    openFullFrameModal(contentNode);
+                                } else {
+                                    const notes = elementCreator('div', { class: 'kv-container notes-section' });
+                                    const rows = [
+                                        ["Problem", problem.problem],
+                                        ["Status", ev.status],
+                                        ["Reason", ev.reason],
+                                        ["Notes", ev.notes]
+                                    ];
+                                    rows.forEach(([k, v]) => {
+                                        const row = elementCreator('div', { class: 'kv-row' }, [
+                                            elementCreator('div', { class: 'k' }, k),
+                                            elementCreator('div', { class: 'v' }, v)
+                                        ]);
+                                        notes.append(row);
+                                    });
+                                    const contentNode = elementCreator("div", { class: "encounter-modal-content" }, [
+                                        elementCreator("h3", {}, "Clinical Note - " + ev.date),
+                                        notes
+                                    ]);
+                                    openFullFrameModal(contentNode);
+                                }
+                            });
+
+                            return elementCreator("li", { class: "timeline-item" }, [
+                                dateLink,
+                                elementCreator("div", { class: "timeline-content" }, [
+                                    elementCreator("strong", {}, ev.status),
+                                    elementCreator("p", {}, "Reason: " + ev.reason),
+                                    elementCreator("p", {}, "Notes: " + ev.notes)
+                                ])
+                            ]);
+                        }))
+                    ]),
+                    elementCreator("div", { class: "problem-related" }, [
+                        elementCreator("h4", {}, "Related Conditions"),
+                        elementCreator("ul", {}, problem.relatedConditions.map(r => elementCreator("li", {}, r)))
+                    ])
+                ]);
+
+                // --- Toggle Button ---
+                const toggleBtn = elementCreator("button", { class: "toggle-btn" }, "View Details");
+
+                // Attach click handler separately
+                toggleBtn.addEventListener("click", () => {
+                    const isHidden = details.classList.toggle("hidden");
+                    toggleBtn.textContent = isHidden ? "View Details" : "Hide Details";
+                });
+
+
+                // --- Card ---
+                const item = elementCreator("div", { class: "problem-card" }, [
+                    header,
+                    summary,
+                    toggleBtn,
+                    details
+                ]);
+
+                contentContainer.append(item);
             });
 
-            container.append(item);
+
+            // Helper function to make a nicely formatted note instead of raw JSON
+            function formatProblemText(problem) {
+                let text = `${problem.problem}\nOnset: ${problem.onset}\nStatus: ${problem.currentStatus}\nPriority: ${problem.priority}\n\nCauses:\n- ${problem.causes.join("\n- ")}\n\nTimeline:\n`;
+                problem.course.forEach(ev => {
+                    text += `• ${ev.date}: ${ev.status} (Reason: ${ev.reason}; Notes: ${ev.notes})\n`;
+                });
+                text += `\nRelated: ${problem.relatedConditions.join(", ")}`;
+                return text;
+            }
+
+        }
+
+        // === Toggle Logic ===
+        // let showingEncounters = true;
+        // renderEncounters(); // default view
+
+        // toggleBtn.addEventListener("click", () => {
+        //     showingEncounters = !showingEncounters;
+        //     if (showingEncounters) {
+        //         renderEncounters();
+        //         toggleBtn.textContent = "Switch to Problems View";
+        //     } else {
+        //         renderProblems();
+        //         toggleBtn.textContent = "Switch to Encounters View";
+        //     }
+        // });
+
+        // Attach toggle behavior
+        const encountersOption = toggleComponent.querySelector(".encounters-option");
+        let showingEncounters = true;
+        renderEncounters(); // default view
+
+        const problemsOption = toggleComponent.querySelector(".problems-option");
+
+
+        encountersOption.addEventListener("click", () => {
+            if (!showingEncounters) {
+                showingEncounters = true;
+                encountersOption.querySelector(".toggle-label").classList.toggle("hidden");
+                problemsOption.querySelector(".toggle-label").classList.toggle("hidden");
+                renderEncounters();
+                encountersOption.classList.add("active");
+                problemsOption.classList.remove("active");
+            }
         });
+
+        problemsOption.addEventListener("click", () => {
+            if (showingEncounters) {
+                showingEncounters = false;
+                encountersOption.querySelector(".toggle-label").classList.toggle("hidden");
+                problemsOption.querySelector(".toggle-label").classList.toggle("hidden");
+                renderProblems();
+                problemsOption.classList.add("active");
+                encountersOption.classList.remove("active");
+            }
+        });
+
+
+        // const header = elementCreator('div', { class: 'q-header' });
+        // // const title = elementCreator('h3', { class: 'summary-title' }, 'Encounter Summary');
+        // const title = elementCreator('h3', { class: 'summary-title' }, 'Outlined below are prior encounters relevant to the patient’s upcoming visit for headache and memory difficulties.');
+        // header.append(title);
+        // container.append(header);
+
+        // visitSamples.forEach(enc => {
+
+        //     // Create hyperlink for the date
+        //     const dateLink = elementCreator("a", {
+        //         href: "#",
+        //         class: "encounter-date-link"
+        //     }, enc["Encounter Details"]["Date & Time"]);
+
+
+        //     // Wrap into a sentence: "On <a>date</a>, summary..."
+        //     const summaryPara = elementCreator("p", { class: "encounter-summary" }, [
+        //         "On ", dateLink, `, ${enc.Summary}`
+        //     ]);
+
+        //     // Item container
+        //     const item = elementCreator("div", { class: "encounter-item" }, summaryPara);
+
+        //     // Click handler for opening modal
+        //     dateLink.addEventListener("click", (e) => {
+        //         e.preventDefault();
+
+        //         const notes = elementCreator('div', { class: 'kv-container notes-section' });
+
+        //         // Collect extra details for this encounter
+        //         Object.keys(enc).forEach(function(key) {
+        //             if (key === 'date' || key === 'Summary' || key === 'Encounter Details') return;
+        //             // Only build rows for additional keys
+        //             const row = elementCreator('div', { class: 'kv-row' }, [
+        //                 elementCreator('div', { class: 'k' }, key),
+        //                 elementCreator('div', { class: 'v' }, enc[key])
+        //             ]);
+        //             notes.append(row);
+        //         });
+
+        //         // Build modal content
+        //         const contentNode = elementCreator("div", { class: "encounter-modal-content" }, [
+        //             elementCreator("h3", {}, "Clinical Note - " + enc["Encounter Details"]["Date & Time"]),
+        //             notes
+        //         ]);
+
+        //         // Open full-frame modal
+        //         openFullFrameModal(contentNode);
+        //     });
+
+        //     container.append(item);
+        // });
+
+        // visitProblems.forEach(problem => {});
+
     }, delayMs);
 }
 
@@ -1812,6 +2213,50 @@ function downloadQuestionnaire(filename) {
     doc.save(filename);
 };
 
+function feedbackHandlers() {
+    const thumbsUpBtn = document.getElementById("thumbsUpBtn");
+    const thumbsDownBtn = document.getElementById("thumbsDownBtn");
+    const positiveFeedback = document.getElementById("positiveFeedback");
+    const negativeFeedback = document.getElementById("negativeFeedback");
+    const feedbackGroup = document.querySelector(".feedback-group");
+    const feedbackContainer = document.querySelector('.feedback-container');
+
+    thumbsUpBtn.addEventListener("click", () => {
+        feedbackGroup.classList.add("hidden"); // hide question + icons
+        positiveFeedback.classList.remove("hidden");
+        negativeFeedback.classList.add("hidden");
+    });
+
+    thumbsDownBtn.addEventListener("click", () => {
+        feedbackGroup.classList.add("hidden"); // hide question + icons
+        negativeFeedback.classList.remove("hidden");
+        positiveFeedback.classList.add("hidden");
+    });
+
+    // Dismiss buttons hide everything
+    document.querySelectorAll(".feedback-btn.dismiss").forEach(btn =>
+        btn.addEventListener("click", () => {
+            positiveFeedback.classList.add("hidden");
+            negativeFeedback.classList.add("hidden");
+            feedbackContainer.style.display = 'none';
+        })
+    );
+
+    // Dismiss buttons hide everything
+    document.querySelectorAll(".feedback-btn.submit").forEach(btn =>
+        btn.addEventListener("click", () => {
+            feedbackContainer.innerHTML = 'Thank you for the feedback!';
+            setTimeout(() => {
+                feedbackContainer.style.display = 'none';
+                feedbackContainer.style.backgroundColor = '#642bf3';
+            }, 30000);
+        })
+    );
+
+
+
+}
+
 // Initialize app
 function init() {
     renderCards();
@@ -1824,6 +2269,8 @@ function init() {
     // generateContent(visitDates[0], 'summary');
 
     loadEncounterSummary();
+    feedbackHandlers();
+
 };
 
 document.addEventListener('DOMContentLoaded', init);
