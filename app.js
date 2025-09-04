@@ -13,26 +13,196 @@ const ICONS = {
 };
 
 // Data model for right-pane cards (with icons)
-const listViewData = [{
+const listViewData = [
+    // {
+    //     id: 'medications',
+    //     title: 'Medications',
+    //     icon: ICONS.meds,
+    //     bullets: [
+    //         'Lisinopril 10mg daily',
+    //         'Metformin 500mg BID',
+    //         'PRN Ibuprofen'
+    //     ],
+    // },
+    {
         id: 'medications',
         title: 'Medications',
         icon: ICONS.meds,
-        bullets: [
-            'Lisinopril 10mg daily',
-            'Metformin 500mg BID',
-            'PRN Ibuprofen'
-        ],
+        bullets: [{
+                "name": "montelukast 4 MG chewable tablet",
+                "common_name": "Singulair",
+                "instructions": "Chew 1 tablet (4 mg total) every night.",
+                "prescription_status": "Expired",
+                "expiration_date": "June 23, 2023",
+                "prescription_details": {
+                    "prescribed_date": "June 23, 2022",
+                    "approved_by": "Physician"
+                },
+                "refill_details": {
+                    "quantity": "30 tablets",
+                    "day_supply": "30"
+                },
+                "pharmacy_details": {
+                    "name": "External Outpatient Pharmacy",
+                    "address": "1979 Milky Way, Verona WI 53593",
+                    "phone": "608-271-9000"
+                }
+            },
+            {
+                "name": "lisinopril 2.5 MG tablet",
+                "common_name": "PRINIVIL, ZESTRIL",
+                "instructions": "Take 1 tablet (2.5 mg total) by mouth 1 (one) time each day.",
+                "prescription_status": "Expired",
+                "expiration_date": "June 23, 2023",
+                "prescription_details": {
+                    "prescribed_date": "June 23, 2022",
+                    "approved_by": "Physician"
+                },
+                "refill_details": {
+                    "quantity": "30 tablets",
+                    "day_supply": "30"
+                },
+                "pharmacy_details": {
+                    "name": "External Outpatient Pharmacy",
+                    "address": "1979 Milky Way, Verona WI 53593",
+                    "phone": "608-271-9000"
+                }
+            },
+            {
+                "name": "cetirizine 10 MG tablet",
+                "common_name": "ZyrTEC",
+                "instructions": "Take 1 tablet (10 mg total) by mouth 1 (one) time each day.",
+                "prescription_status": "Expired",
+                "expiration_date": "July 2, 2024",
+                "prescription_details": {
+                    "prescribed_date": "July 2, 2018",
+                    "approved_by": "Physician"
+                },
+                "refill_details": {
+                    "quantity": "30 tablets",
+                    "day_supply": "30"
+                },
+                "pharmacy_details": {
+                    "name": "EMC Prescription Pharmacy West",
+                    "address": "123 Anywhere Street, Verona WI 53593",
+                    "phone": "555-555-5555"
+                }
+            },
+            {
+                "name": "raNITIdine 300 MG tablet",
+                "common_name": "ZANTAC",
+                "instructions": "Take 1 tablet (300 mg total) by mouth nightly.",
+                "prescription_status": "Prescribed",
+                "expiration_date": "",
+                "prescription_details": {
+                    "prescribed_date": "October 15, 2012",
+                    "approved_by": "Physician"
+                },
+                "refill_details": {
+                    "quantity": "30 tablets",
+                    "day_supply": "30"
+                },
+                "pharmacy_details": {
+                    "name": "External Outpatient Pharmacy",
+                    "address": "1979 Milky Way, Verona WI 53593",
+                    "phone": "608-271-9000"
+                }
+            },
+            {
+                "name": "levothyroxine 25 MCG tablet",
+                "common_name": "Levothroid",
+                "instructions": "Take 1 tablet (25 mcg total) by mouth daily.",
+                "prescription_status": "Prescribed",
+                "expiration_date": "",
+                "prescription_details": {
+                    "prescribed_date": "February 14, 2011",
+                    "approved_by": "Physician"
+                },
+                "refill_details": {
+                    "quantity": "30 tablets",
+                    "day_supply": "30"
+                },
+                "pharmacy_details": {
+                    "name": "External Outpatient Pharmacy",
+                    "address": "1979 Milky Way, Verona WI 53593",
+                    "phone": "608-271-9000"
+                }
+            }
+        ]
     },
     {
         id: 'labs',
         title: 'Recent Test Results',
         icon: ICONS.tests,
         entries: [
-            { label: 'CBC/CMP', value: 'within baseline', date: '2025-06-15' },
-            { label: 'B12', value: '520 pg/mL', date: '2025-07-10' },
-            { label: 'Folate', value: 'normal', date: '2025-07-10' },
-            { label: 'TSH', value: '1.8 µIU/mL', date: '2025-07-10' },
-            { label: 'ESR/CRP', value: 'normal', date: '2025-07-18' }
+            // { label: 'CBC/CMP', value: 'within baseline', date: '2025-06-15' },
+            // { label: 'B12', value: '520 pg/mL', date: '2025-07-10' },
+            // { label: 'Folate', value: 'normal', date: '2025-07-10' },
+            // { label: 'TSH', value: '1.8 µIU/mL', date: '2025-07-10' },
+            // { label: 'ESR/CRP', value: 'normal', date: '2025-07-18' }
+            {
+                label: 'POCT CBC',
+                date: '2012-10-28',
+                results: [
+                    { name: 'Hematocrit', value: '50' },
+                    { name: 'Hemoglobin', value: '15.25' },
+                    { name: 'RBC', value: '5.2' },
+                    { name: 'WBC', value: '5.6' },
+                    { name: 'MCV', value: '80' },
+                    { name: 'MCH', value: '26' },
+                    { name: 'MCHC', value: '31' },
+                    { name: 'RDW-CV', value: '13.3' },
+                    { name: 'Platelet Count, POC', value: '210' },
+                    { name: 'MPV', value: '11.2' },
+                ]
+            },
+            {
+                label: 'POCT CBC',
+                date: '2012-10-19',
+                results: [
+                    { name: 'Hematocrit', value: '45' },
+                    { name: 'Hemoglobin', value: '15' },
+                    { name: 'RBC', value: '5.1' },
+                    { name: 'WBC', value: '5.5' },
+                    { name: 'MCV', value: '80' },
+                    { name: 'MCH', value: '26' },
+                    { name: 'MCHC', value: '31' },
+                    { name: 'RDW-CV', value: '13.1' },
+                    { name: 'Platelet Count, POC', value: '200' },
+                    { name: 'MPV', value: '11.1' },
+                ]
+            },
+            {
+                label: 'CBC',
+                date: '2010-02-20',
+                results: [
+                    { name: 'Hgb, blood gas', value: '15' },
+                    { name: 'Hematocrit', value: '44.4' },
+                    { name: 'Neutrophils Absolute', value: '5.4' },
+                    { name: 'Lymphocytes Absolute', value: '1.2' },
+                    { name: 'Monocytes Absolute', value: '0.6' },
+                    { name: 'Eosinophils Absolute', value: '0.3' },
+                    { name: 'Platelets', value: '432' }
+                ]
+            },
+            {
+                label: 'LIPID PANEL',
+                date: '2010-02-20',
+                results: [
+                    { name: 'Triglycerides', value: '155' }
+                ]
+            },
+            {
+                label: 'CBC',
+                date: '2006-07-07',
+                results: [
+                    { name: 'Hgb, blood gas', value: '14.1' },
+                    { name: 'Hematocrit', value: '42.9' },
+                    { name: 'Neutrophils Absolute', value: '5' },
+                    { name: 'Lymphocytes Absolute', value: '1.1' },
+                    { name: 'Platelets', value: '375' }
+                ]
+            }
         ]
     },
     {
@@ -188,32 +358,37 @@ const visitProblems = [{
         course: [{
                 date: "2024-11-15",
                 status: "Suspected sleep apnea",
-                reason: "Morning headaches, poor sleep",
-                notes: "Sleep study recommended"
+                reason: "Morning headaches and poor sleep",
+                notes: "Sleep study recommended",
+                summary: "sleep apnea was suspected due to morning headaches and disrupted sleep; a sleep study was recommended."
             },
             {
                 date: "2025-01-10",
                 status: "Confirmed mild OSA",
                 reason: "Sleep study results",
-                notes: "CPAP initiated"
+                notes: "CPAP initiated",
+                summary: "diagnosis of mild obstructive sleep apnea was confirmed by sleep study; CPAP therapy was started."
             },
             {
                 date: "2025-04-18",
                 status: "Non-adherence",
-                reason: "Mask discomfort → stopped CPAP",
-                notes: "Headaches worsened"
+                reason: "Stopped CPAP due to mask discomfort",
+                notes: "Headaches worsened",
+                summary: "patient stopped using CPAP due to mask discomfort, leading to worsening headaches."
             },
             {
                 date: "2025-06-05",
                 status: "Improved adherence",
-                reason: "Mask switched",
-                notes: "Headaches reduced"
+                reason: "Switched to a more comfortable mask",
+                notes: "Headaches reduced",
+                summary: "CPAP adherence improved after switching to a more comfortable mask, resulting in fewer headaches."
             },
             {
                 date: "2025-08-20",
                 status: "Well controlled",
                 reason: "Consistent CPAP compliance",
-                notes: "Headaches resolved"
+                notes: "Headaches resolved",
+                summary: "sleep apnea became well controlled with consistent CPAP use; headaches resolved."
             }
         ],
         currentStatus: "Stable with CPAP",
@@ -232,32 +407,37 @@ const visitProblems = [{
         course: [{
                 date: "2024-11-15",
                 status: "Frequent morning headaches",
-                reason: "Likely related to sleep apnea and disrupted sleep",
-                notes: "Recommended sleep study"
+                reason: "Likely linked to untreated sleep apnea",
+                notes: "Sleep study recommended",
+                summary: "patient reported daily morning headaches, suspected to be due to sleep apnea."
             },
             {
                 date: "2025-01-10",
                 status: "Improved, ~2 headaches/week",
-                reason: "Initiation of CPAP and lifestyle adjustments",
-                notes: "Adhering to therapy"
+                reason: "Started CPAP and lifestyle changes",
+                notes: "Adhering to therapy",
+                summary: "headaches reduced after initiation of CPAP and lifestyle modifications."
             },
             {
                 date: "2025-04-18",
                 status: "Worsening, 4–5 headaches/week",
                 reason: "Stopped CPAP due to mask discomfort",
-                notes: "Restarted CPAP, referred to sleep specialist"
+                notes: "Restarted CPAP, referred to sleep specialist",
+                summary: "headaches worsened after stopping CPAP due to mask issues, but therapy was restarted with referral."
             },
             {
                 date: "2025-06-05",
                 status: "Reduced to 1–2 headaches/week",
-                reason: "Switched CPAP mask improved adherence",
-                notes: "Mild photophobia, otherwise stable"
+                reason: "Mask switched and adherence improved",
+                notes: "Mild photophobia, otherwise stable",
+                summary: "improved adherence with a new CPAP mask, headaches reduced."
             },
             {
                 date: "2025-08-20",
                 status: "Resolved, no headaches",
-                reason: "Consistent CPAP use and improved sleep hygiene",
-                notes: "Neurologically stable"
+                reason: "Consistent CPAP use and better sleep hygiene",
+                notes: "Neurologically stable",
+                summary: "headaches resolved with consistent CPAP compliance and improved sleep hygiene."
             }
         ],
         currentStatus: "Resolved with CPAP compliance",
@@ -265,21 +445,21 @@ const visitProblems = [{
         relatedConditions: ["Sleep Apnea", "Migraines", "Hypertension"],
         position: 2
     },
-    {
-        problem: "Hypertension",
-        onset: "Prior to 2024",
-        causes: ["Chronic condition"],
-        course: [{
-            date: "2024-11-15 → 2025-08-20",
-            status: "Controlled with Lisinopril",
-            reason: "Medication adherence",
-            notes: "BP stable at follow-ups"
-        }],
-        currentStatus: "Stable, well-controlled",
-        priority: "Medium",
-        relatedConditions: ["Headaches", "Sleep Apnea"],
-        position: 3
-    }
+    // {
+    //     problem: "Hypertension",
+    //     onset: "Prior to 2024",
+    //     causes: ["Chronic condition"],
+    //     course: [{
+    //         date: "2024-11-15 → 2025-08-20",
+    //         status: "Controlled with Lisinopril",
+    //         reason: "Medication adherence",
+    //         notes: "BP stable at follow-ups"
+    //     }],
+    //     currentStatus: "Stable, well-controlled",
+    //     priority: "Medium",
+    //     relatedConditions: ["Headaches", "Sleep Apnea"],
+    //     position: 3
+    // }
 ];
 
 // Clinical Summary data
@@ -416,20 +596,45 @@ function renderCards() {
     listViewData.forEach(section => {
         const bodyChildren = [];
         if (section.entries && section.entries.length) {
-            const grid = elementCreator('div', { class: 'kv' });
-            // Avoid Array.flatMap for broader compatibility
-            section.entries.forEach(function(e) {
-                grid.append(elementCreator('div', { class: 'k' }, e.label));
-                grid.append(elementCreator('div', { class: 'v' }, e.value));
-            });
-            bodyChildren.push(grid);
+            if (section.id === 'labs') {
+                // Show clickable test names
+                const list = elementCreator('ul', { class: 'bullets' });
+                section.entries.forEach(function(test) {
+                    const li = elementCreator('li', {});
+                    const when = test.date ? new Date(test.date).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: '2-digit' }) : '';
+                    const link = elementCreator('a', { href: '#', class: 'lab-test-link' }, test.label + (when ? ` — ${when}` : ''));
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        openLabResultsModal(test);
+                    });
+                    li.append(link);
+                    list.append(li);
+                });
+                bodyChildren.push(list);
+            } else {
+                const grid = elementCreator('div', { class: 'kv' });
+                section.entries.forEach(function(e) {
+                    grid.append(elementCreator('div', { class: 'k' }, e.label));
+                    grid.append(elementCreator('div', { class: 'v' }, e.value));
+                });
+                bodyChildren.push(grid);
+            }
         }
         if (section.bullets && section.bullets.length) {
-            const list = elementCreator('ul', { class: 'bullets' });
-            section.bullets.forEach(function(text) {
-                list.append(elementCreator('li', {}, text));
-            });
-            bodyChildren.push(list);
+            if (section.id === 'medications') {
+                const list = elementCreator('ul', { class: 'bullets' });
+                section.bullets.forEach(function(med) {
+                    const li = elementCreator('li', {});
+                    const link = elementCreator('a', { href: '#', class: 'medication-link' }, `${med.name} (${med.common_name})`);
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        openMedicationModal(med);
+                    });
+                    li.append(link);
+                    list.append(li);
+                });
+                bodyChildren.push(list);
+            }
         }
         if (section.highlight && section.highlight.length) {
             const h = elementCreator('div', { class: 'highlight' });
@@ -664,24 +869,84 @@ function loadEncounterSummary() {
                     copyButton
                 ]);
 
-                // --- Quick Summary ---
+                // --- Quick Summary (paragraph with date hyperlinks) ---
                 const summary = elementCreator("div", { class: "problem-summary" }, [
-                    elementCreator("p", {}, "🕒 Onset: " + problem.onset),
-                    elementCreator("p", {}, "📌 Status: " + problem.currentStatus),
-                    elementCreator("p", {}, "⚠️ Priority: " + problem.priority)
+                    elementCreator("h4", {}, "Summary"),
+                    (() => {
+                        const para = elementCreator("p", {}, []);
+
+                        problem.course.forEach((ev, idx) => {
+                            // format date
+                            const formattedDate = new Date(ev.date).toLocaleDateString("en-US", {
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric"
+                            });
+
+                            // create hyperlink with readable date
+                            const dateLink = elementCreator("a", {
+                                href: "#",
+                                class: "encounter-date-link"
+                            }, formattedDate);
+
+                            // click handler
+                            dateLink.addEventListener("click", (e) => {
+                                e.preventDefault();
+                                const matchingEnc = visitSamples.find(v => (v.date || "").startsWith(ev.date));
+                                if (matchingEnc) {
+                                    const notes = elementCreator('div', { class: 'kv-container notes-section' });
+                                    Object.keys(matchingEnc).forEach(function(key) {
+                                        if (key === 'date' || key === 'Summary' || key === 'Encounter Details') return;
+                                        const row = elementCreator('div', { class: 'kv-row' }, [
+                                            elementCreator('div', { class: 'k' }, key),
+                                            elementCreator('div', { class: 'v' }, matchingEnc[key])
+                                        ]);
+                                        notes.append(row);
+                                    });
+                                    const contentNode = elementCreator("div", { class: "encounter-modal-content" }, [
+                                        elementCreator("h3", {}, "Clinical Note - " + ((matchingEnc["Encounter Details"] && matchingEnc["Encounter Details"]["Date & Time"]) || formattedDate)),
+                                        notes
+                                    ]);
+                                    openFullFrameModal(contentNode);
+                                }
+                            });
+
+                            // add narrative text
+                            para.append(
+                                document.createTextNode(idx === 0 ? "On " : " Then on "),
+                                dateLink,
+                                // document.createTextNode(`, ${ev.summary} `)
+                                document.createTextNode(`, ${ev.status.toLowerCase()} (${ev.reason}). `)
+                            );
+                        });
+
+                        return para;
+                    })()
                 ]);
+
+                // Cloning the chief complaint, assessment, and plan to the visitProblems JSON
+                problem.course = problem.course.map(ev => {
+                    // find matching encounter in visitSamples by date
+                    const sample = visitSamples.find(v => v.date === ev.date);
+                    if (sample) {
+                        return {
+                            ...ev,
+                            chief_complaint: sample["Chief Complaint"] || ev.chief_complaint,
+                            assessment: sample["Assessment"] || ev.assessment,
+                            plan: sample["Plan"] || ev.plan
+                        };
+                    }
+                    return ev; // fallback to existing if not found
+                });
 
                 // --- Collapsible Details ---
                 const details = elementCreator("div", { class: "problem-details hidden" }, [
-                    elementCreator("div", { class: "problem-causes" }, [
-                        elementCreator("h4", {}, "Causes"),
-                        elementCreator("ul", {}, problem.causes.map(c => elementCreator("li", {}, c)))
-                    ]),
                     elementCreator("div", { class: "problem-course" }, [
                         elementCreator("h4", {}, "Course Timeline"),
                         elementCreator("ul", { class: "timeline" }, problem.course.map(ev => {
                             const dateLink = elementCreator("a", { href: "#", class: "timeline-date encounter-date-link" }, ev.date);
-                            // open clinical note from visitSamples if available; fallback to problem context
+
+                            // modal opening logic same as before...
                             dateLink.addEventListener("click", (e) => {
                                 e.preventDefault();
                                 const matchingEnc = visitSamples.find(v => (v.date || "").startsWith(ev.date));
@@ -700,44 +965,21 @@ function loadEncounterSummary() {
                                         notes
                                     ]);
                                     openFullFrameModal(contentNode);
-                                } else {
-                                    const notes = elementCreator('div', { class: 'kv-container notes-section' });
-                                    const rows = [
-                                        ["Problem", problem.problem],
-                                        ["Status", ev.status],
-                                        ["Reason", ev.reason],
-                                        ["Notes", ev.notes]
-                                    ];
-                                    rows.forEach(([k, v]) => {
-                                        const row = elementCreator('div', { class: 'kv-row' }, [
-                                            elementCreator('div', { class: 'k' }, k),
-                                            elementCreator('div', { class: 'v' }, v)
-                                        ]);
-                                        notes.append(row);
-                                    });
-                                    const contentNode = elementCreator("div", { class: "encounter-modal-content" }, [
-                                        elementCreator("h3", {}, "Clinical Note - " + ev.date),
-                                        notes
-                                    ]);
-                                    openFullFrameModal(contentNode);
                                 }
                             });
 
                             return elementCreator("li", { class: "timeline-item" }, [
                                 dateLink,
                                 elementCreator("div", { class: "timeline-content" }, [
-                                    elementCreator("strong", {}, ev.status),
-                                    elementCreator("p", {}, "Reason: " + ev.reason),
-                                    elementCreator("p", {}, "Notes: " + ev.notes)
+                                    elementCreator("p", {}, "🩺 Chief Complaint: " + ev.chief_complaint),
+                                    elementCreator("p", {}, "🧾 Assessment: " + ev.assessment),
+                                    elementCreator("p", {}, "📝 Plan: " + ev.plan)
                                 ])
                             ]);
                         }))
-                    ]),
-                    elementCreator("div", { class: "problem-related" }, [
-                        elementCreator("h4", {}, "Related Conditions"),
-                        elementCreator("ul", {}, problem.relatedConditions.map(r => elementCreator("li", {}, r)))
                     ])
                 ]);
+
 
                 // --- Toggle Button ---
                 const toggleBtn = elementCreator("button", { class: "toggle-btn" }, "View Details");
@@ -1799,6 +2041,101 @@ function openFullFrameModal(contentNode) {
         }
     });
     sheet.append(closeBtn, contentNode);
+    overlay.append(sheet);
+    mainPane.append(overlay);
+}
+
+// Modal for medications grid
+function openMedicationModal(med) {
+    const mainPane = document.querySelector('.main-pane');
+    if (!mainPane) return;
+    if (!mainPane.style.position) mainPane.style.position = 'relative';
+
+    const overlay = elementCreator('div', { class: 'modal-overlay med-modal-overlay', role: 'dialog', 'aria-modal': 'true' });
+    const sheet = elementCreator('div', { class: 'modal-sheet med-modal-sheet' });
+    const closeBtn = elementCreator('button', { class: 'modal-close', 'aria-label': 'Close' }, '×');
+    closeBtn.addEventListener('click', function() { mainPane.removeChild(overlay); });
+    overlay.addEventListener('click', function(e) { if (e.target === overlay) mainPane.removeChild(overlay); });
+
+    // Title
+    const title = elementCreator('h3', { class: 'med-modal-title' }, med.name);
+
+    // Common name
+    const commonName = med.common_name ?
+        elementCreator('p', { class: 'med-common-name' }, `Commonly known as: ${med.common_name}`) :
+        null;
+
+    // Instructions + status
+    const instructions = elementCreator('p', { class: 'med-instructions' }, med.instructions || '');
+    const status = elementCreator('p', { class: 'med-status' }, `Prescription ${med.prescription_status.toLowerCase()}${med.expiration_date ? ' on ' + med.expiration_date : ''}`);
+
+    // Details grid
+    const grid = elementCreator('div', { class: 'med-details-grid' }, [
+        // Prescription details
+        elementCreator('div', { class: 'kv-row' }, [
+            elementCreator('div', { class: 'k' }, 'Prescribed'),
+            elementCreator('div', { class: 'v' }, med.prescription_details.prescribed_date)
+        ]),
+        elementCreator('div', { class: 'kv-row' }, [
+            elementCreator('div', { class: 'k' }, 'Approved by'),
+            elementCreator('div', { class: 'v' }, med.prescription_details.approved_by)
+        ]),
+
+        // Refill details
+        elementCreator('div', { class: 'kv-row' }, [
+            elementCreator('div', { class: 'k' }, 'Quantity'),
+            elementCreator('div', { class: 'v' }, med.refill_details.quantity)
+        ]),
+        elementCreator('div', { class: 'kv-row' }, [
+            elementCreator('div', { class: 'k' }, 'Day supply'),
+            elementCreator('div', { class: 'v' }, med.refill_details.day_supply)
+        ]),
+
+        // Pharmacy details
+        elementCreator('div', { class: 'kv-row' }, [
+            elementCreator('div', { class: 'k' }, 'Pharmacy'),
+            elementCreator('div', { class: 'v' }, med.pharmacy_details.name)
+        ]),
+        elementCreator('div', { class: 'kv-row' }, [
+            elementCreator('div', { class: 'k' }, 'Address'),
+            elementCreator('div', { class: 'v' }, med.pharmacy_details.address)
+        ]),
+        elementCreator('div', { class: 'kv-row' }, [
+            elementCreator('div', { class: 'k' }, 'Phone'),
+            elementCreator('div', { class: 'v' }, med.pharmacy_details.phone)
+        ]),
+    ]);
+
+    sheet.append(closeBtn, title, commonName, instructions, status, grid);
+    overlay.append(sheet);
+    mainPane.append(overlay);
+}
+
+
+// Modal for lab results grid (name/value tiles)
+function openLabResultsModal(test) {
+    const mainPane = document.querySelector('.main-pane');
+    if (!mainPane) return;
+    if (!mainPane.style.position) mainPane.style.position = 'relative';
+
+    const overlay = elementCreator('div', { class: 'modal-overlay lab-modal-overlay', role: 'dialog', 'aria-modal': 'true' });
+    const sheet = elementCreator('div', { class: 'modal-sheet lab-modal-sheet' });
+    const closeBtn = elementCreator('button', { class: 'modal-close', 'aria-label': 'Close' }, '×');
+    closeBtn.addEventListener('click', function() { mainPane.removeChild(overlay); });
+    overlay.addEventListener('click', function(e) { if (e.target === overlay) mainPane.removeChild(overlay); });
+
+    const title = elementCreator('h3', { class: 'lab-modal-title' }, test.label + ' — Results');
+    const date = elementCreator('h4', { class: 'lab-modal-title' }, test.date);
+    const grid = elementCreator('div', { class: 'lab-results-grid' });
+    (test.results || []).forEach(function(r) {
+        const tile = elementCreator('div', { class: 'lab-tile' }, [
+            elementCreator('div', { class: 'lab-name' }, r.name),
+            elementCreator('div', { class: 'lab-value' }, r.value)
+        ]);
+        grid.append(tile);
+    });
+
+    sheet.append(closeBtn, title, date, grid);
     overlay.append(sheet);
     mainPane.append(overlay);
 }

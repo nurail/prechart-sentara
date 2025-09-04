@@ -1,0 +1,2024 @@
+var d = new Date();
+var n = d.toISOString();
+
+const EPIC_CONFIG = {
+  "DEV": {
+    PRIVATE_KEY : `-----BEGIN RSA PRIVATE KEY-----
+MIIEogIBAAKCAQEAyXgZo1aNzgpBJxexFoeOiZzDR4hI869T8BDqz3JrTEjAZeSC
+fmXV4Dcl8nHsvJJZ0GVoaa6kQHFyhmkImJsBJRDBtCqLNH9/t2F2zUb+Zsq9G1Th
+WexkcveSbRfOUOp9Xhiri+MYrgClyyI6PHWzNvZQdosaG+oTA7d9CBcjknTKsCJM
+DXD+UtpX+Oeg/eXF1WelkdK5qd+46BinHR0uBpRM9Go3CgILopQVaDGzsQW33JgX
+lhbFwAzfGmwD/tD/09XT16PpodKHRjYxmbR8xpUOUHFONYsY9mT1yVw8R5+9e36z
+4MMfMYjOtHMHeBELTh9nzYWQx5nGQtLdrM9YIQIDAQABAoIBABOPiJW2QqBdmIPO
+JhB06t7rjH42ejbGsBSf39xyVH6clamO7SiOhJx3XkTS0NRiNTwpjGCuZx4mpaLt
+Mbt3WT4bCWOPueJH+sN4QAugN/UM/B1aOWL8s6gB54KWDB8JFVD8fjNfwjaqs24s
+jZDvMI5GjftkeA17xYrX1tjhPj/q0NwgdvBIHGryjUE928LvE8F+4eWA5ZhWuZoz
+En0ccfWo9W/SmEKPtv9JYRaU5ApqrmxBjBB6vg2cDZISsBcuvSjZR4HxiU+IM01R
+u0dQ+60+uk0OtLC40/1uxpPf6cTkNevxh90AeLjqwvB6hizyYCpZKC1Wu1N5056X
+wDRbCi0CgYEA7JMiq70uvOoONQaSx+yr++QM11SutWl6AOLhkcX2NWqlY4cDv6pt
+DYsWaYDAXwj9hAMRwZf7x9ULJxRfsQbkjqqaVHDq3LmTZZPyIlrolfQFDraaM7Us
+iKgnBa703sEF5O8ZnuEBScVJKTd7lh56VilOcL+L1uFRq003JUXHyt8CgYEA2gMJ
+FAhcdYIa3RImntvsjgNvBt7snMOK77SP2VikvEGIrUnVWBDtpIiwtio6yl1Uz9WA
+sMGad7AaF7ERBlSgWTLzd4wERm/j7lax83FRbxTE4eCwh9Yf2khq6uMQb+E0oNHw
+VbY9HhE5GCQx39mWLhgW/SZmfQTuyP0d69DAPP8CgYAUXc5cTpsZdGTot7onL/7W
+XpmkaAvqXjw8m0ukCxDZJGc8nED8XSWqRtEVIBpvlAyPMtxyeC0a1QJyyNQ8H0XJ
+6nIC1v3BJtDDq+rqfj0Lu8g7rgi0buJ4mVFSse8uxhtFzDe+b8x2l19nBvnCwLjz
+dfbkyfi19Qvc3Xbj5JAArQKBgA7ffCQQufYOTTTdwyK9UDMUCuQGG1BKitT1lYa3
+ZG2vbtqbmeFrLjs2VA/pa59YpKuVHjVwz8/whKcvHkE3TsUnE7MJK1V+1qbw5Sz9
+gxe37AKY6JIrynqCzECAAyQO0h9SkznVt++wLxv1hC2IU5WLcS4OC5nl10CA/CSV
+VjgTAoGAPSpkhHPowuC72tDMpdbt15ZaeY1+ILat+0ezGb+p0IeDf12U3L5yIN2a
+Sr8yRa7B6LfKEN5WhMXigqeK7TRv/nkVU0n7Vlczqtd3sOpyiQ79kju7CplyEmfb
+GYc2lWKHNl67ZuxQP4/ImhCSvdNWQojuF56xk7Ig2qjYhnURB6I=
+-----END RSA PRIVATE KEY-----`,
+    CLIENT_ID_OAUTH: "93a97e42-812e-4894-831c-b12b4bfb21bc",
+    PROXY_URL_REST_OAUTH_TOKEN: "https://SPNP.corp.saint-lukes.org/TST-AvaamoFG/oauth2/token",
+    PROXY_URL_FHIR: "https://SPNP.corp.saint-lukes.org/TST-AvaamoFG/api/FHIR",
+    PROXY_URL_REST_OAUTH: "https://SPNP.corp.saint-lukes.org/TST-AvaamoBG/api/epic/",
+    PROXY_URL_SOAP: "https://en17rp.deaconess.com/Avaamo-TST/wcf/",
+    PROXY_URL_TOKEN: "https://b1oi5x7mv1.execute-api.us-east-2.amazonaws.com/jwt?", // Lambda
+    BasicUsername: "7037",
+    BasicPassword: "uTE@RebuLtYp",
+    BASIC_AUTH_EMP: function () {
+      return `Basic ${Buffer.from('emp:' + this.BasicUsername + ":" + this.BasicPassword).toString('base64')}`
+    },
+    BASIC_AUTH_WPR: function () {
+      return `Basic ${Buffer.from('emp$' + this.BasicUsername + ":" + this.BasicPassword).toString('base64')}`
+    },
+    SOAP_HEADER: function () {
+      return `<soapenv:Header><wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"><wsse:UsernameToken wsu:Id="UsernameToken-C8E1773AE4951B6E2115453090229033"><wsse:Username>emp:${this.BasicUsername}</wsse:Username><wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">${this.BasicPassword}</wsse:Password><wsse:Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">QGHaTbzfgGKIN50Z6uF7bQ==</wsse:Nonce><wsu:Created>${n}</wsu:Created></wsse:UsernameToken></wsse:Security></soapenv:Header>`;
+    }
+  }
+}
+
+/*
+Patient.Search - BEARER_TOKEN | PROXY_URL_FHIR | CLIENT_ID_OAUTH 
+GetPatientDemographics (2017) - BEARER_TOKEN | PROXY_URL_REST_OAUTH | CLIENT_ID_OAUTH
+GetPatientIdentifiers (2015) - BEARER_TOKEN | PROXY_URL_REST_OAUTH | CLIENT_ID_OAUTH
+GetPatientFlags (2011) - BEARER_TOKEN | PROXY_URL_REST_OAUTH | CLIENT_ID_OAUTH
+GetFutureAppointments (2014) - BEARER_TOKEN | PROXY_URL_REST_OAUTH | CLIENT_ID_OAUTH
+CancelAppointment (2014) - BEARER_TOKEN | PROXY_URL_REST_OAUTH | CLIENT_ID_OAUTH
+*/
+
+const ENDPOINT_CONFIG = () => {
+  return {
+    BackendOAuthToken: EPIC_CONFIG[context.ENV].PROXY_URL_REST_OAUTH_TOKEN,
+    PatientSearchR4: `${EPIC_CONFIG[context.ENV].PROXY_URL_FHIR}/R4/Patient?`,
+    CreatePatient: `${EPIC_CONFIG[context.ENV].PROXY_URL_FHIR}/R4/Patient`,
+    GetPatientIdentifiers2015: `${EPIC_CONFIG[context.ENV].PROXY_URL_REST_OAUTH}2015/Common/Patient/GetPatientIdentifiers/Patient/Identifiers`,
+    GetPatientDemographics2017: `${EPIC_CONFIG[context.ENV].PROXY_URL_REST_OAUTH}2017/Common/Patient/GetPatientDemographics/Patient/Demographics`,
+    CancelAppointment2014: `${EPIC_CONFIG[context.ENV].PROXY_URL_REST_OAUTH}2014/PatientAccess/External/CancelAppointment/Scheduling/Cancel`,
+    GetOpenSlots2019: `${EPIC_CONFIG[context.ENV].PROXY_URL_REST_OAUTH}2019/PatientAccess/External/GetOpenSlots/Epic/Patient/Scheduling2019/GetOpenSlots`,
+    GetPatientAppointments2013: `${EPIC_CONFIG[context.ENV].PROXY_URL_REST_OAUTH}2013/Scheduling/Patient/GETPATIENTAPPOINTMENTS/GetPatientAppointments`,
+    ScheduleAppointment2019: `${EPIC_CONFIG[context.ENV].PROXY_URL_REST_OAUTH}2019/PatientAccess/External/ScheduleAppointment/Epic/Patient/Scheduling2019/ScheduleAppointment`,
+    GetPatientFlags2011:
+    `${EPIC_CONFIG[context.ENV].PROXY_URL_REST_OAUTH}2011/Billing/Patient/GetPatientFlags/Billing/Patient/Flag?`,
+    ApptConfirmation2020: `${EPIC_CONFIG[context.ENV].PROXY_URL_REST_OAUTH}2020/Scheduling/Patient/PatientAutomatedAppointmentConfirmationResponse/PatientAutomatedAppointmentConfirmationResponse?`,
+    GetVisitType2019: `${EPIC_CONFIG[context.ENV].PROXY_URL_REST_OAUTH}2019/PatientAccess/External/GetVisitTypes/Epic/Patient/Scheduling2019/GetVisitTypes`,
+    GetProviders2019:`${EPIC_CONFIG[context.ENV].PROXY_URL_REST_OAUTH}2019/PatientAccess/External/GetProviders/Epic/Patient/Scheduling2019/GetProviders`,
+    GetPrescriptionInfo2018:
+    `${EPIC_CONFIG[context.ENV].PROXY_URL_SOAP}Epic.Clinical.Pharmacy.WebServices2018/PharmacyServices2018.svc/basic`,
+    RequestFills2018: `${EPIC_CONFIG[context.ENV].PROXY_URL_SOAP}Epic.Clinical.Pharmacy.WebServices2018/PharmacyServices2018.svc/basic`,
+    GetMyChartAccessCode2021: `${EPIC_CONFIG[context.ENV].PROXY_URL_REST_OAUTH}/2021/PatientAccess/Patient/GETMYCHARTACCESSCODE2021`,
+    GetFutureAppointments2014: `${EPIC_CONFIG[context.ENV].PROXY_URL_REST_OAUTH}2014/PatientAccess/External/GetFutureAppointments/Scheduling/Future`,
+    GetFutureAppointments2019: `${EPIC_CONFIG[context.ENV].PROXY_URL_REST_OAUTH}2019/PatientAccess/External/GetFutureAppointments/Epic/Patient/Scheduling2019/GetFutureAppointments`,
+    GetPastAppointments2015: `${EPIC_CONFIG[context.ENV].PROXY_URL_REST_OAUTH}2015/PatientAccess/External/GetPastAppointments/Scheduling/Past`,
+    GetPatientBalance: `${EPIC_CONFIG[context.ENV].PROXY_URL_REST_OAUTH}2014/PatientAccess/External/GetPatientBalance/Patient/GetBalance`,
+    GetAccountBillingSummary: `${EPIC_CONFIG[context.ENV].PROXY_URL_REST_OAUTH}2012/Billing/Account/GetPatientBillingDetails/Patient/Billing`,
+    PostPatientMadePayments: `${EPIC_CONFIG[context.ENV].PROXY_URL_REST_OAUTH}2019/PatientAccess/Patient/POSTPATIENTMADEPAYMENTS`,
+    EncounterSearch: `${EPIC_CONFIG[context.ENV].PROXY_URL_REST_OAUTH}api/FHIR/R4/Encounter`,
+    SendResetPassword: `${EPIC_CONFIG[context.ENV].PROXY_URL_REST_OAUTH}2025/PatientAccess/Patient/SendPasswordReset`,
+    GetPreferredAndRecentPharmacies: `${EPIC_CONFIG[context.ENV].PROXY_URL_REST_OAUTH}2013/Clinical/Utility/GETPREFERREDANDRECENTPHARMACIES/Clinical/Utility/Pharmacies/PreferredAndRecent`,
+    GetScheduleDaysForProvider2: `${EPIC_CONFIG[context.ENV].PROXY_URL_REST_OAUTH}2017/PatientAccess/External/GetScheduleDaysForProvider2/Scheduling/Open/Provider/GetScheduleDays2`, ScheduleAppointmentWithInsurance2019:`${EPIC_CONFIG[context.ENV].PROXY_URL_REST_OAUTH}2019/PatientAccess/External/ScheduleAppointmentWithInsurance/Scheduling2019/Open/ScheduleWithInsurance?`,
+    LoadCommunicationPreferences: `${EPIC_CONFIG[context.ENV].PROXY_URL_REST_OAUTH}2020/PatientAccess/Patient/LOADCOMMUNICATIONPREFERENCES/Epic/Patient/LoadCommunicationPreferences`,
+    SearchPharmacies: `${EPIC_CONFIG[context.ENV].PROXY_URL_REST_OAUTH}2013/Clinical/Utility/SEARCHPHARMACIES/Clinical/Utility/Pharmacies/Search`,
+    UpdateDemographics: `${EPIC_CONFIG[context.ENV].PROXY_URL_REST_OAUTH}2013/PatientAccess/Patient/UpdatePatientDemographics/Patient/UpdateDemographics`
+  }
+}
+
+
+//API Config
+
+const API_CONFIG = {
+//   GetbackendOAuthToken: (d) => {
+//     let env = context.ENV
+//     if (env === "") {
+//       return {
+//         status: "fail",
+//         error_code: "100",
+//         message: "ENV parameter missing",
+//       };
+//     }
+
+//     var privateKey = EPIC_CONFIG[context.ENV].PRIVATE_KEY;
+//     var client_id = EPIC_CONFIG[context.ENV].CLIENT_ID_OAUTH;
+//     var oautURL = ENDPOINT_CONFIG().BackendOAuthToken;
+//     console.log("\n\n>>client_id, oautURL: ", client_id, oautURL);
+
+//     let sKey = `${env.toUpperCase()}-BearerToken`;
+//     let storedValue = await (Storage.global.get(sKey)) || "";
+//     //console.log("\n\n>>storedValue CRK", storedValue);
+//     if (storedValue) {
+//       try {
+//         storedValue = JSON.parse(storedValue);
+//         var ttl = storedValue.ttl;
+//         var now = Math.floor(Date.now() / 1000);
+//         //         console.log((now < ttl) ? "Token is still valid." : "Token is invalid.");
+//         if (now < ttl) {
+//           //console.log("Token is still valid.");
+
+//           return {
+//             status: "success",
+//             error_code: "",
+//             code_type: "existing",
+//             message: storedValue,
+//           };
+//         }
+//       } catch (error) {
+//         //sendAPIErrorEmail(error, "Error in Fetching Global Storage Token")
+//         console.log(
+//           "error in fetching the global storage value",
+//           error,
+//           storedValue
+//         );
+//       }
+//     }
+
+//     var timeStamp = Math.floor(Date.now() / 1000) + 240; //required in seconds
+//     var jti = uuid.v4();
+//     var token = JWT.sign({
+//       iss: client_id, //oauthURLEncoded,
+//       sub: client_id,
+//       aud: oautURL, //oauthURLEncoded,
+//       jti: jti,
+//       exp: timeStamp,
+//     },
+//                          privateKey, {
+//                            algorithm: "RS384",
+//                            header: {
+//                              alg: "RS384",
+//                              typ: "JWT",
+//                            },
+//                          });
+
+//     //console.log("\ntoken", token);
+//     var formDataPairs = [];
+//     var formData = "";
+//     formDataPairs.push(encodeURIComponent("grant_type") + "=" + encodeURIComponent("client_credentials"));
+//     formDataPairs.push(encodeURIComponent("client_assertion_type") + "=" + encodeURIComponent("urn:ietf:params:oauth:client-assertion-type:jwt-bearer"));
+//     formDataPairs.push(encodeURIComponent("client_assertion") + "=" + encodeURIComponent(token));
+//     formData = formDataPairs.join("&").replace(/%20/g, "+");
+
+//     //console.log("\nformdata", formData);
+
+//     var requestOptions = {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/x-www-form-urlencoded",
+//       },
+//       body: formData,
+//       timeout: 5000
+//     };
+//     //console.log("\nrequestOptions", requestOptions);
+//     let startTime = new Date();
+//     let statusCode = "";
+//     return await (fetch(oautURL, requestOptions)
+//                   .then((res) => {
+//                     //console.log("\n GetbackendOAuthToken res", res);
+//                     statusCode = res.status;
+//                     return res.text();
+//                   })
+//                   .then((result) => {
+//                     let responseTime = (new Date() - startTime) / 1000;
+//                     //                     console.log("\nAuth token API responseTime>",responseTime);
+//                     console.log("\n GetbackendOAuthToken result", result);
+//                     try {
+//                       result = JSON.parse(result);
+//                     } catch(e) {
+//                       //
+//                     }
+//                     if (typeof result.access_token === "undefined") {
+//                       return {
+//                         status: "error",
+//                         error_code: statusCode,
+//                         message: result.error,
+//                       };
+//                     } else if (result.access_token) {
+//                       let expiry = parseInt(result.expires_in) - 300; //5 minute before the actual time
+
+//                       let json = {
+//                         env: "DEV",
+//                         access_token: result.access_token,
+//                         token_type: "bearer",
+//                         scope: result.scope,
+//                         created_on: Math.round(Date.now() / 1000),
+//                         ttl: Math.round(Date.now() / 1000) + expiry,
+//                       };
+
+//                       Storage.global.set("sKey", json);
+//                       return {
+//                         status: "success",
+//                         error_code: "",
+//                         code_type: "new",
+//                         message: json,
+//                       };
+//                     }
+//                     return {
+//                       status: "un-processed",
+//                       error_code: "102",
+//                       message: "The request could not be processed",
+//                     };
+//                   })
+//                   .catch((error) => {
+//                     console.log("\nError in Token API call=" + error);
+//                     //sendAPIErrorEmail(error, "Error in Token API call")
+//                     return {
+//                       status: "error",
+//                       error_code: statusCode,
+//                       message: "Unable to access the Token API",
+//                     };
+//                   }));
+
+//   },
+  GetbackendOAuthToken: () => {
+  const customer = "slhs";
+  const env = "tst";
+  console.log("Botstate",env);
+  console.log("CUSTOMER",customer);
+
+  var proxyURL = EPIC_CONFIG[context.ENV].PROXY_URL_TOKEN  + "env=" + env + "&customer=" + customer;
+  console.log("proxyURL",proxyURL);
+  var returnResult = await(fetch(proxyURL, {
+  method: 'GET',
+})
+.then(function (response) {
+    return response.json();
+    }).then(function (result) {
+    
+      if (result.status === "success")
+        {
+          console.log("Acess token",result);
+          return ({ "status": 1, "message": result.message });
+        }
+      else
+        {
+          console.log("Error ===>",result);
+          return ({ "status": 0, "result": "Error getting the token: "+result.error_code });
+        }
+    }).catch(function (error) {
+            console.log("\n" + gtcl() + ":GetAccessToken Error=", error);
+            return { "status": 0, "result": error };
+    })); 
+  
+  return returnResult;
+
+/*
+{
+  "status": "success",
+  "error_code": "",
+  "code_type": "existing",
+  "message": {
+    "token_type": "bearer",
+    "ttl": 1628676974,
+    "customer": "slhs",
+    "scope": "system/Patient.Read",
+    "id": "slhs-tst",
+    "env": "tst",
+    "access_token": "8PIOAKm_apAAv8r0zSFjf5stw26aQeH8dX_5QNZpGZHRdzoSCSJyy2d-Wz1TKvFo_3nwutoKUbrwfyUYr3qaS1IRwCkL_Q1SRHFPFtB_5ugmz0k_oQfbFmiLnP_b9iRI",
+    "created_on": 1628673674
+  }
+}
+
+*/
+  
+},
+  PatientSearchR4: (FHIRID, SSN, given_name, family_name, dob, address_postalcode, telecom) => {
+
+    let token = API_CONFIG.GetbackendOAuthToken();
+    token = (token && token.message && token.message.access_token) ? token.message.access_token : "failed";
+
+    if (token === "failed") {
+      console.log("\nToken Call Failed in PatientSearchR4 EPIC API");
+      //       return {
+      //         "status": 0,
+      //         "result": "Failed, Check Token API"
+      //       }
+    }
+
+    dob = dob ? moment(dob).format("YYYY-MM-DD") : dob;
+    let url = ENDPOINT_CONFIG().PatientSearchR4;
+
+    if (FHIRID) {
+      url = url + '_id=' + FHIRID;
+    } else if (SSN) {
+      url = url + 'identifier=' + SSN;
+    } else if (given_name) {
+      url = url + 'given=' + given_name;
+      url = url + '&family=' + family_name || "";
+      url = url + '&birthdate=' + dob;
+
+      if (address_postalcode)
+        url = url + '&address-postalcode=' + address_postalcode;
+
+      if (telecom) 
+        url = url + '&telecom=' + telecom;
+
+    } else if (dob) {
+      url = url + 'birthdate=' + dob;
+      //url = url + '&given=az';
+      if (family_name)
+        url = url + '&family=' + family_name;
+
+      if(address_postalcode)
+        url = url + '&address-postalcode=' + address_postalcode;
+
+      if (telecom)
+        url = url + '&telecom=' + telecom;
+    }
+
+    console.log("\n Patient.SearchR4 URL=", url)
+    var APIStatus;
+    //  console.log("url ----->", url)
+    let startTime = new Date();
+    var returnResult = await (fetch(url, {
+      method: 'GET',
+      headers: {
+        "Epic-Client-ID": EPIC_CONFIG[context.ENV].CLIENT_ID_OAUTH,
+        "Authorization": `Bearer ${token}`,
+        "Accept": "application/json+fhir"
+      },
+      timeout: 5000
+    }).then(function (response) {
+      console.log("\n:Patient.SearchR4 response=", response.status);
+      if (response.status !== 200 && response.status !== 201 && response.status !== 203) {
+        context.variables.APIStatus = 0;
+        APIStatus = 0;
+      } else if (response.status === 201 || response.status === 200 || response.status === 203) {
+        context.variables.APIStatus = 1;
+        APIStatus = 1;
+      } else {
+        APIStatus = 0;
+        context.variables.APIStatus = 0;
+      }
+      //return response.text();
+      return response.json();
+    }).then(function (result) {
+      console.log("\n:Patient.SearchR4 result=", result);
+      return {
+        "status": APIStatus,
+        "result": result
+      };
+    }).catch(function (error) {
+      //             console.log("\n" + gtcl() + ":Patient.SearchR4 Error=", error);
+      //sendAPIErrorEmail( error,"Patient.SearchR4()");
+      return {
+        "status": 0,
+        "result": JSON.stringify(error)
+      };
+    }))
+
+    //     console.log("\nPatient Search API responseTime>",(new Date() - startTime) / 1000);                     
+    //         console.log("\n returnResult........", returnResult)
+    return returnResult;
+  },
+  GetFutureAppointments2014: (patientId, idType) => {
+    let url = ENDPOINT_CONFIG().GetFutureAppointments2014;
+    var APIStatus;
+
+    let token = API_CONFIG.GetbackendOAuthToken();
+    token = (token && token.message && token.message.access_token) ? token.message.access_token : "failed";
+
+    if (token === "failed") {
+      console.log("\nToken Call Failed in PatientSearchR4 EPIC API");
+      return {
+        "status": 0,
+        "result": "Failed, Check Token API"
+      }
+    }
+    //console.log("BasicUsername: ", EPIC_CONFIG[context.ENV].BasicUsername);
+
+    let body = JSON.stringify({
+      "Patient": {
+        "ID": patientId,
+        "Type": idType
+      },
+      "User": {
+        "ID": EPIC_CONFIG[context.ENV].BasicUsername,
+        "Type": "External"
+      }
+    });
+
+    let args = {
+      "method": "POST",
+      "body": body,
+      "headers": {
+        "Epic-Client-ID": EPIC_CONFIG[context.ENV].CLIENT_ID_OAUTH,
+        "Authorization": `Bearer ${token}`,
+        "Accept" : "application/json",
+        "Content-Type": "application/json"
+      },
+      "timeout": 5000
+    };
+    let startTime = new Date();
+
+    let jsonResponse = await (fetch(url, args)
+                              .then(function (response) {
+                                console.log("\n:getFutureAppointment2014 response=", response);
+                                if (response.status !== 200 && response.status !== 201 && response.status !== 203) {
+                                  context.variables.APIStatus = 0;
+                                  APIStatus = 0;
+                                } else if (response.status === 201 || response.status === 200 || response.status === 203) {
+                                  context.variables.APIStatus = 1;
+                                  APIStatus = 1;
+                                } else {
+                                  APIStatus = 0;
+                                  context.variables.APIStatus = 0;
+                                }
+                                return response.json();
+                              })
+                              .then(function (json) {
+                                console.log("\n:getFutureAppointment2014 result=", result);
+                                //return { "status": APIStatus, "result": result };
+                                // console.log("\nJSON", json);
+                                if (json && json.Errors) return "failed";
+
+                                if (json && json.Appointments && json.Appointments.length === 0) return "No appointments"
+
+                                return json;
+                              }).catch(function (error) {
+                                console.log("\n:getFutureAppointment2014 Error=", error);
+                                sendAPIErrorEmail( error,"getFutureAppointment2014 Error");
+                                return "failed";
+                                //return { "status": 0, "result": JSON.stringify(error) };
+                              }));
+    //     console.log("\nGetFutureAppointments2014 API responseTime>",(new Date() - startTime) / 1000);
+    return jsonResponse;
+  },
+  GetPatientIdentifiers2015: (id, idType) => {
+
+    let request_url = ENDPOINT_CONFIG().GetPatientIdentifiers2015;
+
+    let APIStatus = 0;
+
+    let token = API_CONFIG.GetbackendOAuthToken();
+    //console.log("\n token abc: ",token)
+    // console.log("\n token received: ")
+    token = (token && token.message && token.message.access_token) ? token.message.access_token : "failed";
+
+    if (token === "failed") {
+      console.log("\nToken Call Failed in GetPatientIdentifiers2015 EPIC API");
+      return {
+        "status": 0,
+        "result": "Failed, Check Token API"
+      }
+    }
+
+    let startTime = new Date();
+
+    let returnResult = await (fetch(request_url, {
+      method: 'POST',
+      body: JSON.stringify({
+        "PatientID": id,
+        "PatientIDType": idType,
+        "UserID": EPIC_CONFIG[context.ENV].BasicUsername,
+        "UserIDType": "External"
+      }),
+      headers: {
+        "Epic-Client-ID": EPIC_CONFIG[context.ENV].CLIENT_ID_OAUTH,
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      "timeout": 5000
+    }) .then(function (response) {
+      console.log("\n:GetPatientIdentifiers response=", response.status);
+      if (response.status !== 200 && response.status !== 201 && response.status !== 203) {
+        context.variables.APIStatus = 0;
+        APIStatus = 0;
+      } else if (response.status === 201 || response.status === 200 || response.status === 203) {
+        context.variables.APIStatus = 1;
+        APIStatus = 1;
+      } else {
+        APIStatus = 0;
+        context.variables.APIStatus = 0;
+      }
+      return response.json();
+    }).then(function (result) {
+      console.log("\n:GetPatientIdentifiers result=", result);
+      return {
+        "status": APIStatus,
+        "result": result
+      };
+    }).catch(function (error) {
+      console.log("\n:GetPatientIdentifiers2015 Error=", error);
+      sendAPIErrorEmail(error, "Error in GetPatientIdentifiers2015");
+      return {
+        "status": 0,
+        "result": JSON.stringify(error)
+      };
+    }) );
+
+    console.log("\nGetPatientIdentifiers2015 API responseTime>",(new Date() - startTime) / 1000);
+
+    if (returnResult.status === 1) {
+      //console.log("\nReturn result=" + returnResult.result);
+      var identifiers = returnResult.result.Identifiers;
+      var length = identifiers.length;
+      if (length > 0) {
+        for (var i = 0; i < length; i++) {
+          if ((identifiers[i].IDType).toUpperCase() === "MYCHARTLOGIN")
+            await (Storage.user.set("MYCHARTLOGIN", identifiers[i].ID));
+
+          if ((identifiers[i].IDType).toUpperCase() === "FHIR")
+            await (Storage.user.set("FHIR", identifiers[i].ID));
+
+          if ((identifiers[i].IDType).toUpperCase() === "WPRINTERNAL")
+            await (Storage.user.set("INTERNAL", identifiers[i].ID));
+
+          if ((identifiers[i].IDType).toUpperCase() === "EXTERNAL")
+            await (Storage.user.set("EXTERNAL", identifiers[i].ID));
+
+          if ((identifiers[i].IDType).toUpperCase() === "MRN")
+            await (Storage.user.set("MRN", identifiers[i].ID));
+
+          if ((identifiers[i].IDType).toUpperCase() === "EPI")
+            await (Storage.user.set("EPI", identifiers[i].ID));
+        }
+      }
+    }
+    return returnResult;
+  },
+  GetPatientDemographics2017: (id, idType) =>{
+
+    let request_url = ENDPOINT_CONFIG().GetPatientDemographics2017;
+
+    let token = API_CONFIG.GetbackendOAuthToken();
+    console.log("\n token received")
+    // console.log("\n token abc: ",token)
+    token = (token && token.message && token.message.access_token) ? token.message.access_token : "failed";
+
+    if (token === "failed") {
+      //   console.log("\nToken Call Failed in GetPatientDemographics2017 EPIC API");
+      return {
+        "status": 0,
+        "result": "Failed, Check Token API"
+      }
+    }
+    var APIStatus = 0;
+    //     console.log("GetPatientDemographics2017", request_url, JSON.stringify({
+    //       "PatientID": id,
+    //       "PatientIDType": idType,
+    //       "UserID": EPIC_CONFIG[context.ENV].BasicUsername,
+    //       "UserIDType": "External"
+    //     }));
+
+    let startTime = new Date();
+    let returnResult = await (fetch(request_url, {
+      method: 'POST',
+      body: JSON.stringify({
+        "PatientID": id,
+        "PatientIDType": idType,
+        "UserID": EPIC_CONFIG[context.ENV].BasicUsername,
+        "UserIDType": "External"
+      }),
+      headers: {
+        "Epic-Client-ID": EPIC_CONFIG[context.ENV].CLIENT_ID_OAUTH,
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      "timeout": 5000
+    }) .then(function (response) {
+      console.log("\n:GetPatientDemographics2017 response=", response);
+      if (response.status !== 200 && response.status !== 201 && response.status !== 203) {
+        context.variables.APIStatus = 0;
+        APIStatus = 0;
+      } else if (response.status === 201 || response.status === 200 || response.status === 203) {
+        context.variables.APIStatus = 1;
+        APIStatus = 1;
+      } else {
+        APIStatus = 0;
+        context.variables.APIStatus = 0;
+      }
+      return response.json();
+    }).then(function (result) {
+      console.log("\n:GetPatientDemographics2017 result=", result);
+      return {
+        "status": APIStatus,
+        "result": result
+      };
+    }).catch(function (error) {
+      console.log("\n:GetPatientDemographics2017 Error=", error);
+      sendAPIErrorEmail(error, "Error in GetPatientDemographics2017");
+      return {
+        "status": 0,
+        "result": JSON.stringify(error)
+      };
+    }) );
+    console.log("\nGetPatientDemographics2017>",(new Date() - startTime) / 1000);
+    var preferredName = "";
+    var firstName = "",mobileNumber,mobilePhoneNumber;
+    if (returnResult.status === 1)
+    {
+      preferredName = (returnResult.result.Name && returnResult.result.Name.PreferredName) ? returnResult.result.Name.PreferredName : null ;
+      await(Storage.user.set("preferredName",preferredName));
+
+      firstName = (returnResult.result.Name && returnResult.result.Name.FirstName) ? returnResult.result.Name.FirstName : "null";
+      mobileNumber = (returnResult.result.Phones) ? returnResult.result.Phones.find(checkKey => checkKey.Type.toLowerCase() === 'mobile') : "NA";
+      mobilePhoneNumber = (mobileNumber) ? mobileNumber.Number.toString().replace(/-/g, "").replace("+", "").slice(-10) : "null";
+      console.log('***mobile***', mobilePhoneNumber);
+      await (Storage.user.set("mobileNumber", mobilePhoneNumber));
+      await(Storage.user.set("PatientName",firstName));
+    }
+
+
+    return returnResult;
+  },
+  GetPatientFlags2011: (id, idType) => {
+    let request_url = `${ENDPOINT_CONFIG().GetPatientFlags2011}PatientID=${id}&PatientIDType=${encodeURI(idType)}&FlagType=101&UserID=${EPIC_CONFIG[context.ENV].BasicUsername}&UserIDType=EXTERNAL&ShowInactive=true`;
+
+    let token = API_CONFIG.GetbackendOAuthToken();
+    //  console.log("\n token abc: ",token)
+    console.log("\n token received: ")
+    token = (token && token.message && token.message.access_token) ? token.message.access_token : "failed";
+
+    if (token === "failed") {
+      console.log("\nToken Call Failed in GetPatientDemographics2017 EPIC API");
+      return {
+        "status": 0,
+        "result": "Failed, Check Token API"
+      }
+    }
+    var APIStatus = 0;
+    console.log("request_url",request_url);
+    let startTime = new Date();
+    let returnResult = await (fetch(request_url, {
+      method: 'GET',
+      headers: {
+        "Epic-Client-ID": EPIC_CONFIG[context.ENV].CLIENT_ID_OAUTH,
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      }
+    }) .then(function (response) {
+      console.log("\n:GetPatientFlags2011 response=", response.status);
+      if (response.status !== 200 && response.status !== 201 && response.status !== 203) {
+        context.variables.APIStatus = 0;
+        APIStatus = 0;
+      } else if (response.status === 201 || response.status === 200 || response.status === 203) {
+        context.variables.APIStatus = 1;
+        APIStatus = 1;
+      } else {
+        APIStatus = 0;
+        context.variables.APIStatus = 0;
+      }
+      return response.json();
+    }).then(function (result) {
+      console.log("\n:GetPatientFlags2011 result=", result);
+      return {
+        "status": APIStatus,
+        "result": result
+      };
+    }).catch(function (error) {
+      console.log("\n:GetPatientFlags2011 Error=", error);
+      sendAPIErrorEmail(error, "Error in GetPatientFlags2011");
+      return {
+        "status": 0,
+        "result": JSON.stringify(error)
+      };
+    }) );
+    //     console.log("\nGetPatientFlags2011 API responseTime>",(new Date() - startTime) / 1000);
+    return returnResult;
+
+  },
+  CancelAppointment2014: (id, idType, ContactID, Comment, reason_code) => {
+    let url = ENDPOINT_CONFIG().CancelAppointment2014;
+
+    let token = API_CONFIG.GetbackendOAuthToken();
+    //  console.log("\n token abc: ",token)
+    // console.log("\n token received: ")
+    token = (token && token.message && token.message.access_token) ? token.message.access_token : "failed";
+
+    if (token === "failed") {
+      console.log("\nToken Call Failed in GetPatientDemographics2017 EPIC API");
+      return {
+        "status": 0,
+        "result": "Failed, Check Token API"
+      }
+    }
+    let startTime = new Date();
+    let args = {
+      "method": "POST",
+      "body": JSON.stringify({
+        "Reason": reason_code,
+        "Comment": Comment,
+        "Patient": {
+          "ID": id,
+          "Type": idType
+        },
+        "Contact": {
+          "ID": ContactID,
+          "Type": "DAT"
+        }
+      }),
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "application/json+fhir",
+        "Epic-Client-ID": EPIC_CONFIG[context.ENV].CLIENT_ID_OAUTH,
+        "Authorization": `Bearer ${token}`,
+      },
+      "timeout": 5000
+    },
+        jsonResponse = await (fetch(url, args).then(res => {
+          console.log("\n\n CancelAppointment2014 args :", args, "\n\n\nRes", res)
+          return res.json();
+        }).then(json => {
+          console.log("\n CancelAppointment2014 Json", json)
+          if (json && json.IsSuccess) {
+            return "success";
+          }
+          return "failed";
+        }).catch(error => {
+          console.log("\nError", error);
+          sendAPIErrorEmail(error, "Error in CancelAppointment2014");
+          return "failed";
+        }));
+    console.log("\nCancelAPI API responseTime>",(new Date() - startTime) / 1000);
+    return jsonResponse;
+  },
+  ApptConfirmation2020: (id, idType, apptID) => {
+    let url = `${ENDPOINT_CONFIG().ApptConfirmation2020}PatientID=${id}&PatientIDType=${encodeURI(idType)}&ContactID=${apptID}&ContactIDType=DAT&UserID=${EPIC_CONFIG[context.ENV].BasicUsername}&UserIDType=External&NotificationResponse=1`;
+    // console.log("url: ", url);
+
+    let token = API_CONFIG.GetbackendOAuthToken();
+    //  console.log("\n token abc: ",token)
+    // console.log("\n token received: ")
+    token = (token && token.message && token.message.access_token) ? token.message.access_token : "failed";
+
+    if (token === "failed") {
+      console.log("\nToken Call Failed in ApptConfirmation2020 EPIC API");
+      return {
+        "status": 0,
+        "result": "Failed, Check Token API"
+      }
+    }
+    let startTime = new Date();
+
+    let args = {
+      "method": "PUT",
+      "headers": {
+        "Content-Type": "application/json",
+        "Epic-Client-ID": EPIC_CONFIG[context.ENV].CLIENT_ID_OAUTH,
+        "Authorization": `Bearer ${token}`,
+      },
+      "timeout": 5000
+    },
+        jsonResponse = await (fetch(url, args).then(res => {
+          console.log("\n\n ApptConfirmation2020 res--",args,"\nRes--", res);
+          return res.json();
+        }).then(json => {
+          console.log("\n ApptConfirmation2020 Json", json)
+          if (json && json.Success) {
+            return "success";
+          }
+          //           else {
+          //             context.variables.errorMessage = json;
+          //           }
+          return "failed";
+        }).catch(error => {
+          console.log("\nError", error);
+          context.variables.errorMessage = error;
+          sendAPIErrorEmail(error, "Error in ApptConfirmation2020");
+          return "failed";
+        }));
+    console.log("ApptConfirmation API responseTime>",(new Date() - startTime) / 1000);
+    //     if(jsonResponse === "failed") {
+    //       sendAPIErrorEmail(context.variables.errorMessage, "Error in ApptConfirmation2020");
+    //     }
+    return jsonResponse;
+    //return;
+  },
+  GetFutureAppointments2019: (patientId, idType, myChartAccount) => {
+    let url = ENDPOINT_CONFIG().GetFutureAppointments2019,
+        body = JSON.stringify({
+          "PatientID": patientId,
+          "PatientIDType": idType,
+          "MyChartAccountID": myChartAccount,
+          "MyChartAccountIDType": "MYCHARTLOGIN"
+        });
+    let token = API_CONFIG.GetbackendOAuthToken();
+
+    token = (token && token.message && token.message.access_token) ? token.message.access_token : "failed";
+
+    if (token === "failed") {
+      console.log("\nToken Call Failed in GetFutureAppointments2019 EPIC API");
+      return "failed";
+    }
+
+    let args = {
+      "method": "POST",
+      "body": body,
+      "headers": {
+        "Content-Type": "application/json",
+        "Epic-Client-ID": EPIC_CONFIG[context.ENV].CLIENT_ID_OAUTH,
+        "Authorization": `Bearer ${token}`
+      },
+      "timeout": 5000
+    },
+        jsonResponse = await (fetch(url, args)
+                              .then(res => {
+                                console.log("\nGetFutureAppointments2019 Res", res.status);
+                                return res.json()
+                              }).then(json => {
+                                console.log("\nGetFutureAppointments2019 res-> ", json);
+                                if (json && json.Errors) return "failed";
+                                //if (json && json.Message && json.ExceptionMessage) return "failed";
+                                if (json && json.Appointments && json.Appointments.length === 0) return "No appointments"
+
+                                return json;
+                              }).catch(error => {
+                                console.log("\nError", error)
+                                //sendAPIErrorEmail(error, "Error in GetFutureAppointments2019")
+                                return "failed";
+                              }));
+    
+    console.log("\nGetFutureAppointments2019 Request-> ", args);
+    return jsonResponse
+  },
+  GetOpenSlots2019: (id, idType, MyChartAccountID, VisitTypeID, ProviderID, ProviderDepartmentID, startDate, endDate) => {
+    let url = ENDPOINT_CONFIG().GetOpenSlots2019;
+    let token = API_CONFIG.GetbackendOAuthToken();
+    token = (token && token.message && token.message.access_token) ? token.message.access_token : "failed";
+
+    if (token === "failed") {
+      console.log("\nToken Call Failed in GetOpenSlots2019 EPIC API");
+      return "failed";
+    }
+
+    let body = JSON.stringify({
+      "StartDate": startDate,
+      "EndDate": endDate,
+      "MyChartAccountID": MyChartAccountID,
+      "MyChartAccountIDType": "MYCHARTLOGIN",
+      "OriginalAppointmentDat": "",
+      "PatientID": id,
+      "PatientIDType": idType,
+      "VisitType": {
+        "ID": VisitTypeID,
+        "Type": "External"
+      },
+      "ProviderDepartmentIDs": [{
+        "Provider": {
+          "ID": ProviderID,
+          "Type": "External"
+        },
+        "Department": {
+          "ID": ProviderDepartmentID,
+          "Type": "External"
+        }
+      }]
+    });
+    console.log("\n\nGetOpenSlots2019 body:", body)
+    let args = {
+      "method": "POST",
+      "body": body,
+      "headers": {
+        "Content-Type": "application/json",
+        "Epic-Client-ID": EPIC_CONFIG[context.ENV].CLIENT_ID_OAUTH,
+        "Authorization": `Bearer ${token}`
+      },
+      "timeout": 5000
+    },
+        jsonResponse = await (fetch(url, args).then(res => {
+          //console.log("\nOpen-Slots Body", body)
+          return res.json()
+        }).then(json => {
+          console.log("\n GetOpenSlots2019 res->", json);
+
+          //if (json && json.Errors && json.Errors[0] && (json.Errors[0].Code == "2" || json.Errors[0].Code == "5")) {
+          if (json && json.Errors && json.Errors.length > 0) {
+            console.log("\n****11111****no-available-date")
+            return "no-available-date";
+          }
+
+          if (json && json.Message && json.Message.indexOf("INVALID-END-DATE") != -1 && json.Message.indexOf("Too late") != -1) {
+            console.log("\n****222222****invalid-future-date")
+            return "invalid-future-date";
+          }
+
+          if (json && !json.Slots && json.Message) {
+            console.log("\n****33333****exception-occurred")
+            return "exception-occurred";
+          }
+
+          if (json && json.Errors) {
+            console.log("\n****444444****json.Errors")
+            return "failed";
+          }
+
+          if (json && json.ExceptionMessage) {
+            console.log("\n****55555****json.ExceptionMessage")
+            return "failed";
+          }
+          return json;
+        }).catch(error => {
+          console.log("\nError", error)
+          sendAPIErrorEmail(error, "Error in GetOpenSlots2019");
+          return "failed";
+        }));
+    return jsonResponse;
+  },
+  GetPatientAppointments2013: (date, id, idType="CSN") => {
+    let url = ENDPOINT_CONFIG().GetPatientAppointments2013,
+        body = JSON.stringify({
+          "UserID": EPIC_CONFIG[context.ENV].BasicUsername,
+          "UserIDType": "External",
+          "StartDate": date,
+          "PatientID": id,
+          "PatientIDType": idType,
+          "IncludeAllStatuses": 1
+        });
+
+    let token = API_CONFIG.GetbackendOAuthToken();
+    token = (token && token.message && token.message.access_token) ? token.message.access_token : "failed";
+    console.log("\n\nGetPatientAppointments2013 body>>> ", body, url)
+    if (token === "failed") {
+      console.log("\nToken Call Failed in GetPatientAppointments2013 EPIC API");
+      return "failed";
+    }
+    let args = {
+      "method": "POST",
+      "body": body,
+      "headers": {
+        "Content-Type": "application/json",
+        "Epic-Client-ID": EPIC_CONFIG[context.ENV].CLIENT_ID_OAUTH,
+        "Authorization": `Bearer ${token}`
+      },
+      "timeout": 5000
+    },
+        jsonResponse = await (fetch(url, args).then(res => {
+          //console.log("\nRes", res);
+          return res.json()
+        }).then(json => {
+          console.log("\n GetPatientAppointments2013 JSON -> ", json);
+          if (json && json.Errors) {
+            return "failed";
+          }
+          return json;
+        }).catch(error => {
+          console.log("\nError", error)
+          sendAPIErrorEmail(error, "Error in GetPatientAppointments2013");
+          return "failed";
+        }));
+    return jsonResponse
+  },
+  ScheduleAppointment2019: (id, idType, MyChartAccountID, Apicomments, Comments, Reason, DAT, Slot) => {
+    let url = ENDPOINT_CONFIG().ScheduleAppointment2019;
+    let token = API_CONFIG.GetbackendOAuthToken();
+    token = (token && token.message && token.message.access_token) ? token.message.access_token : "failed";
+
+    if (token === "failed") {
+      console.log("\nToken Call Failed in ScheduleAppointment2019 EPIC API");
+      return "failed";
+    }
+
+    let body = JSON.stringify({
+      "Comments": [Apicomments],
+      "IsReviewOnly": "false",
+      "MyChartAccountID": MyChartAccountID,
+      "MyChartAccountIDType": "MYCHARTLOGIN",
+      "OriginalAppointmentDat": (DAT) ? DAT : "",
+      "RescheduleReason": Reason,
+      "RescheduleComments": Comments,
+      "PatientID": id,
+      "PatientIDType": idType,
+      "Slot": Slot
+    });
+    console.log("\n body-aa", body)
+    let args = {
+      "method": "POST",
+      "body": body,
+      "headers": {
+        "Content-Type": "application/json",
+        "Epic-Client-ID": EPIC_CONFIG[context.ENV].CLIENT_ID_OAUTH,
+        "Authorization": `Bearer ${token}`
+      },
+      "timeout": 5000
+    },
+
+        jsonResponse = await (fetch(url, args).then(res => {
+          //           console.log("\nSchedule Appointment 2019 Res", res);
+          return res.json()
+        }).then(json => {
+          console.log("\n Schedule Appointment 2019 JSON", json);
+          if (json && json.Errors) {
+            return "failed";
+          }
+          if (json && json.ExceptionMessage) {
+            return "failed";
+          }
+          return json;
+        }).catch(error => {
+          console.log("\nError", error)
+          sendAPIErrorEmail(error, "Error in ScheduleAppointment2019");
+          return "failed";
+        }));
+
+    return jsonResponse;
+  },
+  GetVisitType2019:(patientId, idType, myChartAccount)=>{
+    let url = ENDPOINT_CONFIG().GetVisitType2019;
+
+    let token = API_CONFIG.GetbackendOAuthToken();
+    token = (token && token.message && token.message.access_token) ? token.message.access_token : "failed";
+
+    if (token === "failed") {
+      console.log("\nToken Call Failed in PatientSearchR4 EPIC API");
+      return {
+        "status": 0,
+        "result": "Failed, Check Token API"
+      }
+    }
+
+    let body =  {
+      "PatientID": patientId,
+      "PatientIDType": idType,
+      "MyChartAccountID": myChartAccount,
+      "MyChartAccountIDType": "MYCHARTLOGIN"
+    }
+
+
+    let args = {
+      "method": "POST",
+      "body": JSON.stringify(body),
+      "headers": {
+        "Content-Type": "application/json",
+        "Epic-Client-ID": EPIC_CONFIG[context.ENV].CLIENT_ID_OAUTH,
+        "Authorization": `Bearer ${token}`
+      }
+    };
+
+    console.log("\n\n ---GetVisitType2019 Body ----->>",args)
+    console.log("\n\n ---GetVisitType2019 url ----->>",url)
+
+    let jsonResponse = await (fetch(url, args).then(res => {
+      return res.json()
+    }).then(json => {
+      //           console.log("\n --GetVisitType2019--JSON-->>", json);
+      if (json && json.Errors) {
+        return "failed";
+      }
+      if (json && json.ExceptionMessage) {
+        return "failed";
+      }
+      return json;
+    }).catch(err => {
+      console.log("\nError", err)
+      return "failed";
+    }));
+    return jsonResponse;
+  },
+  GetProviders2019: (patientId, idType, visitTypeId)=> {
+
+    let url = ENDPOINT_CONFIG().GetProviders2019;
+
+    let token = API_CONFIG.GetbackendOAuthToken();
+    token = (token && token.message && token.message.access_token) ? token.message.access_token : "failed";
+
+    if (token === "failed") {
+      console.log("\nToken Call Failed in GetProviders2019 EPIC API");
+      return {
+        "status": 0,
+        "result": "Failed, Check Token API"
+      }
+    }
+    let body =  {
+      "PatientID": patientId, // "H349884", //ID,
+      "PatientIDType": idType,
+      "VisitType": {
+        "ID": visitTypeId , // "1201080",
+        "Type": "Internal"
+      }
+    }
+
+    let args = {
+      "method": "POST",
+      "body": JSON.stringify(body),
+      "headers": {
+        "Content-Type": "application/json",
+        "Epic-Client-ID": EPIC_CONFIG[context.ENV].CLIENT_ID_OAUTH,
+        "Authorization": `Bearer ${token}`
+      }
+    };
+
+    console.log("\n\n ---GetProviders2019 Body ----->>",args)
+    console.log("\n\n ---GetProviders2019 url ----->>",url)
+
+    let jsonResponse = await (fetch(url, args).then(res => {
+      return res.json()
+    }).then(json => {
+      console.log("\n --GetProviders2019--JSON-->", json);
+      if (json && json.Errors) {
+        return "failed";
+      }
+      if (json && json.ExceptionMessage) {
+        return "failed";
+      }
+      return json;
+    }).catch(err => {
+      console.log("\n--GetProviders2019--Error->>", err)
+      return "failed";
+    }));
+    return jsonResponse;
+  },
+  GetMyChartAccessCode2021: (id, idType) => {
+    let token = API_CONFIG.GetbackendOAuthToken();
+    token = (token && token.message && token.message.access_token) ? token.message.access_token : "failed";
+
+    if (token === "failed") {
+      console.log("\nToken Call Failed in GetMyChartAccessCode2021 EPIC API");
+      return {
+        "status": 0,
+        "result": "Failed, Check Token API"
+      }
+    }
+
+    let url = ENDPOINT_CONFIG().GetMyChartAccessCode2021,
+        body = JSON.stringify({
+          "GenerateCodeIfInvalid": true,
+          "PersonID": id, 
+          "PersonIDTypes": [idType],
+        });
+    let args = {
+      method: "POST",
+      body: body,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Epic-Client-ID": EPIC_CONFIG[context.ENV].CLIENT_ID_OAUTH,
+        //Authorization: EPIC_CONFIG[context.ENV].BASIC_AUTH_WPR(),
+        "Authorization": `Bearer ${token}`,
+      },
+    };
+    //console.log("url, args: ", url, args);
+    let jsonResponse = await (fetch(url, args).then((res) => {
+      console.log("\nGetMyChartAccessCode2021 Res", res.status);
+      if(res.status == 200 || res.status == 201)
+        return res.json();
+      else return "failed";
+    }).then((json) => {
+      console.log("\n \nGetMyChartAccessCode2021 =>",json);
+      if (json && json.Errors) {
+        return "failed";
+      }
+      if (json && json.ExceptionMessage) {
+        return "failed";
+      }
+      return json;
+    }).catch((error) => {
+      console.log("\nError", error);
+      return "failed";
+    }));
+    console.log("\n jsonResponse body =>", body,"\n Response =>",jsonResponse);
+    return jsonResponse;
+
+  },
+  GetPastAppointments2015: (patientId, patientIdType) => {
+    let token = API_CONFIG.GetbackendOAuthToken();
+    token = (token && token.message && token.message.access_token) ? token.message.access_token : "failed";
+
+    if (token === "failed") {
+      console.log("\nToken Call Failed in GetPastAppointments2015 EPIC API");
+      return {
+        "status": 0,
+        "result": "Failed, Check Token API"
+      }
+    }
+
+    let url = ENDPOINT_CONFIG().GetPastAppointments2015,
+
+        body = JSON.stringify({
+          "Patient": {
+            "ID": patientId,
+            "Type": patientIdType,
+          }
+        });
+
+    let args = {
+      "method": "POST",
+      "body": body,
+      "headers": {
+        "Content-Type": "application/json",
+        "Epic-Client-ID": EPIC_CONFIG[context.ENV].CLIENT_ID_OAUTH,
+        "Authorization": `Bearer ${token}`
+      }
+    };
+
+    let jsonResponse = await (fetch(url, args).then(res => {
+      console.log("\n GetPastAppointments2015 Res", res);
+      return res.json()
+    }).then(json => {
+      console.log("\n GetPastAppointments2015 JSON", json);
+      if (json && json.Errors) return "failed";
+
+      if (json && json.Appointments && json.Appointments.length === 0) return "No appointments"
+
+      return json;
+    }).catch(error => {
+      console.log("\n GetPastAppointments2015 Error", error)
+      return "failed";
+    }));
+    return jsonResponse
+  },
+  GetPatientBalance2014: (patientId, idType) => {
+    let token = API_CONFIG.GetbackendOAuthToken();
+    token = (token && token.message && token.message.access_token) ? token.message.access_token : "failed";
+
+    if (token === "failed") {
+      console.log("\nToken Call Failed in GetPatientBalance2014 EPIC API");
+      return {
+        "status": 0,
+        "result": "Failed, Check Token API"
+      }
+    }
+
+    let url = ENDPOINT_CONFIG().GetPatientBalance,
+
+        body = JSON.stringify({
+          "Patient": {
+            "ID": patientId,
+            "Type": idType
+          }
+        });
+
+    let args = {
+      "method": "POST",
+      "body": body,
+      "headers": {
+        "Content-Type": "application/json",
+        "Epic-Client-ID": EPIC_CONFIG[context.ENV].CLIENT_ID_OAUTH,
+        "Authorization": `Bearer ${token}`
+      }
+    };
+
+    let jsonResponse = await (fetch(url, args).then(res => {
+      //console.log("\n GetPatientBalance2014 Res", res);
+      return res.json()
+    }).then(json => {
+      console.log("\n GetPatientBalance2014 JSON", json);
+      return json;
+    }).catch(error => {
+      console.log("\n GetPatientBalance2014 Error", error)
+      return "failed";
+    }));
+    return jsonResponse
+  },
+  GetAccountBillingSummary2020: (AccountID, AccountIDType) => {
+    let token = API_CONFIG.GetbackendOAuthToken();
+    token = (token && token.message && token.message.access_token) ? token.message.access_token : "failed";
+
+    if (token === "failed") {
+      console.log("\nToken Call Failed in GetAccountBillingSummary2020 EPIC API");
+      return {
+        "status": 0,
+        "result": "Failed, Check Token API"
+      }
+    }
+
+    let url = `${ENDPOINT_CONFIG().GetAccountBillingSummary}?AccountID=${AccountID}&AccountIDType=${AccountIDType}`;
+
+    let args = {
+      "method": "GET",
+      "headers": {
+        "Content-Type": "application/json",
+        "Epic-Client-ID": EPIC_CONFIG[context.ENV].CLIENT_ID_OAUTH,
+        "Authorization": `Bearer ${token}`
+      }
+    };
+
+    let jsonResponse = await (fetch(url, args).then(res => {
+      console.log("\n GetAccountBillingSummary2020 Res", res);
+      return res.text()
+    }).then(json => {
+      //console.log("\n GetAccountBillingSummary2020 JSON", json);
+      return json;
+    }).catch(error => {
+      console.log("\n GetAccountBillingSummary2020 Error", error)
+      return "failed";
+    }));
+    return jsonResponse
+  },
+  PostPatientMadePayments: (payload) => {
+    let token = API_CONFIG.GetbackendOAuthToken();
+    token = (token && token.message && token.message.access_token) ? token.message.access_token : "failed";
+
+    if (token === "failed") {
+      console.log("\nToken Call Failed in PostPatientMadePayments EPIC API");
+      return {
+        "status": 0,
+        "result": "Failed, Check Token API"
+      }
+    }
+
+    let url = `${ENDPOINT_CONFIG().PostPatientMadePayments}?PaymentSourceType=${encodeURI(payload.paymentSourceType)}&TotalPaymentAmount=${encodeURI(payload.totalPaymentAmount)}&ReconciliationNumber=${encodeURI(payload.reconciliationNumber)}&PaymentDate=${encodeURI(payload.paymentDate)}`,
+
+        body = JSON.stringify({
+          "PreviousBalanceAmount": payload.prevBalance,
+          "UserID": {
+            "ID": EPIC_CONFIG[context.ENV].BasicUsername,
+            "Type": "EXTERNAL"
+          },
+          "PayingPatientID": {
+            "ID": payload.mrn,
+            "Type": payload.mrnType
+          },
+          "PreviousBalancePatientID": {
+            "ID": payload.mrn,
+            "Type": payload.mrnType
+          },
+          "GuarantorAccountID": {
+            "ID": payload.accountId,
+            "Type": "EXTERNAL"
+          }
+        });
+
+    let args = {
+      "method": "POST",
+      "body": body,
+      "headers": {
+        "Content-Type": "application/json",
+        "Epic-Client-ID": EPIC_CONFIG[context.ENV].CLIENT_ID_OAUTH,
+        "Authorization": `Bearer ${token}`
+      }
+    };
+
+    let jsonResponse = await (fetch(url, args).then(res => {
+      console.log("\n PostPatientMadePayments Res", res);
+      return res.json()
+    }).then(json => {
+      console.log("\n PostPatientMadePayments JSON", json);
+      return json;
+    }).catch(error => {
+      console.log("\n PostPatientMadePayments Error", error)
+      return "failed";
+    }));
+    return jsonResponse
+  },
+  EncounterSearchR4: (id, idType) => {
+    let request_url = `${ENDPOINT_CONFIG().EncounterSearch}?patient=${id}&date=2023-01-01&date=2024-12-31`;
+
+    let token = API_CONFIG.GetbackendOAuthToken();
+    //  console.log("\n token abc: ",token)
+    console.log("\n token received: ")
+    token = (token && token.message && token.message.access_token) ? token.message.access_token : "failed";
+
+    if (token === "failed") {
+      console.log("\nToken Call Failed in EncounterSearchR4 EPIC API");
+      return {
+        "status": 0,
+        "result": "Failed, Check Token API"
+      }
+    }
+    var APIStatus = 0;
+    console.log("request_url",request_url);
+    let startTime = new Date();
+    let returnResult = await (fetch(request_url, {
+      method: 'GET',
+      headers: {
+        "Epic-Client-ID": EPIC_CONFIG[context.ENV].CLIENT_ID_OAUTH,
+        "Authorization": `Bearer ${token}`,
+        "Accept": "application/fhir+json"
+      }
+    }) .then(function (response) {
+      console.log("\n:GetPatientDemographics2017 response=", response);
+      if (response.status !== 200 && response.status !== 201 && response.status !== 203) {
+        context.variables.APIStatus = 0;
+        APIStatus = 0;
+      } else if (response.status === 201 || response.status === 200 || response.status === 203) {
+        context.variables.APIStatus = 1;
+        APIStatus = 1;
+      } else {
+        APIStatus = 0;
+        context.variables.APIStatus = 0;
+      }
+      return response.json();
+    }).then(function (result) {
+      console.log("\n:EncounterSearchR4 result=", result);
+      return {
+        "status": APIStatus,
+        "result": result
+      };
+    }).catch(function (error) {
+      console.log("\n:EncounterSearchR4 Error=", error);
+      //       sendAPIErrorEmail(error, "Error in EncounterSearchR4");
+      return {
+        "status": 0,
+        "result": JSON.stringify(error)
+      };
+    }) );
+    //     console.log("\nGetPatientFlags2011 API responseTime>",(new Date() - startTime) / 1000);
+    return returnResult;
+
+  },
+  SendResetPassword:(myChartID) => {
+  let token = API_CONFIG.GetbackendOAuthToken();
+  token = (token && token.message && token.message.access_token) ? token.message.access_token : "failed";
+
+  if (token === "failed") {
+    console.log("\nToken Call Failed in SendResetPassword Epic API");
+    return {
+    "status": 0,
+    "result": "Failed, Check Token API"
+  }
+  }
+  let url = ENDPOINT_CONFIG().SendResetPassword;
+
+  const raw = JSON.stringify({
+    "MyChartAccountID": myChartID,
+    "MyChartAccountIDType": "MYCHARTLOGIN",
+    "MessageType": 1
+  });
+
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      "Epic-Client-ID": EPIC_CONFIG[context.ENV].CLIENT_ID_OAUTH,
+      "Authorization": `Bearer ${token}`,
+      "Accept" : "application/json",
+      "Content-Type": "application/json"
+    },
+    body: raw,
+    redirect: "follow"
+  };
+
+  let jsonResponse = await (fetch(url, requestOptions).then(res => {
+    console.log("\n SendResetPassword Res", res.status);
+    return res.text()
+  }).then(json => {
+    console.log("\n SendResetPassword JSON", json);
+    return json;
+  }).catch(error => {
+    console.log("\n SendResetPassword Error", error)
+    return "failed";
+  }));
+  return jsonResponse;
+ },
+  GetPrescriptionInfoAPI: (MRN) => {
+
+    var SOAPAction = "Epic.Clinical.Pharmacy.WebServices2018.GetPrescriptionInfo";
+    var APIStatus = 0;
+
+    var SOAP_HEADER = EPIC_CONFIG[context.ENV].SOAP_HEADER();
+
+    var args = '<soapenv:Envelope xmlns:epic="Epic.Clinical.Pharmacy.WebServices2018" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">' + SOAP_HEADER + '<soapenv:Body><epic:GetPrescriptionInfo><epic:systemId>AVAAMO</epic:systemId><epic:patientMRN>' + MRN + '</epic:patientMRN><epic:whichPrescriptions>CurrentPrescriptions</epic:whichPrescriptions><epic:whichFills>AllFills</epic:whichFills></epic:GetPrescriptionInfo></soapenv:Body></soapenv:Envelope>';
+
+    var url = ENDPOINT_CONFIG().GetPrescriptionInfo2018;
+    console.log("\n\n ---GetPrescriptionInfoAPI url -->>",url)
+
+    var returnResult = await(fetch(url, {
+      method: 'POST',
+      headers: {
+        "SOAPAction": SOAPAction,
+        "Content-Type": "text/xml;charset=UTF-8",
+        "Epic-Client-ID": EPIC_CONFIG[context.ENV].CLIENT_ID_OAUTH
+      },
+      body: args
+    })
+                             .then(function (response) {
+                               //console.log("\nGetPrescriptionInfoAPI: ",response)
+                               if (response.status !== 200 && response.status !== 201 && response.status !== 203) {
+                                 context.variables.APIStatus = 0;
+                                 APIStatus = 0;
+                               } else if (response.status === 201 || response.status === 200 || response.status === 203) {
+                                 context.variables.APIStatus = 1;
+                                 APIStatus = 1;
+                               } else {
+                                 APIStatus = 0;
+                               }
+                               return response.text();
+                             }).then(function (result) {
+                               Storage.user.set("GetPrescriptionInfoAPI", result);
+                               console.log("\n GetPrescriptionInfoAPI result: ",result);
+                               return { "status": APIStatus, "result": result };
+                             }).catch(function (error) {
+                               return { "status": 0, "result": error };
+                             }));
+
+    return returnResult;
+  },
+  RequestFills: (mrn, id, ncpdpid, delivery) => {
+    var d = new Date();
+    var n = d.toISOString();
+    var SOAPAction = "Epic.Clinical.Pharmacy.WebServices2018.RequestFills";
+    var APIStatus = 0;
+
+    var SOAP_HEADER = EPIC_CONFIG[context.ENV].SOAP_HEADER();
+
+    var args = `<soapenv:Envelope xmlns:epic="Epic.Clinical.Pharmacy.WebServices2018" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">${SOAP_HEADER}<soapenv:Body><epic:RequestFills><epic:systemId>EPIC</epic:systemId><epic:requests><epic:FillRequest><epic:PrescriptionId>${id}</epic:PrescriptionId><epic:RefillAuthorizationRequestToBeInitiatedBy>Pharmacy</epic:RefillAuthorizationRequestToBeInitiatedBy></epic:FillRequest></epic:requests><epic:pickupPharmacyNCPDPId>${ncpdpid}</epic:pickupPharmacyNCPDPId><epic:contactRequested>false</epic:contactRequested><epic:deliveryMethod>${delivery}</epic:deliveryMethod><epic:pickupDateTime></epic:pickupDateTime><epic:deliveryDestination>DefaultAddress</epic:deliveryDestination><epic:paymentMethod>Cash</epic:paymentMethod><epic:isInteractive>false</epic:isInteractive><epic:userId>1</epic:userId><epic:userIdType>EXTERNAL</epic:userIdType></epic:RequestFills></soapenv:Body></soapenv:Envelope>`;
+
+    var url = ENDPOINT_CONFIG().RequestFills2018;
+    console.log("\n\n ---RequestFills url -->>",url)
+
+    var returnResult = await(fetch(url, {
+      method: 'POST',
+      headers: {
+        "SOAPAction": SOAPAction,
+        "Content-Type": "text/xml;charset=UTF-8",
+        "Epic-Client-ID": EPIC_CONFIG[context.ENV].CLIENT_ID_OAUTH,
+        "Authorization": EPIC_CONFIG[context.ENV].BASIC_AUTH_EMP(),
+      },
+      body: args
+    }).then(function (response) {
+      //console.log("\nRequestFills :",response)
+      if (response.status !== 200 && response.status !== 201 && response.status !== 203) {
+        context.variables.APIStatus = 0;
+        APIStatus = 0;
+        //                 sendAPIErrorEmail("RequestFills() - " + response.status + " - " + internalID + "\nRequest=" + argsLogging + "\nResults=" + JSON.stringify(response));
+      } else if (response.status === 201 || response.status === 200 || response.status === 203) {
+        context.variables.APIStatus = 1;
+        APIStatus = 1;
+      } else {
+        APIStatus = 0;
+        console.log("\n" + gtcl() + ":RequestFills() context.variables.APIStatus=" + response.status);
+      }
+      return response.text();
+    }).then(function (result) {
+      console.log("\n RequestFills result",result);
+      return { "status": APIStatus, "result": result };
+    }).catch(function (error) {
+      console.log("\n" + gtcl() + ":Error RequestFills()=" + JSON.stringify(error));
+      //             sendAPIErrorEmail("RequestFills()" + JSON.stringify(error));
+      return { "status": 0, "result": error };
+    }));
+
+
+    return returnResult;
+  },
+  SearchPharmacy: (mrn) => {
+    let id = mrn;
+
+    let token = API_CONFIG.GetbackendOAuthToken();
+    token = token && token.message && token.message.access_token ? token.message.access_token : "failed";
+
+    if (token === "failed") {
+      console.log("\nToken Call Failed in SearchPharmacy EPIC API");
+      return {
+        status: 0,
+        result: "Failed, Check Token API",
+      };
+    }
+    let url = `${ENDPOINT_CONFIG().SearchPharmacy}?PatientID=${mrn}&PatientIDType=${encodeURIComponent("DHS MRN")}`,
+
+        body = JSON.stringify({
+          Patient: {
+            ID: id,
+            Type: "DHS MRN",
+          },
+        });
+    let args = {
+      method: "POST",
+      body: body,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Epic-Client-ID": EPIC_CONFIG[context.ENV].CLIENT_ID_OAUTH,
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    let dd = await(
+      fetch(url, args)
+      .then((res) => {
+        //                                               console.log("\n SearchPharmacy res:\n", res, "\n\n");
+        if (res.status !== 200) {
+          //                                                                notifyError(requestOptions.body, res.json(), "GetPatientBalance", res.status);
+          return "FAIL";
+        } else {
+          return res.json();
+        }
+      })
+      .then((result) => {
+        console.log("\n SearchPharmacy result:\n", result, "\n\n");
+        return result;
+      })
+      .catch((error) => {
+        console.log("\n SearchPharmacy:\n", error);
+        notifyError(requestOptions.body, error, "SearchPharmacy");
+        return "FAIL";
+      })
+    );
+    return dd;
+  },
+  SetPreferredAndEncounterPharmacy: (mrn,pharmacyID) => {
+    let id = mrn;
+
+    let token = API_CONFIG.GetbackendOAuthToken();
+    token = token && token.message && token.message.access_token ? token.message.access_token : "failed";
+
+    if (token === "failed") {
+      console.log("\nToken Call Failed in SetPreferredAndEncounterPharmacy EPIC API");
+      return {
+        status: 0,
+        result: "Failed, Check Token API",
+      };
+    }
+    let url = `${ENDPOINT_CONFIG().SetPreferredAndEncounterPharmacy}?PatientID=${mrn}&PatientIDType=${encodeURIComponent("DHS MRN")}&PharmacyID=${pharmacyID}&PharmacyIDType=NCPDP&DontSetPreferred=false`,
+        body = `
+<SetPreferredAndEncounterPharmacy xmlns="urn:Epic-com:Clinical.2013.Services.Patient">
+<PatientID>${mrn}</PatientID>
+<PatientIDType>Internal</PatientIDType>
+<ContactID></ContactID>
+<ContactIDType></ContactIDType>
+<PharmacyID>${pharmacyID}</PharmacyID>
+<PharmacyIDType>NCPDP</PharmacyIDType>
+<DontSetPreferred>false</DontSetPreferred>
+</SetPreferredAndEncounterPharmacy>
+`;
+    console.log("\n url =>",url);
+    let args = {
+      method: "POST",
+      body: body,
+      headers: {
+        "Content-Type": "application/xml",
+        "Accept": "application/xml",
+        "Epic-Client-ID": EPIC_CONFIG[context.ENV].CLIENT_ID_OAUTH,
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    let dd = await(
+      fetch(url, args)
+      .then((res) => {
+        console.log("\n GetPreferredAndRecentPharmacies2 res:\n", res.status, "\n\n");
+        if (res.status !== 200) {
+          // notifyError(requestOptions.body, res.json(), "GetPatientBalance", res.status);
+          return "FAIL";
+        } else {
+          // return res.json();
+          return res.text();
+        }
+      })
+      .then((result) => {
+        // console.log("\n GetPreferredAndRecentPharmacies2 result:\n", result.Pharmacies.length , "\n\n");
+        console.log("\n SetPreferredAndEncounterPharmacy result:\n", result , "\n\n");
+        return result;
+      })
+      .catch((error) => {
+        console.log("\n SetPreferredAndEncounterPharmacy:\n", error);
+        // notifyError(requestOptions.body, error, "GetPatientBalance");
+        return "FAIL";
+      })
+    );
+    return dd;
+  },
+  GetPreferredAndRecentPharmacies:(mrn) => {
+    let token = API_CONFIG.GetbackendOAuthToken();
+    token = (token && token.message && token.message.access_token) ? token.message.access_token : "failed";
+
+    if (token === "failed") {
+      console.log("\nToken Call Failed in GetPreferredAndRecentPharmacies Epic API");
+      return {
+        "status": 0,
+        "result": "Failed, Check Token API"
+      }
+    }
+    let url = `${ENDPOINT_CONFIG().GetPreferredAndRecentPharmacies}?PatientID=${mrn}&PatientIDType=${encodeURIComponent("DHS MRN")}
+`;
+
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Epic-Client-ID": EPIC_CONFIG[context.ENV].CLIENT_ID_OAUTH,
+        "Authorization": `Bearer ${token}`,
+        "Accept" : "application/json",
+        "Content-Type": "application/json"
+      },
+      body: "",
+      redirect: "follow"
+    };
+
+    let jsonResponse = await (fetch(url, requestOptions).then(res => {
+      //console.log("\n GetPreferredAndRecentPharmacies Res", res);
+      return res.json();
+    }).then(json => {
+      console.log("\n GetPreferredAndRecentPharmacies JSON", json);
+      return json;
+    }).catch(error => {
+      console.log("\n GetPreferredAndRecentPharmacies Error", error)
+      return "failed";
+    }));
+    return jsonResponse;
+  },
+  GetScheduleDaysForProvider2: (body) => {
+    let token = API_CONFIG.GetbackendOAuthToken();
+    token = (token && token.message && token.message.access_token) ? token.message.access_token : "failed";
+
+    if (token === "failed") {
+      console.log("\nToken Call Failed in GetPreferredAndRecentPharmacies Epic API");
+      return {
+        "status": 0,
+        "result": "Failed, Check Token API"
+      }
+    }
+
+    let url = ENDPOINT_CONFIG().GetScheduleDaysForProvider2;
+    console.log("url: ", url);
+
+    let args = {
+      "method": "POST",
+      "body": JSON.stringify(body),
+      "headers": {
+        "Epic-Client-ID": EPIC_CONFIG[context.ENV].CLIENT_ID_OAUTH,
+        "Authorization": `Bearer ${token}`,
+        "Accept" : "application/json",
+        "Content-Type": "application/json"
+      }
+    };
+    console.log("args: ", args);
+
+    let jsonResponse = await (fetch(url, args).then(res => {
+      //console.log("\n GetScheduleDaysForProvider2 Res", res);
+      return res.json()
+    }).then(json => {
+      console.log("\n GetScheduleDaysForProvider2 JSON", json);
+      return json;
+    }).catch(error => {
+      console.log("\n GetScheduleDaysForProvider2 Error", error)
+      //sendAPIErrorEmail(error, "Error in GetScheduleDaysForProvider2")
+      return "failed";
+    }));
+    return jsonResponse;
+  },
+  ScheduleAppointmentWithInsurance2019: (pendingURL, body) => {
+    let token = API_CONFIG.GetbackendOAuthToken();
+    token = (token && token.message && token.message.access_token) ? token.message.access_token : "failed";
+
+    if (token === "failed") {
+      console.log("\nToken Call Failed in GetPreferredAndRecentPharmacies Epic API");
+      return {
+        "status": 0,
+        "result": "Failed, Check Token API"
+      }
+    }
+
+    let url = ENDPOINT_CONFIG().ScheduleAppointmentWithInsurance2019;
+    url=`${url}${pendingURL}`
+    console.log("url: ", url);
+
+    let args = {
+      "method": "POST",
+      "body": JSON.stringify(body),
+      "headers": {
+        "Epic-Client-ID": EPIC_CONFIG[context.ENV].CLIENT_ID_OAUTH,
+        "Authorization": `Bearer ${token}`,
+        "Accept" : "application/json",
+        "Content-Type": "application/json"
+      }
+    };
+
+    let jsonResponse = await (fetch(url, args).then(res => {
+      //console.log("\n ScheduleAppointmentWithInsurance2019 Res", res);
+      return res.json()
+    }).then(json => {
+      console.log("\n ScheduleAppointmentWithInsurance2019 JSON", json);
+      return json;
+    }).catch(error => {
+      console.log("\n ScheduleAppointmentWithInsurance2019 Error", error)
+      //sendAPIErrorEmail(error, "Error in ScheduleAppointmentWithInsurance2019")
+      return "failed";
+    }));
+    return jsonResponse;
+  },
+  LoadCommunicationPreferences: (patientId, idType, myChartAccount) => {
+    let token = API_CONFIG.GetbackendOAuthToken();
+    token = (token && token.message && token.message.access_token) ? token.message.access_token : "failed";
+
+    if (token === "failed") {
+      console.log("\nToken Call Failed in LoadCommunicationPreferences Epic API");
+      return {
+        "status": 0,
+        "result": "Failed, Check Token API"
+      }
+    }
+
+    let url = ENDPOINT_CONFIG().LoadCommunicationPreferences;
+    console.log("url: ", url);
+    let body = {
+      "PatientID": {
+        "ID": patientId,
+        "Type": idType
+      },
+      "MyChartAccountID": {
+        "ID": myChartAccount,
+        "Type": "MYCHARTLOGIN"
+      }
+    };
+
+    let args = {
+      "method": "POST",
+      "body": JSON.stringify(body),
+      "headers": {
+        "Epic-Client-ID": EPIC_CONFIG[context.ENV].CLIENT_ID_OAUTH,
+        "Authorization": `Bearer ${token}`,
+        "Accept" : "application/json",
+        "Content-Type": "application/json"
+      }
+    };
+    
+    console.log("\n LoadCommunicationPreferences Request", args);
+
+    let jsonResponse = await (fetch(url, args).then(res => {
+      console.log("\n LoadCommunicationPreferences Res", res.status);
+      return res.json()
+    }).then(json => {
+      console.log("\n LoadCommunicationPreferences JSON", json);
+      return json;
+    }).catch(error => {
+      console.log("\n LoadCommunicationPreferences Error", error)
+      //sendAPIErrorEmail(error, "Error in LoadCommunicationPreferences")
+      return "failed";
+    }));
+    return jsonResponse;
+  },
+  SearchPharmacies: (mrn) => {
+    let id = mrn;
+
+    let token = API_CONFIG.GetbackendOAuthToken();
+    token = token && token.message && token.message.access_token ? token.message.access_token : "failed";
+
+    if (token === "failed") {
+      console.log("\nToken Call Failed in searchPharmacies EPIC API");
+      return {
+        status: 0,
+        result: "Failed, Check Token API",
+      };
+    }
+
+    let url = `${ENDPOINT_CONFIG().SearchPharmacies}?Position=0`,
+   //    let url = ${ENDPOINT_CONFIG().searchPharmacies},
+      
+
+      body = JSON.stringify({
+        Patient: {
+          ID: id,
+          Type: "DHS MRN",
+        },
+        SearchCriteria: {
+          Type: 4
+        }
+      });
+    let args = {
+      method: "POST",
+      body: body,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Epic-Client-ID": EPIC_CONFIG[context.ENV].CLIENT_ID_OAUTH,
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    let dd = await(
+      fetch(url, args)
+        .then((res) => {
+          console.log("\n searchPharmacies res:\n", res, "\n\n");
+          if (res.status !== 200) {
+            //                                                                notifyError(requestOptions.body, res.json(), "GetPatientBalance", res.status);
+            return "FAIL";
+          } else {
+            return res.json();
+          }
+        })
+        .then((result) => {
+          console.log("\n searchPharmacies result:\n", result, "\n\n");
+          return result;
+        })
+        .catch((error) => {
+          console.log("\nsearchPharmacies:\n", error);
+//           notifyError(requestOptions.body, error, "GetPatientBalance");
+          return "FAIL";
+        })
+    );
+    return dd;
+  },
+  CreatePatient: (lastName, firstName, phone, gender, dob, line, city, state, postalCode, country) => {
+    let token = API_CONFIG.GetbackendOAuthToken();
+    token = token && token.message && token.message.access_token ? token.message.access_token : "failed";
+
+    if (token === "failed") {
+      console.log("\nToken Call Failed in CreatePatient EPIC API");
+      return {
+        status: 0,
+        result: "Failed, Check Token API",
+      };
+    }
+
+    let url = ENDPOINT_CONFIG().CreatePatient,
+     body = JSON.stringify({
+    "resourceType": "Patient",
+    "identifier": [],
+    "active": "true",
+    "name": [{
+      "use": "usual",
+      "family": lastName,
+      "given": [
+        firstName
+      ]
+    }],
+    "telecom": [{
+      "system": "phone",
+      "value": phone,
+      "use": "home"
+    }],
+    "gender": gender,
+    "birthDate": moment(dob).format("YYYY-MM-DD"),
+    "address": [{
+      "use": "home",
+      "line": [
+        line
+      ],
+      "city": city,
+      "state": state,
+      "postalCode": postalCode,
+      "country": country
+    }],
+    "maritalStatus": {},
+    "generalPractitioner": [],
+    "extension": []
+  });
+
+    let args = {
+      method: "POST",
+      body: body,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Epic-Client-ID": EPIC_CONFIG[context.ENV].CLIENT_ID_OAUTH,
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    let dd = await(
+      fetch(url, args)
+        .then((res) => {
+          console.log("\n CreatePatient res:\n", res, "\n\n");
+            return res.json();
+        })
+        .then((result) => {
+          console.log("\n CreatePatient result:\n", result, "\n\n");
+          return result;
+        })
+        .catch((error) => {
+          console.log("CreatePatient:\n", error);
+          return "FAIL";
+        })
+    );
+    return dd;
+  },
+  UpdateDemographics: (PatientIDType, PatientID, MyChartAccountID, Demographics) => {
+        	
+    let url = ENDPOINT_CONFIG().UpdateDemographics;
+    let args = {
+      "PatientID":PatientID,
+      "PatientIDType":PatientIDType,
+      "MyChartAccountID":MyChartAccountID,
+      "MyChartAccountIDType":"MYCHARTLOGIN",
+      "UpdateRaceEthLang":"false",
+      //"Comments":["dob update"],
+      "Demographics": Demographics
+    };
+    console.log("Update demographics body \n", args);
+
+          let token = await(API_CONFIG.GetbackendOAuthToken());
+    token = token && token.message && token.message.access_token ? token.message.access_token : "failed";
+
+    if (token === "failed") {
+      console.log("\nToken Call Failed in UpdateDemographics EPIC API");
+      return {
+        status: 0,
+        result: "Failed, Check Token API",
+      };
+    }
+
+          console.log(url);
+          var returnResult = await(
+            fetch(url, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer "+ token,
+              },
+              body: JSON.stringify(args),
+            })
+              .then(function (response) {
+                //console.log("\n:UpdateDemographics response=", response);
+                return response.json();
+              })
+              .then(function (result) {
+                console.log("\n: result=", result);
+                return result;
+              })
+              .catch(function (error) {
+                console.log("\n: Error=", error);
+                return error;
+              })
+          );
+      return returnResult;
+    },
+}

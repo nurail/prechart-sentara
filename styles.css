@@ -785,12 +785,12 @@
 }
 
 .avm-prechart-app .toggle-container {
-    width: 30%;
+    width: 60%;
     position: relative;
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
     text-align: left;
     font-size: 14px;
     color: #4d5469;
@@ -1135,6 +1135,7 @@ section#summary-pane.is-active {
     position: absolute;
     inset: 0;
     background: rgba(15, 23, 42, 0.55);
+    backdrop-filter: none;
     display: flex;
     align-items: stretch;
     justify-content: center;
@@ -1148,6 +1149,91 @@ section#summary-pane.is-active {
     overflow: auto;
     position: relative;
     padding: 16px;
+}
+
+
+/* Compact centered sheet for lab results */
+
+.avm-prechart-app .lab-modal-overlay .lab-modal-sheet,
+.avm-prechart-app .med-modal-overlay .med-modal-sheet {
+    width: min(720px, 90vw);
+    height: auto;
+    max-height: 70vh;
+    margin: 24px auto;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 10px 30px rgba(2, 6, 23, 0.18);
+    background: #ffffff;
+    align-self: start;
+    overflow: auto;
+}
+
+.avm-prechart-app .lab-modal-overlay,
+.avm-prechart-app .med-modal-overlay {
+    background: rgba(15, 23, 42, 0.45) !important;
+    backdrop-filter: blur(6px) !important;
+    align-items: center !important;
+}
+
+.avm-prechart-app .lab-modal-title,
+.avm-prechart-app .med-modal-title {
+    margin: 6px 0 8px 0;
+}
+
+
+/* Lab results grid inside modal */
+
+.avm-prechart-app .lab-results-grid,
+.avm-prechart-app .med-details-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(260px, 1fr));
+    gap: 14px;
+    margin-top: 8px;
+}
+
+.avm-prechart-app .lab-tile {
+    border: 1px solid #cad8ef;
+    border-radius: 12px;
+    background: #f5f8ff;
+    padding: 14px 16px;
+}
+
+.avm-prechart-app .lab-name {
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 4px;
+}
+
+.avm-prechart-app .lab-value {
+    color: #374151;
+}
+
+
+/* Improve lab test links */
+
+.avm-prechart-app .lab-test-link,
+.avm-prechart-app .medication-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    background: #ffffff;
+    color: #334155;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.avm-prechart-app .lab-test-link::before {
+    content: '\1F4CA';
+}
+
+.avm-prechart-app .lab-test-link:hover,
+.avm-prechart-app .medication-link:hover {
+    background: #f5f8ff;
+    border-color: #cad8ef;
+    color: #111827;
 }
 
 .avm-prechart-app .modal-close {
@@ -1229,7 +1315,7 @@ span.accordion-title {
 
 .avm-prechart-app .q-header h3 {
     font-size: 20px;
-    font-weight: 400;
+    font-weight: 600;
     margin-block: 10px 0px;
 }
 
@@ -1588,6 +1674,10 @@ span.accordion-title {
     margin-bottom: 8px;
 }
 
+.avm-prechart-app .problem-summary {
+    padding-bottom: 10px;
+}
+
 .avm-prechart-app .problem-header h3 {
     margin: 0;
     font-size: 20px;
@@ -1629,6 +1719,8 @@ span.accordion-title {
 
 .avm-prechart-app .problem-summary p {
     margin: 4px 0;
+    line-height: 28px;
+    font-size: 16px;
 }
 
 .avm-prechart-app .problem-causes {
@@ -1673,13 +1765,17 @@ span.accordion-title {
     display: inline-block;
     font-size: 0.85rem;
     font-weight: 600;
-    background: #f5f8ff;
+    background: #642bf31a;
     border: 1px solid #cad8ef;
     border-radius: 9999px;
     padding: 6px 12px;
     margin-bottom: 6px;
     cursor: pointer;
     text-decoration: none;
+}
+
+.avm-prechart-app .timeline-content {
+    padding-bottom: 10px;
 }
 
 .avm-prechart-app .hidden {
