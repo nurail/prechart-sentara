@@ -141,18 +141,99 @@ const listViewData = [
             // { label: 'TSH', value: '1.8 µIU/mL', date: '2025-07-10' },
             // { label: 'ESR/CRP', value: 'normal', date: '2025-07-18' }
             {
+                "label": "URINALYSIS REFLEX TO URINE CULTURE",
+                "date": "2025-03-28",
+                "results": [{
+                        "name": "Source Urine",
+                        "value": "Clean catch"
+                    },
+                    {
+                        "name": "Urine Color",
+                        "value": "Clear",
+                        "range": "Colorless, Pale Yellow, Light Yellow, Yellow, Dark Yellow, Straw",
+                        "abnormal": true
+                    },
+                    {
+                        "name": "Urine Clarity",
+                        "value": "Slightly Cloudy",
+                        "range": "Clear, Slightly Cloudy"
+                    },
+                    {
+                        "name": "Urine",
+                        "value": "6.0",
+                        "min": 5.0,
+                        "max": 8.0,
+                        "unit": "pH"
+                    },
+                    {
+                        "name": "Urine Protein Screen",
+                        "value": "Negative",
+                        "range": "Negative, Trace mg/dL",
+                        "unit": '', // (value == "Negative" ? '' : "mg/dL")
+                    },
+                    {
+                        "name": "Urine Glucose",
+                        "value": "Negative",
+                        "range": "Negative",
+                        "unit": '', // (value == "Negative" ? '' : "mg/dL")
+                    },
+                    {
+                        "name": "Urine Ketones",
+                        "value": "Negative",
+                        "range": "Negative",
+                        "unit": '', // (value == "Negative" ? '' : "mg/dL")
+                    },
+                    {
+                        "name": "Urine Occult Blood",
+                        "value": "Moderate",
+                        "range": "Negative",
+                        "abnormal": true
+                    },
+                    {
+                        "name": "Urine Specific Gravity",
+                        "value": "1.029",
+                        "min": 1.005,
+                        "max": 1.030
+                    },
+                    {
+                        "name": "Urine Nitrite",
+                        "value": "Positive",
+                        "range": "Negative",
+                        "abnormal": true
+                    },
+                    {
+                        "name": "Urine Leukocyte Esterase",
+                        "value": "Small",
+                        "range": "Negative",
+                        "abnormal": true
+                    },
+                    {
+                        "name": "Urine Bilirubin",
+                        "value": "Negative",
+                        "range": "Negative"
+                    },
+                    {
+                        "name": "Urine Urobilinogen",
+                        "value": "0.2",
+                        "min": 0,
+                        "max": 2.0,
+                        "unit": "mg/dL"
+                    }
+                ]
+            },
+            {
                 label: 'POCT CBC',
                 date: '2012-10-28',
                 results: [
-                    { name: 'Hematocrit', value: '50' },
-                    { name: 'Hemoglobin', value: '15.25' },
-                    { name: 'RBC', value: '5.2' },
-                    { name: 'WBC', value: '5.6' },
+                    { name: 'Hematocrit', value: '50', min: 41, max: 53, unit: '%' },
+                    { name: 'Hemoglobin', value: '15.25', min: 13.5, max: 17.5, unit: 'g/dL' },
+                    { name: 'RBC', value: '5.2', min: 4.5, max: 5.9, unit: '10^6/µL' },
+                    { name: 'WBC', value: '5.6', unit: '10^3/mL' },
                     { name: 'MCV', value: '80' },
                     { name: 'MCH', value: '26' },
                     { name: 'MCHC', value: '31' },
                     { name: 'RDW-CV', value: '13.3' },
-                    { name: 'Platelet Count, POC', value: '210' },
+                    { name: 'Platelet Count, POC', value: '210', min: 150, max: 399, unit: 'K/µL' },
                     { name: 'MPV', value: '11.2' },
                 ]
             },
@@ -160,15 +241,15 @@ const listViewData = [
                 label: 'POCT CBC',
                 date: '2012-10-19',
                 results: [
-                    { name: 'Hematocrit', value: '45' },
-                    { name: 'Hemoglobin', value: '15' },
-                    { name: 'RBC', value: '5.1' },
-                    { name: 'WBC', value: '5.5' },
+                    { name: 'Hematocrit', value: 45, min: 41, max: 53, unit: '%' },
+                    { name: 'Hemoglobin', value: 15, min: 13.5, max: 17.5, unit: 'g/dL' },
+                    { name: 'RBC', value: 5.1, min: 4.5, max: 5.9, unit: '10^6/µL' },
+                    { name: 'Auto WBC', value: '5.5', unit: '10^3/mL' },
                     { name: 'MCV', value: '80' },
                     { name: 'MCH', value: '26' },
                     { name: 'MCHC', value: '31' },
                     { name: 'RDW-CV', value: '13.1' },
-                    { name: 'Platelet Count, POC', value: '200' },
+                    { name: 'Platelets', value: 200, min: 150, max: 399, unit: 'K/µL' },
                     { name: 'MPV', value: '11.1' },
                 ]
             },
@@ -176,31 +257,31 @@ const listViewData = [
                 label: 'CBC',
                 date: '2010-02-20',
                 results: [
-                    { name: 'Hgb, blood gas', value: '15' },
-                    { name: 'Hematocrit', value: '44.4' },
-                    { name: 'Neutrophils Absolute', value: '5.4' },
-                    { name: 'Lymphocytes Absolute', value: '1.2' },
-                    { name: 'Monocytes Absolute', value: '0.6' },
-                    { name: 'Eosinophils Absolute', value: '0.3' },
-                    { name: 'Platelets', value: '432' }
+                    { name: 'Hgb, blood gas', value: '15', min: 13.5, max: 17.5, unit: '' },
+                    { name: 'Hematocrit', value: '44.4', min: 41, max: 53, unit: '%' },
+                    { name: 'Neutrophils Absolute', value: '5.4', min: 1.7, max: 7, unit: '/uL' },
+                    { name: 'Lymphocytes Absolute', value: '1.2', min: 0.9, max: 2.9, unit: '/uL' },
+                    { name: 'Monocytes Absolute', value: '0.6', min: 0.3, max: 0.9, unit: '/uL' },
+                    { name: 'Eosinophils Absolute', value: '0.3', min: 0.05, max: 0.5, unit: '/uL' },
+                    { name: 'Platelets', value: '432', min: 150, max: 450, unit: 'K/uL' }
                 ]
             },
-            {
-                label: 'LIPID PANEL',
-                date: '2010-02-20',
-                results: [
-                    { name: 'Triglycerides', value: '155' }
-                ]
-            },
+            // {
+            //     label: 'LIPID PANEL',
+            //     date: '2010-02-20',
+            //     results: [
+            //         { name: 'Triglycerides', value: '155' }
+            //     ]
+            // },
             {
                 label: 'CBC',
                 date: '2006-07-07',
                 results: [
-                    { name: 'Hgb, blood gas', value: '14.1' },
-                    { name: 'Hematocrit', value: '42.9' },
-                    { name: 'Neutrophils Absolute', value: '5' },
-                    { name: 'Lymphocytes Absolute', value: '1.1' },
-                    { name: 'Platelets', value: '375' }
+                    { name: 'Hgb, blood gas', value: '14.1', min: 13.5, max: 17.5, unit: '' },
+                    { name: 'Hematocrit', value: '42.9', min: 41, max: 53, unit: '%' },
+                    { name: 'Neutrophils Absolute', value: '5', min: 1.7, max: 7, unit: '/uL' },
+                    { name: 'Lymphocytes Absolute', value: '1.1', min: 0.9, max: 2.9, unit: '/uL' },
+                    { name: 'Platelets', value: '375', min: 150, max: 450, unit: 'K/uL' }
                 ]
             }
         ]
@@ -227,22 +308,21 @@ const visitDates = [
     '2024-11-15',
 ];
 
-// Data model for left-pane cards (5 dates)
+// Data model for left-pane cards (5 total encounters → reduced to 3 Sleep Apnea + 2 Headaches)
 const visitSamples = [{
         "date": "2025-08-20",
-        "Chief Complaint": "Routine check-up, no headaches.",
-        "History of Present Illness": "Patient reports feeling well over the past month with no headache episodes. Sleep is regular and CPAP therapy compliance is >90%. No new neurological symptoms, such as weakness, numbness, or visual disturbances.",
-        "Past Medical History": "Migraines diagnosed in 2021; mild hypertension controlled with medication; mild obstructive sleep apnea diagnosed 2025.",
-        "Past Surgical History": "Appendectomy in 2018, no complications.",
-        "Medications & Allergies": "Lisinopril 10 mg daily; no current pain medications. Allergic to penicillin (rash).",
-        "Family History": "Father has history of migraines; mother healthy.",
-        "Social History": "Non-smoker, occasional coffee, works night shifts, exercises moderately twice a week.",
-        "Review of Systems": "Denies headaches, dizziness, weakness, numbness, visual changes, speech difficulty, or syncope. No cardiovascular, respiratory, or gastrointestinal complaints.",
-        "Physical Examination": "Vital signs stable. Neurological exam normal: cranial nerves II-XII intact, strength 5/5 in all extremities, sensation intact, reflexes 2+, gait normal.",
-        "Imaging/Lab Results": "No new imaging or labs. Prior labs normal.",
-        "Assessment": "Patient is neurologically stable. Headaches resolved with adherence to CPAP and lifestyle modifications.",
-        "Plan": "Continue CPAP therapy nightly. Maintain regular sleep schedule and hydration. Encourage aerobic exercise. Annual follow-up recommended, or sooner if symptoms recur.",
-        // "Summary": "Patient is symptom-free with excellent CPAP adherence. Neurological exam normal. No headache episodes reported. Continue current management plan.",
+        "Chief Complaint": "Routine follow-up, no headaches.",
+        "History of Present Illness": "Patient reports feeling well, headaches resolved with CPAP compliance. Sleep regular, >90% adherence. No new neurological complaints.",
+        "Past Medical History": "Migraines (2021), mild hypertension, mild obstructive sleep apnea (2025).",
+        "Past Surgical History": "Appendectomy in 2018.",
+        "Medications & Allergies": "Lisinopril 10 mg daily; Allergic to penicillin (rash).",
+        "Family History": "Father with migraines.",
+        "Social History": "Non-smoker, occasional coffee, night shifts, moderate exercise.",
+        "Review of Systems": "Denies headaches, dizziness, numbness, vision/speech changes.",
+        "Physical Examination": "Vitals stable, neurological exam normal.",
+        "Imaging/Lab Results": "No new imaging or labs.",
+        "Assessment": "Neurologically stable, headaches resolved with CPAP.",
+        "Plan": "Continue CPAP nightly, monitor symptoms, annual follow-up.",
         "Summary": "Patient presented for routine follow-up and reports being symptom-free over the past month. Headaches have completely resolved with consistent CPAP use and improved sleep hygiene. No new neurological complaints or changes in physical examination findings. Patient demonstrates good understanding of therapy compliance and lifestyle recommendations. Continue current management and monitor periodically.",
         "Encounter Details": {
             "Speciality": "Neurology",
@@ -255,18 +335,17 @@ const visitSamples = [{
     {
         "date": "2025-06-05",
         "Chief Complaint": "Follow-up after CPAP mask change.",
-        "History of Present Illness": "Patient reports headaches reduced to 1–2 times/week after switching to a new nasal CPAP mask. Headaches are mild, last 30–60 minutes, occasionally associated with mild photophobia. No nausea or vomiting.",
-        "Past Medical History": "Migraines, mild hypertension, mild sleep apnea.",
-        "Past Surgical History": "Appendectomy in 2018.",
-        "Medications & Allergies": "Lisinopril 10 mg daily. Allergic to penicillin (rash).",
-        "Family History": "Father has history of migraines.",
-        "Social History": "Non-smoker, occasional coffee, continues night shifts, exercises 1–2 times/week.",
-        "Review of Systems": "Positive for mild headaches; otherwise negative. Denies weakness, numbness, vision or speech changes.",
-        "Physical Examination": "Vitals stable. Neurological exam normal. Cranial nerves intact. Strength, sensation, and reflexes within normal limits. Gait normal.",
-        "Imaging/Lab Results": "No new imaging or labs; prior MRI and labs stable.",
-        "Assessment": "Significant improvement in headache frequency and severity with CPAP compliance.",
-        "Plan": "Continue CPAP nightly. Maintain reduced caffeine intake and regular sleep schedule. Follow-up in 4 months or sooner if headaches worsen.",
-        // "Summary": "Patient demonstrates significant improvement in headaches after CPAP mask change. Mild infrequent headaches remain. Neurological status stable.",
+        "History of Present Illness": "Headaches reduced to 1–2/week after new nasal mask. Mild photophobia, no nausea/vomiting.",
+        "Past Medical History": "Migraines, mild hypertension, mild OSA.",
+        "Past Surgical History": "Appendectomy 2018.",
+        "Medications & Allergies": "Lisinopril 10 mg daily. Penicillin allergy (rash).",
+        "Family History": "Father with migraines.",
+        "Social History": "Non-smoker, occasional coffee, night shifts.",
+        "Review of Systems": "Mild headaches; otherwise negative.",
+        "Physical Examination": "Neurological exam normal.",
+        "Imaging/Lab Results": "No new imaging.",
+        "Assessment": "Improved headache frequency with better CPAP adherence.",
+        "Plan": "Continue CPAP nightly, follow-up in 2–3 months.",
         "Summary": "Patient presented for follow-up after CPAP mask change. Headache frequency and severity have improved significantly, now occurring only 1–2 times per week. Mild photophobia noted but otherwise symptoms well controlled. Neurological examination remains normal, and vitals stable. Patient educated on continuing therapy compliance, lifestyle modifications, and monitoring triggers. Plan to maintain current therapy and review progress at the next scheduled visit.",
         "Encounter Details": {
             "Speciality": "Neurology",
@@ -278,19 +357,18 @@ const visitSamples = [{
     },
     {
         "date": "2025-04-18",
-        "Chief Complaint": "Increased headaches after stopping CPAP.",
-        "History of Present Illness": "Patient discontinued CPAP therapy due to mask discomfort. Reports headaches 4–5 days/week, lasting 1–2 hours, sometimes associated with light sensitivity. Denies nausea, vomiting, or new neurological deficits.",
-        "Past Medical History": "Migraines, mild hypertension, mild sleep apnea.",
-        "Past Surgical History": "Appendectomy in 2018.",
-        "Medications & Allergies": "Lisinopril 10 mg daily. Allergic to penicillin (rash).",
+        "Chief Complaint": "Headaches worsening after stopping CPAP.",
+        "History of Present Illness": "Stopped CPAP due to mask discomfort. Headaches 4–5/week, lasting 1–2h, light sensitivity present.",
+        "Past Medical History": "Migraines, hypertension, mild OSA.",
+        "Past Surgical History": "Appendectomy 2018.",
+        "Medications & Allergies": "Lisinopril 10 mg daily. Allergic to penicillin.",
         "Family History": "Father with migraines.",
-        "Social History": "Non-smoker, coffee 2x/day, night shifts continue, limited exercise.",
-        "Review of Systems": "Positive for headaches and photophobia. Denies weakness, numbness, visual or speech changes, syncope, chest pain, or shortness of breath.",
-        "Physical Examination": "Vitals: BP 142/90 mmHg. Neurological exam normal. Cranial nerves II-XII intact. Strength 5/5, sensation normal, reflexes 2+. Gait normal.",
-        "Imaging/Lab Results": "No new imaging; prior labs normal.",
-        "Assessment": "Worsening headaches likely secondary to untreated sleep apnea.",
-        "Plan": "Restart CPAP therapy with alternative mask type. Refer to sleep specialist. Recommend headache diary and monitor frequency and severity.",
-        // "Summary": "Headaches worsened after CPAP discontinuation. Neurological exam unchanged. CPAP restarted with new mask and referred for sleep follow-up.",
+        "Social History": "Coffee 2x/day, night shifts, limited exercise.",
+        "Review of Systems": "Positive headaches, photophobia. Denies weakness, numbness.",
+        "Physical Examination": "BP 142/90, neuro exam otherwise normal.",
+        "Imaging/Lab Results": "No new imaging.",
+        "Assessment": "Headaches worsened due to untreated OSA.",
+        "Plan": "Restart CPAP with alternative mask, refer to sleep specialist.",
         "Summary": "Patient reports worsening headaches after discontinuing CPAP therapy. Headaches now occur 4–5 times per week and are occasionally associated with photophobia. No neurological deficits were noted on examination. Education provided regarding the importance of CPAP adherence and mask selection. Referred to sleep specialist for further management and advised to keep a detailed headache diary. Therapy compliance emphasized to prevent further symptom escalation.",
         "Encounter Details": {
             "Speciality": "Neurology",
@@ -302,19 +380,18 @@ const visitSamples = [{
     },
     {
         "date": "2025-01-10",
-        "Chief Complaint": "Follow-up for headaches after sleep study.",
-        "History of Present Illness": "Patient reports headaches decreased to twice per week since sleep schedule adjustments. Sleep study confirmed mild obstructive sleep apnea. No new neurological symptoms.",
-        "Past Medical History": "Migraines, mild hypertension, mild sleep apnea.",
-        "Past Surgical History": "Appendectomy in 2018.",
-        "Medications & Allergies": "Lisinopril 10 mg daily; started CPAP therapy. Allergic to penicillin (rash).",
+        "Chief Complaint": "Follow-up after sleep study.",
+        "History of Present Illness": "Headaches decreased to 2/week. Sleep study confirmed mild OSA. Started CPAP.",
+        "Past Medical History": "Migraines, mild hypertension, mild OSA.",
+        "Past Surgical History": "Appendectomy 2018.",
+        "Medications & Allergies": "Lisinopril 10 mg daily. Started CPAP. Allergic to penicillin.",
         "Family History": "Father with migraines.",
-        "Social History": "Non-smoker, reduced coffee to one cup daily, continues night shifts, exercises moderately.",
-        "Review of Systems": "Positive for occasional mild headaches; denies dizziness, weakness, numbness, or visual changes.",
-        "Physical Examination": "Vitals: BP 130/84 mmHg. Neurological exam normal. Cranial nerves intact, motor and sensory exam normal, reflexes 2+, gait steady.",
-        "Imaging/Lab Results": "Sleep study reviewed; no other imaging.",
-        "Assessment": "Improved headache control with lifestyle changes and CPAP therapy.",
-        "Plan": "Continue nightly CPAP, maintain reduced caffeine intake, monitor headache frequency, follow-up in 3 months.",
-        // "Summary": "Patient reports improved headache control with CPAP therapy and lifestyle changes. No new neurological deficits noted.",
+        "Social History": "Reduced coffee intake, night shifts, exercises moderately.",
+        "Review of Systems": "Occasional mild headaches only.",
+        "Physical Examination": "BP 130/84, neuro exam normal.",
+        "Imaging/Lab Results": "Sleep study reviewed.",
+        "Assessment": "Improved headache control with CPAP and sleep changes.",
+        "Plan": "Continue CPAP, follow-up in 3 months.",
         "Summary": "Patient demonstrated improvement in headache frequency after adjusting sleep schedule and initiating CPAP therapy. Headaches now occur only twice per week and are mild. No new neurological deficits noted. Patient adheres well to therapy, understands lifestyle recommendations, and is motivated to continue compliance. Reinforced importance of sleep hygiene, caffeine moderation, and follow-up monitoring.",
         "Encounter Details": {
             "Speciality": "Neurology",
@@ -326,19 +403,18 @@ const visitSamples = [{
     },
     {
         "date": "2024-11-15",
-        "Chief Complaint": "Frequent morning headaches for the past two months.",
-        "History of Present Illness": "Patient reports dull headaches almost daily, worse upon waking, lasting 1–2 hours. No associated nausea, vomiting, visual disturbances, or weakness.",
-        "Past Medical History": "Migraines diagnosed in 2021; mild hypertension.",
-        "Past Surgical History": "Appendectomy in 2018.",
-        "Medications & Allergies": "Lisinopril 10 mg daily. Allergic to penicillin (rash).",
+        "Chief Complaint": "Frequent morning headaches.",
+        "History of Present Illness": "Dull daily headaches, worse upon waking. No nausea, vomiting, vision changes.",
+        "Past Medical History": "Migraines, mild hypertension.",
+        "Past Surgical History": "Appendectomy 2018.",
+        "Medications & Allergies": "Lisinopril 10 mg daily. Allergic to penicillin.",
         "Family History": "Father with migraines.",
-        "Social History": "Non-smoker, drinks coffee twice daily, works night shifts, minimal exercise.",
-        "Review of Systems": "Positive for headaches; denies other neurological or systemic complaints.",
-        "Physical Examination": "Vitals: BP 138/88 mmHg. Neurological exam normal: cranial nerves II-XII intact, motor/sensory exam normal, reflexes 2+, gait steady.",
-        "Imaging/Lab Results": "No imaging performed; basic labs within normal limits.",
-        "Assessment": "Morning headaches likely related to poor sleep and possible sleep apnea.",
-        "Plan": "Recommend sleep study, adjust sleep schedule, monitor headache frequency.",
-        // "Summary": "Patient experiencing frequent morning headaches. Neurological exam normal. Likely related to sleep disruption. Sleep study and lifestyle adjustments recommended.",
+        "Social History": "Coffee twice daily, night shifts, minimal exercise.",
+        "Review of Systems": "Positive for headaches only.",
+        "Physical Examination": "BP 138/88, neurological exam normal.",
+        "Imaging/Lab Results": "Labs normal, no imaging yet.",
+        "Assessment": "Morning headaches likely linked to poor sleep / suspected OSA.",
+        "Plan": "Sleep study ordered.",
         "Summary": "Patient reports frequent morning headaches over the past two months, predominantly occurring upon waking and lasting 1–2 hours. Headaches are dull and not associated with neurological deficits. Examination and vitals are within normal limits. Suspected underlying sleep disruption, potentially mild sleep apnea. Sleep study recommended, lifestyle adjustments suggested, and follow-up planned to evaluate response to interventions.",
         "Encounter Details": {
             "Speciality": "Neurology",
@@ -350,48 +426,34 @@ const visitSamples = [{
     }
 ];
 
-// Data model for left-pane cards based on the problem (3 problems)
+// Data model for left-pane cards based on problems (3 Sleep Apnea + 2 Headaches)
 const visitProblems = [{
         problem: "Sleep Apnea",
         onset: "Diagnosed Jan 2025 (sleep study)",
         causes: ["Obstructive airway during sleep"],
         course: [{
-                date: "2024-11-15",
-                status: "Suspected sleep apnea",
-                reason: "Morning headaches and poor sleep",
-                notes: "Sleep study recommended",
-                summary: "sleep apnea was suspected due to morning headaches and disrupted sleep; a sleep study was recommended."
-            },
-            {
                 date: "2025-01-10",
                 status: "Confirmed mild OSA",
                 reason: "Sleep study results",
                 notes: "CPAP initiated",
-                summary: "diagnosis of mild obstructive sleep apnea was confirmed by sleep study; CPAP therapy was started."
+                summary: "Mild OSA confirmed; CPAP started."
             },
             {
                 date: "2025-04-18",
                 status: "Non-adherence",
                 reason: "Stopped CPAP due to mask discomfort",
                 notes: "Headaches worsened",
-                summary: "patient stopped using CPAP due to mask discomfort, leading to worsening headaches."
+                summary: "Stopped CPAP due to mask discomfort, leading to worsening headaches."
             },
             {
                 date: "2025-06-05",
-                status: "Improved adherence",
-                reason: "Switched to a more comfortable mask",
-                notes: "Headaches reduced",
-                summary: "CPAP adherence improved after switching to a more comfortable mask, resulting in fewer headaches."
-            },
-            {
-                date: "2025-08-20",
-                status: "Well controlled",
-                reason: "Consistent CPAP compliance",
-                notes: "Headaches resolved",
-                summary: "sleep apnea became well controlled with consistent CPAP use; headaches resolved."
+                status: "Improved with new mask → Now well controlled",
+                reason: "Better adherence after nasal mask change",
+                notes: "Headaches reduced to 1–2/week, later resolved with full compliance",
+                summary: "OSA control improved after CPAP mask change; ultimately well controlled by August 2025."
             }
         ],
-        currentStatus: "Stable with CPAP",
+        currentStatus: "Well controlled with consistent CPAP (as of Aug 2025)",
         priority: "High — root cause of headaches",
         relatedConditions: ["Headaches", "Hypertension"],
         position: 1
@@ -399,68 +461,382 @@ const visitProblems = [{
     {
         problem: "Headaches",
         onset: "Reported since 2024-11",
-        causes: [
-            "Poor sleep and suspected sleep apnea (2024-11)",
-            "Discontinuation of CPAP therapy (2025-04)",
-            "Non-compliance with CPAP mask due to discomfort"
-        ],
+        causes: ["Poor sleep / OSA", "Stopped CPAP due to mask issues"],
         course: [{
                 date: "2024-11-15",
                 status: "Frequent morning headaches",
                 reason: "Likely linked to untreated sleep apnea",
                 notes: "Sleep study recommended",
-                summary: "patient reported daily morning headaches, suspected to be due to sleep apnea."
-            },
-            {
-                date: "2025-01-10",
-                status: "Improved, ~2 headaches/week",
-                reason: "Started CPAP and lifestyle changes",
-                notes: "Adhering to therapy",
-                summary: "headaches reduced after initiation of CPAP and lifestyle modifications."
-            },
-            {
-                date: "2025-04-18",
-                status: "Worsening, 4–5 headaches/week",
-                reason: "Stopped CPAP due to mask discomfort",
-                notes: "Restarted CPAP, referred to sleep specialist",
-                summary: "headaches worsened after stopping CPAP due to mask issues, but therapy was restarted with referral."
-            },
-            {
-                date: "2025-06-05",
-                status: "Reduced to 1–2 headaches/week",
-                reason: "Mask switched and adherence improved",
-                notes: "Mild photophobia, otherwise stable",
-                summary: "improved adherence with a new CPAP mask, headaches reduced."
+                summary: "Patient reported daily morning headaches, suspected to be due to sleep apnea."
             },
             {
                 date: "2025-08-20",
                 status: "Resolved, no headaches",
                 reason: "Consistent CPAP use and better sleep hygiene",
                 notes: "Neurologically stable",
-                summary: "headaches resolved with consistent CPAP compliance and improved sleep hygiene."
+                summary: "Headaches resolved with consistent CPAP compliance and improved sleep hygiene."
             }
         ],
         currentStatus: "Resolved with CPAP compliance",
-        priority: "High — directly tied to untreated sleep apnea",
-        relatedConditions: ["Sleep Apnea", "Migraines", "Hypertension"],
+        priority: "High — secondary to untreated OSA",
+        relatedConditions: ["Sleep Apnea", "Hypertension"],
         position: 2
-    },
-    // {
-    //     problem: "Hypertension",
-    //     onset: "Prior to 2024",
-    //     causes: ["Chronic condition"],
-    //     course: [{
-    //         date: "2024-11-15 → 2025-08-20",
-    //         status: "Controlled with Lisinopril",
-    //         reason: "Medication adherence",
-    //         notes: "BP stable at follow-ups"
-    //     }],
-    //     currentStatus: "Stable, well-controlled",
-    //     priority: "Medium",
-    //     relatedConditions: ["Headaches", "Sleep Apnea"],
-    //     position: 3
-    // }
+    }
 ];
+
+
+// // Data model for left-pane cards based on problems (3 Sleep Apnea + 2 Headaches)
+// const visitProblems = [{
+//         problem: "Sleep Apnea",
+//         onset: "Diagnosed Jan 2025 (sleep study)",
+//         causes: ["Obstructive airway during sleep"],
+//         course: [{
+//                 date: "2025-01-10",
+//                 status: "Confirmed mild OSA",
+//                 reason: "Sleep study results",
+//                 notes: "CPAP initiated",
+//                 summary: "Mild OSA confirmed; CPAP started."
+//             },
+//             {
+//                 date: "2025-04-18",
+//                 status: "Non-adherence",
+//                 reason: "Stopped CPAP due to mask discomfort",
+//                 notes: "Headaches worsened",
+//                 summary: "Stopped CPAP due to mask discomfort, leading to worsening headaches."
+//             },
+//             {
+//                 date: "2025-06-05",
+//                 status: "Improved with new mask",
+//                 reason: "Better adherence after nasal mask change",
+//                 notes: "Headaches reduced to 1–2/week, milder symptoms",
+//                 summary: "OSA control improved after CPAP mask change; headaches decreased."
+//             }
+//             // ✅ dropped Aug 2025 so we keep 3 total
+//         ],
+//         currentStatus: "Stable with CPAP",
+//         priority: "High — root cause of headaches",
+//         relatedConditions: ["Headaches", "Hypertension"],
+//         position: 1
+//     },
+//     {
+//         problem: "Headaches",
+//         onset: "Reported since 2024-11",
+//         causes: ["Poor sleep / OSA", "Stopped CPAP due to mask issues"],
+//         course: [{
+//                 date: "2024-11-15",
+//                 status: "Frequent morning headaches",
+//                 reason: "Likely linked to untreated sleep apnea",
+//                 notes: "Sleep study recommended",
+//                 summary: "Patient reported daily morning headaches, suspected to be due to sleep apnea."
+//             },
+//             {
+//                 date: "2025-08-20",
+//                 status: "Resolved, no headaches",
+//                 reason: "Consistent CPAP use and better sleep hygiene",
+//                 notes: "Neurologically stable",
+//                 summary: "Headaches resolved with consistent CPAP compliance and improved sleep hygiene."
+//             }
+//         ],
+//         currentStatus: "Resolved with CPAP compliance",
+//         priority: "High — secondary to untreated OSA",
+//         relatedConditions: ["Sleep Apnea", "Hypertension"],
+//         position: 2
+//     }
+// ];
+
+// // Data model for left-pane cards based on problems (reduced)
+// const visitProblems = [{
+//         problem: "Sleep Apnea",
+//         onset: "Diagnosed Jan 2025 (sleep study)",
+//         causes: ["Obstructive airway during sleep"],
+//         course: [{
+//                 date: "2025-01-10",
+//                 status: "Confirmed mild OSA",
+//                 reason: "Sleep study results",
+//                 notes: "CPAP initiated",
+//                 summary: "mild OSA confirmed; CPAP started."
+//             },
+//             {
+//                 date: "2025-04-18",
+//                 status: "Non-adherence",
+//                 reason: "Stopped CPAP due to mask discomfort",
+//                 notes: "Headaches worsened",
+//                 summary: "stopped CPAP due to mask discomfort, leading to worsening headaches."
+//             },
+//             {
+//                 date: "2025-08-20",
+//                 status: "Well controlled",
+//                 reason: "Consistent CPAP compliance",
+//                 notes: "Headaches resolved",
+//                 summary: "OSA well controlled with CPAP; headaches resolved."
+//             }
+//         ],
+//         currentStatus: "Stable with CPAP",
+//         priority: "High — root cause of headaches",
+//         relatedConditions: ["Headaches", "Hypertension"],
+//         position: 1
+//     },
+//     {
+//         problem: "Headaches",
+//         onset: "Reported since 2024-11",
+//         causes: ["Poor sleep / OSA", "Stopped CPAP due to mask issues"],
+//         course: [{
+//                 date: "2024-11-15",
+//                 status: "Frequent morning headaches",
+//                 reason: "Likely linked to untreated sleep apnea",
+//                 notes: "Sleep study recommended",
+//                 summary: "patient reported daily morning headaches, suspected to be due to sleep apnea."
+//             },
+//             {
+//                 date: "2025-08-20",
+//                 status: "Resolved, no headaches",
+//                 reason: "Consistent CPAP use and better sleep hygiene",
+//                 notes: "Neurologically stable",
+//                 summary: "headaches resolved with consistent CPAP compliance and improved sleep hygiene."
+//             }
+//         ],
+//         currentStatus: "Resolved with CPAP compliance",
+//         priority: "High — directly tied to untreated OSA",
+//         relatedConditions: ["Sleep Apnea", "Hypertension"],
+//         position: 2
+//     }
+// ];
+
+
+// // Data model for left-pane cards (5 dates)
+// const visitSamples = [{
+//         "date": "2025-08-20",
+//         "Chief Complaint": "Routine check-up, no headaches.",
+//         "History of Present Illness": "Patient reports feeling well over the past month with no headache episodes. Sleep is regular and CPAP therapy compliance is >90%. No new neurological symptoms, such as weakness, numbness, or visual disturbances.",
+//         "Past Medical History": "Migraines diagnosed in 2021; mild hypertension controlled with medication; mild obstructive sleep apnea diagnosed 2025.",
+//         "Past Surgical History": "Appendectomy in 2018, no complications.",
+//         "Medications & Allergies": "Lisinopril 10 mg daily; no current pain medications. Allergic to penicillin (rash).",
+//         "Family History": "Father has history of migraines; mother healthy.",
+//         "Social History": "Non-smoker, occasional coffee, works night shifts, exercises moderately twice a week.",
+//         "Review of Systems": "Denies headaches, dizziness, weakness, numbness, visual changes, speech difficulty, or syncope. No cardiovascular, respiratory, or gastrointestinal complaints.",
+//         "Physical Examination": "Vital signs stable. Neurological exam normal: cranial nerves II-XII intact, strength 5/5 in all extremities, sensation intact, reflexes 2+, gait normal.",
+//         "Imaging/Lab Results": "No new imaging or labs. Prior labs normal.",
+//         "Assessment": "Patient is neurologically stable. Headaches resolved with adherence to CPAP and lifestyle modifications.",
+//         "Plan": "Continue CPAP therapy nightly. Maintain regular sleep schedule and hydration. Encourage aerobic exercise. Annual follow-up recommended, or sooner if symptoms recur.",
+//         // "Summary": "Patient is symptom-free with excellent CPAP adherence. Neurological exam normal. No headache episodes reported. Continue current management plan.",
+//         "Summary": "Patient presented for routine follow-up and reports being symptom-free over the past month. Headaches have completely resolved with consistent CPAP use and improved sleep hygiene. No new neurological complaints or changes in physical examination findings. Patient demonstrates good understanding of therapy compliance and lifestyle recommendations. Continue current management and monitor periodically.",
+//         "Encounter Details": {
+//             "Speciality": "Neurology",
+//             "Encounter ID": "20250820",
+//             "Date & Time": "August 20, 2025, 10:30 AM",
+//             "Encounter Status": "Completed",
+//             "Encounter Duration": "30 minutes"
+//         }
+//     },
+//     {
+//         "date": "2025-06-05",
+//         "Chief Complaint": "Follow-up after CPAP mask change.",
+//         "History of Present Illness": "Patient reports headaches reduced to 1–2 times/week after switching to a new nasal CPAP mask. Headaches are mild, last 30–60 minutes, occasionally associated with mild photophobia. No nausea or vomiting.",
+//         "Past Medical History": "Migraines, mild hypertension, mild sleep apnea.",
+//         "Past Surgical History": "Appendectomy in 2018.",
+//         "Medications & Allergies": "Lisinopril 10 mg daily. Allergic to penicillin (rash).",
+//         "Family History": "Father has history of migraines.",
+//         "Social History": "Non-smoker, occasional coffee, continues night shifts, exercises 1–2 times/week.",
+//         "Review of Systems": "Positive for mild headaches; otherwise negative. Denies weakness, numbness, vision or speech changes.",
+//         "Physical Examination": "Vitals stable. Neurological exam normal. Cranial nerves intact. Strength, sensation, and reflexes within normal limits. Gait normal.",
+//         "Imaging/Lab Results": "No new imaging or labs; prior MRI and labs stable.",
+//         "Assessment": "Significant improvement in headache frequency and severity with CPAP compliance.",
+//         "Plan": "Continue CPAP nightly. Maintain reduced caffeine intake and regular sleep schedule. Follow-up in 4 months or sooner if headaches worsen.",
+//         // "Summary": "Patient demonstrates significant improvement in headaches after CPAP mask change. Mild infrequent headaches remain. Neurological status stable.",
+//         "Summary": "Patient presented for follow-up after CPAP mask change. Headache frequency and severity have improved significantly, now occurring only 1–2 times per week. Mild photophobia noted but otherwise symptoms well controlled. Neurological examination remains normal, and vitals stable. Patient educated on continuing therapy compliance, lifestyle modifications, and monitoring triggers. Plan to maintain current therapy and review progress at the next scheduled visit.",
+//         "Encounter Details": {
+//             "Speciality": "Neurology",
+//             "Encounter ID": "20250605",
+//             "Date & Time": "June 5, 2025, 9:00 AM",
+//             "Encounter Status": "Completed",
+//             "Encounter Duration": "25 minutes"
+//         }
+//     },
+//     {
+//         "date": "2025-04-18",
+//         "Chief Complaint": "Increased headaches after stopping CPAP.",
+//         "History of Present Illness": "Patient discontinued CPAP therapy due to mask discomfort. Reports headaches 4–5 days/week, lasting 1–2 hours, sometimes associated with light sensitivity. Denies nausea, vomiting, or new neurological deficits.",
+//         "Past Medical History": "Migraines, mild hypertension, mild sleep apnea.",
+//         "Past Surgical History": "Appendectomy in 2018.",
+//         "Medications & Allergies": "Lisinopril 10 mg daily. Allergic to penicillin (rash).",
+//         "Family History": "Father with migraines.",
+//         "Social History": "Non-smoker, coffee 2x/day, night shifts continue, limited exercise.",
+//         "Review of Systems": "Positive for headaches and photophobia. Denies weakness, numbness, visual or speech changes, syncope, chest pain, or shortness of breath.",
+//         "Physical Examination": "Vitals: BP 142/90 mmHg. Neurological exam normal. Cranial nerves II-XII intact. Strength 5/5, sensation normal, reflexes 2+. Gait normal.",
+//         "Imaging/Lab Results": "No new imaging; prior labs normal.",
+//         "Assessment": "Worsening headaches likely secondary to untreated sleep apnea.",
+//         "Plan": "Restart CPAP therapy with alternative mask type. Refer to sleep specialist. Recommend headache diary and monitor frequency and severity.",
+//         // "Summary": "Headaches worsened after CPAP discontinuation. Neurological exam unchanged. CPAP restarted with new mask and referred for sleep follow-up.",
+//         "Summary": "Patient reports worsening headaches after discontinuing CPAP therapy. Headaches now occur 4–5 times per week and are occasionally associated with photophobia. No neurological deficits were noted on examination. Education provided regarding the importance of CPAP adherence and mask selection. Referred to sleep specialist for further management and advised to keep a detailed headache diary. Therapy compliance emphasized to prevent further symptom escalation.",
+//         "Encounter Details": {
+//             "Speciality": "Neurology",
+//             "Encounter ID": "20250418",
+//             "Date & Time": "April 18, 2025, 11:00 AM",
+//             "Encounter Status": "Completed",
+//             "Encounter Duration": "30 minutes"
+//         }
+//     },
+//     {
+//         "date": "2025-01-10",
+//         "Chief Complaint": "Follow-up for headaches after sleep study.",
+//         "History of Present Illness": "Patient reports headaches decreased to twice per week since sleep schedule adjustments. Sleep study confirmed mild obstructive sleep apnea. No new neurological symptoms.",
+//         "Past Medical History": "Migraines, mild hypertension, mild sleep apnea.",
+//         "Past Surgical History": "Appendectomy in 2018.",
+//         "Medications & Allergies": "Lisinopril 10 mg daily; started CPAP therapy. Allergic to penicillin (rash).",
+//         "Family History": "Father with migraines.",
+//         "Social History": "Non-smoker, reduced coffee to one cup daily, continues night shifts, exercises moderately.",
+//         "Review of Systems": "Positive for occasional mild headaches; denies dizziness, weakness, numbness, or visual changes.",
+//         "Physical Examination": "Vitals: BP 130/84 mmHg. Neurological exam normal. Cranial nerves intact, motor and sensory exam normal, reflexes 2+, gait steady.",
+//         "Imaging/Lab Results": "Sleep study reviewed; no other imaging.",
+//         "Assessment": "Improved headache control with lifestyle changes and CPAP therapy.",
+//         "Plan": "Continue nightly CPAP, maintain reduced caffeine intake, monitor headache frequency, follow-up in 3 months.",
+//         // "Summary": "Patient reports improved headache control with CPAP therapy and lifestyle changes. No new neurological deficits noted.",
+//         "Summary": "Patient demonstrated improvement in headache frequency after adjusting sleep schedule and initiating CPAP therapy. Headaches now occur only twice per week and are mild. No new neurological deficits noted. Patient adheres well to therapy, understands lifestyle recommendations, and is motivated to continue compliance. Reinforced importance of sleep hygiene, caffeine moderation, and follow-up monitoring.",
+//         "Encounter Details": {
+//             "Speciality": "Neurology",
+//             "Encounter ID": "20250110",
+//             "Date & Time": "January 10, 2025, 2:00 PM",
+//             "Encounter Status": "Completed",
+//             "Encounter Duration": "20 minutes"
+//         }
+//     },
+//     {
+//         "date": "2024-11-15",
+//         "Chief Complaint": "Frequent morning headaches for the past two months.",
+//         "History of Present Illness": "Patient reports dull headaches almost daily, worse upon waking, lasting 1–2 hours. No associated nausea, vomiting, visual disturbances, or weakness.",
+//         "Past Medical History": "Migraines diagnosed in 2021; mild hypertension.",
+//         "Past Surgical History": "Appendectomy in 2018.",
+//         "Medications & Allergies": "Lisinopril 10 mg daily. Allergic to penicillin (rash).",
+//         "Family History": "Father with migraines.",
+//         "Social History": "Non-smoker, drinks coffee twice daily, works night shifts, minimal exercise.",
+//         "Review of Systems": "Positive for headaches; denies other neurological or systemic complaints.",
+//         "Physical Examination": "Vitals: BP 138/88 mmHg. Neurological exam normal: cranial nerves II-XII intact, motor/sensory exam normal, reflexes 2+, gait steady.",
+//         "Imaging/Lab Results": "No imaging performed; basic labs within normal limits.",
+//         "Assessment": "Morning headaches likely related to poor sleep and possible sleep apnea.",
+//         "Plan": "Recommend sleep study, adjust sleep schedule, monitor headache frequency.",
+//         // "Summary": "Patient experiencing frequent morning headaches. Neurological exam normal. Likely related to sleep disruption. Sleep study and lifestyle adjustments recommended.",
+//         "Summary": "Patient reports frequent morning headaches over the past two months, predominantly occurring upon waking and lasting 1–2 hours. Headaches are dull and not associated with neurological deficits. Examination and vitals are within normal limits. Suspected underlying sleep disruption, potentially mild sleep apnea. Sleep study recommended, lifestyle adjustments suggested, and follow-up planned to evaluate response to interventions.",
+//         "Encounter Details": {
+//             "Speciality": "Neurology",
+//             "Encounter ID": "20241115",
+//             "Date & Time": "November 15, 2024, 10:00 AM",
+//             "Encounter Status": "Completed",
+//             "Encounter Duration": "25 minutes"
+//         }
+//     }
+// ];
+
+// // Data model for left-pane cards based on the problem (3 problems)
+// const visitProblems = [{
+//         problem: "Sleep Apnea",
+//         onset: "Diagnosed Jan 2025 (sleep study)",
+//         causes: ["Obstructive airway during sleep"],
+//         course: [{
+//                 date: "2024-11-15",
+//                 status: "Suspected sleep apnea",
+//                 reason: "Morning headaches and poor sleep",
+//                 notes: "Sleep study recommended",
+//                 summary: "sleep apnea was suspected due to morning headaches and disrupted sleep; a sleep study was recommended."
+//             },
+//             {
+//                 date: "2025-01-10",
+//                 status: "Confirmed mild OSA",
+//                 reason: "Sleep study results",
+//                 notes: "CPAP initiated",
+//                 summary: "diagnosis of mild obstructive sleep apnea was confirmed by sleep study; CPAP therapy was started."
+//             },
+//             {
+//                 date: "2025-04-18",
+//                 status: "Non-adherence",
+//                 reason: "Stopped CPAP due to mask discomfort",
+//                 notes: "Headaches worsened",
+//                 summary: "patient stopped using CPAP due to mask discomfort, leading to worsening headaches."
+//             },
+//             {
+//                 date: "2025-06-05",
+//                 status: "Improved adherence",
+//                 reason: "Switched to a more comfortable mask",
+//                 notes: "Headaches reduced",
+//                 summary: "CPAP adherence improved after switching to a more comfortable mask, resulting in fewer headaches."
+//             },
+//             {
+//                 date: "2025-08-20",
+//                 status: "Well controlled",
+//                 reason: "Consistent CPAP compliance",
+//                 notes: "Headaches resolved",
+//                 summary: "sleep apnea became well controlled with consistent CPAP use; headaches resolved."
+//             }
+//         ],
+//         currentStatus: "Stable with CPAP",
+//         priority: "High — root cause of headaches",
+//         relatedConditions: ["Headaches", "Hypertension"],
+//         position: 1
+//     },
+//     {
+//         problem: "Headaches",
+//         onset: "Reported since 2024-11",
+//         causes: [
+//             "Poor sleep and suspected sleep apnea (2024-11)",
+//             "Discontinuation of CPAP therapy (2025-04)",
+//             "Non-compliance with CPAP mask due to discomfort"
+//         ],
+//         course: [{
+//                 date: "2024-11-15",
+//                 status: "Frequent morning headaches",
+//                 reason: "Likely linked to untreated sleep apnea",
+//                 notes: "Sleep study recommended",
+//                 summary: "patient reported daily morning headaches, suspected to be due to sleep apnea."
+//             },
+//             {
+//                 date: "2025-01-10",
+//                 status: "Improved, ~2 headaches/week",
+//                 reason: "Started CPAP and lifestyle changes",
+//                 notes: "Adhering to therapy",
+//                 summary: "headaches reduced after initiation of CPAP and lifestyle modifications."
+//             },
+//             {
+//                 date: "2025-04-18",
+//                 status: "Worsening, 4–5 headaches/week",
+//                 reason: "Stopped CPAP due to mask discomfort",
+//                 notes: "Restarted CPAP, referred to sleep specialist",
+//                 summary: "headaches worsened after stopping CPAP due to mask issues, but therapy was restarted with referral."
+//             },
+//             {
+//                 date: "2025-06-05",
+//                 status: "Reduced to 1–2 headaches/week",
+//                 reason: "Mask switched and adherence improved",
+//                 notes: "Mild photophobia, otherwise stable",
+//                 summary: "improved adherence with a new CPAP mask, headaches reduced."
+//             },
+//             {
+//                 date: "2025-08-20",
+//                 status: "Resolved, no headaches",
+//                 reason: "Consistent CPAP use and better sleep hygiene",
+//                 notes: "Neurologically stable",
+//                 summary: "headaches resolved with consistent CPAP compliance and improved sleep hygiene."
+//             }
+//         ],
+//         currentStatus: "Resolved with CPAP compliance",
+//         priority: "High — directly tied to untreated sleep apnea",
+//         relatedConditions: ["Sleep Apnea", "Migraines", "Hypertension"],
+//         position: 2
+//     },
+//     // {
+//     //     problem: "Hypertension",
+//     //     onset: "Prior to 2024",
+//     //     causes: ["Chronic condition"],
+//     //     course: [{
+//     //         date: "2024-11-15 → 2025-08-20",
+//     //         status: "Controlled with Lisinopril",
+//     //         reason: "Medication adherence",
+//     //         notes: "BP stable at follow-ups"
+//     //     }],
+//     //     currentStatus: "Stable, well-controlled",
+//     //     priority: "Medium",
+//     //     relatedConditions: ["Headaches", "Sleep Apnea"],
+//     //     position: 3
+//     // }
+// ];
 
 // Clinical Summary data
 const clinicalSummaryData = {
@@ -605,6 +981,13 @@ function renderCards() {
                     const link = elementCreator('a', { href: '#', class: 'lab-test-link' }, test.label + (when ? ` — ${when}` : ''));
                     link.addEventListener('click', function(e) {
                         e.preventDefault();
+
+                        // Close any existing lab modal before opening a new one
+                        const existingModal = document.querySelector('.lab-modal-overlay') || document.querySelector('.med-modal-overlay');
+                        if (existingModal) {
+                            existingModal.remove();
+                        }
+
                         openLabResultsModal(test);
                     });
                     li.append(link);
@@ -628,6 +1011,13 @@ function renderCards() {
                     const link = elementCreator('a', { href: '#', class: 'medication-link' }, `${med.name} (${med.common_name})`);
                     link.addEventListener('click', function(e) {
                         e.preventDefault();
+
+                        // Close any existing lab modal before opening a new one
+                        const existingModal = document.querySelector('.lab-modal-overlay') || document.querySelector('.med-modal-overlay');
+                        if (existingModal) {
+                            existingModal.remove();
+                        }
+
                         openMedicationModal(med);
                     });
                     li.append(link);
@@ -827,46 +1217,10 @@ function loadEncounterSummary() {
             contentContainer.innerHTML = ""; // clear old content
 
             visitProblems.forEach(problem => {
-                // --- Copy Button with fallback ---
-                const copyButton = elementCreator("button", { class: "copy-btn" }, "Copy");
-
-                // Attach click handler separately
-                copyButton.addEventListener("click", () => {
-                    const textToCopy = formatProblemText(problem); // formatted note text instead of raw JSON
-                    if (navigator.clipboard && navigator.clipboard.writeText) {
-                        navigator.clipboard.writeText(textToCopy).then(() => {
-                            copyButton.innerHTML = "Copied";
-                            copyButton.style.backgroundColor = "#299029";
-                            copyButton.style.color = "#fff";
-                            setTimeout(() => {
-                                copyButton.innerHTML = "Copy";
-                                copyButton.style.backgroundColor = "";
-                                copyButton.style.color = "";
-                            }, 2000);
-                        }).catch(err => console.error("Clipboard write failed:", err));
-                    } else {
-                        const textarea = document.createElement("textarea");
-                        textarea.value = textToCopy;
-                        document.body.appendChild(textarea);
-                        textarea.select();
-                        document.execCommand("copy");
-                        document.body.removeChild(textarea);
-                        copyButton.innerHTML = "Copied";
-                        copyButton.style.backgroundColor = "#299029";
-                        copyButton.style.color = "#fff";
-                        setTimeout(() => {
-                            copyButton.innerHTML = "Copy";
-                            copyButton.style.backgroundColor = "";
-                            copyButton.style.color = "";
-                        }, 2000);
-                    }
-                });
-
-
                 // --- Header Row ---
                 const header = elementCreator("div", { class: "problem-header" }, [
                     elementCreator("h3", {}, problem.problem),
-                    copyButton
+                    // copyButton
                 ]);
 
                 // --- Quick Summary (paragraph with date hyperlinks) ---
@@ -968,8 +1322,43 @@ function loadEncounterSummary() {
                                 }
                             });
 
+                            // --- Copy Button ---
+                            const copyButton = elementCreator("button", { class: "copy-btn" }, "Copy");
+
+                            // Attach click handler separately
+                            copyButton.addEventListener("click", () => {
+                                // Find the container (adjust selector if needed)
+                                const container = copyButton.closest(".problem-card");
+
+                                // Now get the respective fields inside this container
+                                const summaryEl = container.querySelector('.problem-summary');
+
+                                const timelineItem = copyButton.closest(".timeline-item");
+                                if (!timelineItem) return;
+
+                                // get the timeline-content inside this timeline item
+                                const timelineEl = timelineItem.querySelector(".timeline-content");
+                                if (!timelineEl) return;
+
+                                const textToCopy =
+                                    (summaryEl ? summaryEl.innerText : '') + '\n\n' +
+                                    (timelineEl ? timelineEl.innerText : '');
+
+                                navigator.clipboard.writeText(textToCopy).then(() => {
+                                    copyButton.innerHTML = "Copied";
+                                    copyButton.style.backgroundColor = "#299029";
+                                    copyButton.style.color = "#fff";
+                                    setTimeout(() => {
+                                        copyButton.innerHTML = "Copy";
+                                        copyButton.style.backgroundColor = "";
+                                        copyButton.style.color = "";
+                                    }, 2000);
+                                }).catch(err => console.error("Clipboard write failed:", err));
+                            });
+
                             return elementCreator("li", { class: "timeline-item" }, [
                                 dateLink,
+                                copyButton,
                                 elementCreator("div", { class: "timeline-content" }, [
                                     elementCreator("p", {}, "🩺 Chief Complaint: " + ev.chief_complaint),
                                     elementCreator("p", {}, "🧾 Assessment: " + ev.assessment),
@@ -1208,6 +1597,7 @@ function showSkeleton(container) {
 
     container.append(header, s);
 };
+
 
 function generateContent(iso, tab) {
     // const containerId = tab === 'summary' ? 'summary-pane' : 'questionnaire-pane';
@@ -2057,8 +2447,11 @@ function openMedicationModal(med) {
     closeBtn.addEventListener('click', function() { mainPane.removeChild(overlay); });
     overlay.addEventListener('click', function(e) { if (e.target === overlay) mainPane.removeChild(overlay); });
 
+    // Medication card wrapper (replicates tile style)
+    const medCard = elementCreator('div', { class: 'med-card' });
+
     // Title
-    const title = elementCreator('h3', { class: 'med-modal-title' }, med.name);
+    const title = elementCreator('h3', { class: 'med-title' }, med.name);
 
     // Common name
     const commonName = med.common_name ?
@@ -2067,52 +2460,116 @@ function openMedicationModal(med) {
 
     // Instructions + status
     const instructions = elementCreator('p', { class: 'med-instructions' }, med.instructions || '');
-    const status = elementCreator('p', { class: 'med-status' }, `Prescription ${med.prescription_status.toLowerCase()}${med.expiration_date ? ' on ' + med.expiration_date : ''}`);
+    const status = elementCreator('p', { class: 'med-status' }, med.expiration_date ? `Prescription ${med.prescription_status.toLowerCase()} on ${med.expiration_date}` : '');
 
     // Details grid
     const grid = elementCreator('div', { class: 'med-details-grid' }, [
-        // Prescription details
-        elementCreator('div', { class: 'kv-row' }, [
-            elementCreator('div', { class: 'k' }, 'Prescribed'),
-            elementCreator('div', { class: 'v' }, med.prescription_details.prescribed_date)
+        elementCreator('div', { class: 'kv-block' }, [
+            elementCreator('h5', {}, 'Prescription Details'),
+            elementCreator('div', { class: 'kv-row' }, [
+                elementCreator('div', { class: 'k' }, 'Prescribed'),
+                elementCreator('div', { class: 'v' }, med.prescription_details.prescribed_date)
+            ]),
+            elementCreator('div', { class: 'kv-row' }, [
+                elementCreator('div', { class: 'k' }, 'Approved by'),
+                elementCreator('div', { class: 'v' }, med.prescription_details.approved_by)
+            ])
         ]),
-        elementCreator('div', { class: 'kv-row' }, [
-            elementCreator('div', { class: 'k' }, 'Approved by'),
-            elementCreator('div', { class: 'v' }, med.prescription_details.approved_by)
+        elementCreator('div', { class: 'kv-block' }, [
+            elementCreator('h5', {}, 'Refill Details'),
+            elementCreator('div', { class: 'kv-row' }, [
+                elementCreator('div', { class: 'k' }, 'Quantity'),
+                elementCreator('div', { class: 'v' }, med.refill_details.quantity)
+            ]),
+            elementCreator('div', { class: 'kv-row' }, [
+                elementCreator('div', { class: 'k' }, 'Day supply'),
+                elementCreator('div', { class: 'v' }, med.refill_details.day_supply)
+            ])
         ]),
-
-        // Refill details
-        elementCreator('div', { class: 'kv-row' }, [
-            elementCreator('div', { class: 'k' }, 'Quantity'),
-            elementCreator('div', { class: 'v' }, med.refill_details.quantity)
-        ]),
-        elementCreator('div', { class: 'kv-row' }, [
-            elementCreator('div', { class: 'k' }, 'Day supply'),
-            elementCreator('div', { class: 'v' }, med.refill_details.day_supply)
-        ]),
-
-        // Pharmacy details
-        elementCreator('div', { class: 'kv-row' }, [
-            elementCreator('div', { class: 'k' }, 'Pharmacy'),
-            elementCreator('div', { class: 'v' }, med.pharmacy_details.name)
-        ]),
-        elementCreator('div', { class: 'kv-row' }, [
-            elementCreator('div', { class: 'k' }, 'Address'),
-            elementCreator('div', { class: 'v' }, med.pharmacy_details.address)
-        ]),
-        elementCreator('div', { class: 'kv-row' }, [
-            elementCreator('div', { class: 'k' }, 'Phone'),
-            elementCreator('div', { class: 'v' }, med.pharmacy_details.phone)
-        ]),
+        elementCreator('div', { class: 'kv-block pharmacy' }, [
+            elementCreator('h5', {}, 'Pharmacy Details'),
+            elementCreator('div', { class: 'kv-row' }, [
+                elementCreator('div', { class: 'k' }, 'Pharmacy'),
+                elementCreator('div', { class: 'v' }, med.pharmacy_details.name)
+            ]),
+            elementCreator('div', { class: 'kv-row' }, [
+                elementCreator('div', { class: 'k' }, 'Address'),
+                elementCreator('div', { class: 'v' }, med.pharmacy_details.address)
+            ]),
+            elementCreator('div', { class: 'kv-row' }, [
+                elementCreator('div', { class: 'k' }, 'Phone'),
+                elementCreator('div', { class: 'v' }, med.pharmacy_details.phone)
+            ])
+        ])
     ]);
 
-    sheet.append(closeBtn, title, commonName, instructions, status, grid);
+    medCard.append(title, commonName, instructions, status, grid);
+    sheet.append(closeBtn, medCard);
     overlay.append(sheet);
     mainPane.append(overlay);
+
+
+    // const overlay = elementCreator('div', { class: 'modal-overlay med-modal-overlay', role: 'dialog', 'aria-modal': 'true' });
+    // const sheet = elementCreator('div', { class: 'modal-sheet med-modal-sheet' });
+    // const closeBtn = elementCreator('button', { class: 'modal-close', 'aria-label': 'Close' }, '×');
+    // closeBtn.addEventListener('click', function() { mainPane.removeChild(overlay); });
+    // overlay.addEventListener('click', function(e) { if (e.target === overlay) mainPane.removeChild(overlay); });
+
+    // // Title
+    // const title = elementCreator('h3', { class: 'med-modal-title' }, med.name);
+
+    // // Common name
+    // const commonName = med.common_name ?
+    //     elementCreator('p', { class: 'med-common-name' }, `Commonly known as: ${med.common_name}`) :
+    //     null;
+
+    // // Instructions + status
+    // const instructions = elementCreator('p', { class: 'med-instructions' }, med.instructions || '');
+    // const status = elementCreator('p', { class: 'med-status' }, med.expiration_date ? `Prescription ${med.prescription_status.toLowerCase()} on ${med.expiration_date}` : '');
+
+    // // Details grid
+    // const grid = elementCreator('div', { class: 'med-details-grid' }, [
+    //     // Prescription details
+    //     elementCreator('div', { class: 'kv-row' }, [
+    //         elementCreator('div', { class: 'k' }, 'Prescribed'),
+    //         elementCreator('div', { class: 'v' }, med.prescription_details.prescribed_date)
+    //     ]),
+    //     elementCreator('div', { class: 'kv-row' }, [
+    //         elementCreator('div', { class: 'k' }, 'Approved by'),
+    //         elementCreator('div', { class: 'v' }, med.prescription_details.approved_by)
+    //     ]),
+
+    //     // Refill details
+    //     elementCreator('div', { class: 'kv-row' }, [
+    //         elementCreator('div', { class: 'k' }, 'Quantity'),
+    //         elementCreator('div', { class: 'v' }, med.refill_details.quantity)
+    //     ]),
+    //     elementCreator('div', { class: 'kv-row' }, [
+    //         elementCreator('div', { class: 'k' }, 'Day supply'),
+    //         elementCreator('div', { class: 'v' }, med.refill_details.day_supply)
+    //     ]),
+
+    //     // Pharmacy details
+    //     elementCreator('div', { class: 'kv-row' }, [
+    //         elementCreator('div', { class: 'k' }, 'Pharmacy'),
+    //         elementCreator('div', { class: 'v' }, med.pharmacy_details.name)
+    //     ]),
+    //     elementCreator('div', { class: 'kv-row' }, [
+    //         elementCreator('div', { class: 'k' }, 'Address'),
+    //         elementCreator('div', { class: 'v' }, med.pharmacy_details.address)
+    //     ]),
+    //     elementCreator('div', { class: 'kv-row' }, [
+    //         elementCreator('div', { class: 'k' }, 'Phone'),
+    //         elementCreator('div', { class: 'v' }, med.pharmacy_details.phone)
+    //     ]),
+    // ]);
+
+    // sheet.append(closeBtn, title, commonName, instructions, status, grid);
+    // overlay.append(sheet);
+    // mainPane.append(overlay);
 }
 
-
-// Modal for lab results grid (name/value tiles)
+// Modal for lab results grid (with number line if applicable)
 function openLabResultsModal(test) {
     const mainPane = document.querySelector('.main-pane');
     if (!mainPane) return;
@@ -2127,11 +2584,112 @@ function openLabResultsModal(test) {
     const title = elementCreator('h3', { class: 'lab-modal-title' }, test.label + ' — Results');
     const date = elementCreator('h4', { class: 'lab-modal-title' }, test.date);
     const grid = elementCreator('div', { class: 'lab-results-grid' });
+
     (test.results || []).forEach(function(r) {
-        const tile = elementCreator('div', { class: 'lab-tile' }, [
-            elementCreator('div', { class: 'lab-name' }, r.name),
-            elementCreator('div', { class: 'lab-value' }, r.value)
-        ]);
+        const tile = elementCreator('div', { class: 'lab-tile' });
+        tile.append(elementCreator('div', { class: 'lab-name' }, r.name));
+
+        if (typeof r.min === 'number' && typeof r.max === 'number') {
+            const numberLine = elementCreator('div', { class: 'lab-number-line' });
+
+            // --- Full baseline with 3 segments ---
+            const baseline = elementCreator('div', { class: 'baseline' });
+
+            // Scale = min at 0% → max at 100%
+            const globalMin = r.min - (r.max - r.min) * 0.5; // extra padding before min
+            const globalMax = r.max + (r.max - r.min) * 0.5; // extra padding after max
+            const totalRange = globalMax - globalMin;
+
+            const leftWidth = ((r.min - globalMin) / totalRange) * 100;
+            const midWidth = ((r.max - r.min) / totalRange) * 100;
+            const rightWidth = ((globalMax - r.max) / totalRange) * 100;
+
+            const leftSection = elementCreator('div', {
+                class: 'range-section yellow',
+                style: `width: ${leftWidth}%; `
+            });
+            const greenSection = elementCreator('div', {
+                class: 'range-section green',
+                style: `width:${midWidth}%; `
+            });
+            const rightSection = elementCreator('div', {
+                class: 'range-section yellow',
+                style: `width:${rightWidth}%; `
+            });
+
+            baseline.append(leftSection, greenSection, rightSection);
+            numberLine.append(baseline);
+
+            // --- Marker for current value ---
+            const val = parseFloat(r.value);
+            if (!isNaN(val)) {
+                const percent = ((val - globalMin) / totalRange) * 100;
+                const clamped = Math.min(Math.max(percent, 0), 100);
+
+                const markerWrapper = elementCreator('div', {
+                    class: 'marker-wrapper',
+                    style: `left:${clamped}% `
+                });
+
+                const bubble = elementCreator('div', { class: 'value-bubble' }, val);
+                const pointer = elementCreator('div', { class: 'bubble-pointer' });
+
+                markerWrapper.append(bubble, pointer);
+                numberLine.append(markerWrapper);
+            }
+
+            // --- Min/Max labels positioned under the green segment ---
+            const labels = elementCreator('div', { class: 'range-labels' });
+
+            const minLabel = elementCreator('span', {
+                class: 'range-label',
+                style: `left:${leftWidth}%; transform: translateX(-50 %); `
+            }, `${r.min}${r.unit || ''} `);
+
+            const maxLabel = elementCreator('span', {
+                class: 'range-label',
+                style: `left:${leftWidth + midWidth}%; transform: translateX(-50 %); `
+            }, `${r.max}${r.unit || ''} `);
+
+            labels.append(minLabel, maxLabel);
+            numberLine.append(labels);
+
+            // // --- Min/Max labels ---
+            // const labels = elementCreator('div', { class: 'line-labels' }, [
+            //     elementCreator('span', {}, `${ r.min }${ r.unit || '' } `),
+            //     elementCreator('span', {}, `${ r.max }${ r.unit || '' } `)
+            // ]);
+
+            // tile.append(numberLine, labels);
+
+            tile.append(numberLine);
+        } else {
+            function formatUnit(value, unit, abnormal) {
+                if (!unit) {
+                    if (abnormal) {
+                        const span = document.createElement('span');
+                        span.textContent = value + ' - ';
+                        const b = document.createElement('b');
+                        b.textContent = 'Abnormal';
+                        span.appendChild(b);
+                        return span;
+                    }
+                    return value;
+                }
+
+                // Replace things like "10^3" with "10³"
+                const formattedUnit = unit.replace(/\^(\d+)/g, (_, exp) =>
+                    exp.split('').map(d => '⁰¹²³⁴⁵⁶⁷⁸⁹' [d]).join('')
+                );
+
+                return `Value: ${value} ${formattedUnit} `;
+            }
+
+            tile.append(
+                elementCreator('div', { class: 'lab-value' }, formatUnit(r.value, r.unit, r.abnormal))
+            );
+        }
+
         grid.append(tile);
     });
 
@@ -2139,6 +2697,105 @@ function openLabResultsModal(test) {
     overlay.append(sheet);
     mainPane.append(overlay);
 }
+
+
+
+// // Modal for lab results grid (with number line if applicable)
+// function openLabResultsModal(test) {
+//     const mainPane = document.querySelector('.main-pane');
+//     if (!mainPane) return;
+//     if (!mainPane.style.position) mainPane.style.position = 'relative';
+
+//     const overlay = elementCreator('div', { class: 'modal-overlay lab-modal-overlay', role: 'dialog', 'aria-modal': 'true' });
+//     const sheet = elementCreator('div', { class: 'modal-sheet lab-modal-sheet' });
+//     const closeBtn = elementCreator('button', { class: 'modal-close', 'aria-label': 'Close' }, '×');
+//     closeBtn.addEventListener('click', function() { mainPane.removeChild(overlay); });
+//     overlay.addEventListener('click', function(e) { if (e.target === overlay) mainPane.removeChild(overlay); });
+
+//     const title = elementCreator('h3', { class: 'lab-modal-title' }, test.label + ' — Results');
+//     const date = elementCreator('h4', { class: 'lab-modal-title' }, test.date);
+//     const grid = elementCreator('div', { class: 'lab-results-grid' });
+
+//     (test.results || []).forEach(function(r) {
+//         const tile = elementCreator('div', { class: 'lab-tile' });
+
+//         // Name + value
+//         tile.append(
+//             elementCreator('div', { class: 'lab-name' }, r.name),
+//             elementCreator('div', { class: 'lab-value' }, `${ r.value } ${ r.unit || '' } `)
+//         );
+
+//         // Number line only if min/max available
+//         if (typeof r.min === 'number' && typeof r.max === 'number') {
+//             const numberLine = elementCreator('div', { class: 'lab-number-line' });
+
+//             // Grey baseline
+//             const baseline = elementCreator('div', { class: 'baseline' });
+//             numberLine.append(baseline);
+
+//             // Normal range (blue bar)
+//             const normalRange = elementCreator('div', {
+//                 class: 'normal-range',
+//                 style: `left: 0 %; width: 100 %; `
+//             });
+//             baseline.append(normalRange);
+
+//             // Marker
+//             const val = parseFloat(r.value);
+//             if (!isNaN(val)) {
+//                 const percent = ((val - r.min) / (r.max - r.min)) * 100;
+//                 const marker = elementCreator('div', {
+//                     class: `marker ${ val < r.min || val > r.max ? 'out-of-range' : 'in-range' } `,
+//                     style: `left:${ Math.min(Math.max(percent, 0), 100) }% `
+//                 });
+//                 numberLine.append(marker);
+//             }
+
+//             // Labels
+//             const labels = elementCreator('div', { class: 'line-labels' }, [
+//                 elementCreator('span', {}, `${ r.min }${ r.unit || '' } `),
+//                 elementCreator('span', {}, `${ r.max }${ r.unit || '' } `)
+//             ]);
+
+//             tile.append(numberLine, labels);
+//         }
+
+//         grid.append(tile);
+//     });
+
+//     sheet.append(closeBtn, title, date, grid);
+//     overlay.append(sheet);
+//     mainPane.append(overlay);
+// }
+
+// Modal for lab results grid (name/value tiles)
+
+// function openLabResultsModal(test) {
+//     const mainPane = document.querySelector('.main-pane');
+//     if (!mainPane) return;
+//     if (!mainPane.style.position) mainPane.style.position = 'relative';
+
+//     const overlay = elementCreator('div', { class: 'modal-overlay lab-modal-overlay', role: 'dialog', 'aria-modal': 'true' });
+//     const sheet = elementCreator('div', { class: 'modal-sheet lab-modal-sheet' });
+//     const closeBtn = elementCreator('button', { class: 'modal-close', 'aria-label': 'Close' }, '×');
+//     closeBtn.addEventListener('click', function() { mainPane.removeChild(overlay); });
+//     overlay.addEventListener('click', function(e) { if (e.target === overlay) mainPane.removeChild(overlay); });
+
+//     const title = elementCreator('h3', { class: 'lab-modal-title' }, test.label + ' — Results');
+//     const date = elementCreator('h4', { class: 'lab-modal-title' }, test.date);
+//     const grid = elementCreator('div', { class: 'lab-results-grid' });
+//     (test.results || []).forEach(function(r) {
+//         const tile = elementCreator('div', { class: 'lab-tile' }, [
+//             elementCreator('div', { class: 'lab-name' }, r.name),
+//             elementCreator('div', { class: 'lab-value' }, r.value)
+//         ]);
+//         grid.append(tile);
+//     });
+
+//     sheet.append(closeBtn, title, date, grid);
+//     overlay.append(sheet);
+//     mainPane.append(overlay);
+// }
 
 function renderPatientQuestionnaire() {
     const wrap = elementCreator('div', { class: 'patient-questionnaire' });
@@ -2442,39 +3099,40 @@ function downloadQuestionnaire(filename) {
         // yPosition += 5;
 
         yPosition = addSectionHeader('Current Medications', yPosition);
-        yPosition = addRegularText(`Current Medications: ${clinicalSummaryData.relevantMedicalHistory.currentMedications.join(', ')}`, yPosition);
+        yPosition = addRegularText(`Current Medications: ${clinicalSummaryData.relevantMedicalHistory.currentMedications.join(', ')} `, yPosition);
         yPosition += 5;
 
         yPosition = addSectionHeader('Medication Allergies', yPosition);
-        yPosition = addRegularText(`Allergies: ${clinicalSummaryData.relevantMedicalHistory.allergies.join(', ')}`, yPosition);
+        yPosition = addRegularText(`Allergies: ${clinicalSummaryData.relevantMedicalHistory.allergies.join(', ')} `, yPosition);
         yPosition += 5;
 
         yPosition = addSectionHeader('Medical History', yPosition);
-        yPosition = addRegularText(`Comorbidities: ${clinicalSummaryData.relevantMedicalHistory.comorbidities.join(', ')}`, yPosition);
-        yPosition = addRegularText(`Prior Surgery: ${clinicalSummaryData.relevantMedicalHistory.priorSurgery}`, yPosition);
+        yPosition = addRegularText(`Comorbidities: ${clinicalSummaryData.relevantMedicalHistory.comorbidities.join(', ')} `, yPosition);
+        yPosition = addRegularText(`Prior Surgery: ${clinicalSummaryData.relevantMedicalHistory.priorSurgery} `, yPosition);
         yPosition += 5;
 
         yPosition = addSectionHeader('Family History', yPosition);
-        yPosition = addRegularText(`Neurological: ${clinicalSummaryData.significantFamilyHistory.neurological.join(', ')}`, yPosition);
-        yPosition = addRegularText(`Cardiovascular/Metabolic: ${clinicalSummaryData.significantFamilyHistory.cardiovascularMetabolic.join(', ')}`, yPosition);
+        yPosition = addRegularText(`Neurological: ${clinicalSummaryData.significantFamilyHistory.neurological.join(', ')} `, yPosition);
+        yPosition = addRegularText(`Cardiovascular / Metabolic: ${clinicalSummaryData.significantFamilyHistory.cardiovascularMetabolic.join(', ')} `, yPosition);
         yPosition += 5;
 
         yPosition = addSectionHeader('Current Symptoms', yPosition);
         clinicalSummaryData.currentNeurologicalSymptoms.forEach(symptom => {
-            yPosition = addRegularText(`${symptom.symptom}: ${symptom.present}}`, yPosition);
-            // yPosition = addRegularText(`${symptom.symptom}: ${symptom.status} - ${symptom.clinicalSignificance}`, yPosition);
+            yPosition = addRegularText(`${symptom.symptom}: ${symptom.present}
+} `, yPosition);
+            // yPosition = addRegularText(`${ symptom.symptom }: ${ symptom.status } - ${ symptom.clinicalSignificance } `, yPosition);
         });
         // yPosition += 5;
 
         // yPosition = addSectionHeader('Clinical Considerations', yPosition);
-        // yPosition = addRegularText(`Differential Diagnosis: ${clinicalSummaryData.clinicalConsiderations.differentialDiagnosis.join(', ')}`, yPosition);
-        // yPosition = addRegularText(`Risk Factors: ${clinicalSummaryData.clinicalConsiderations.riskFactors.join(', ')}`, yPosition);
-        // yPosition = addRegularText(`Red Flags: ${clinicalSummaryData.clinicalConsiderations.redFlags.join(', ')}`, yPosition);
+        // yPosition = addRegularText(`Differential Diagnosis: ${ clinicalSummaryData.clinicalConsiderations.differentialDiagnosis.join(', ') } `, yPosition);
+        // yPosition = addRegularText(`Risk Factors: ${ clinicalSummaryData.clinicalConsiderations.riskFactors.join(', ') } `, yPosition);
+        // yPosition = addRegularText(`Red Flags: ${ clinicalSummaryData.clinicalConsiderations.redFlags.join(', ') } `, yPosition);
         // yPosition += 5;
 
         // yPosition = addSectionHeader('Recommended Assessment Focus', yPosition);
         // clinicalSummaryData.recommendedAssessmentFocus.forEach(item => {
-        //     yPosition = addRegularText(`• ${item}`, yPosition);
+        //     yPosition = addRegularText(`• ${ item } `, yPosition);
         // });
 
     } else {
@@ -2483,9 +3141,9 @@ function downloadQuestionnaire(filename) {
         yPosition += 5;
 
         yPosition = addSectionHeader('1. Patient Information', yPosition);
-        yPosition = addRegularText(`Patient Name: ${originalQuestionnaireData.patientInformation.patientName}`, yPosition);
-        yPosition = addRegularText(`Date of Birth: ${originalQuestionnaireData.patientInformation.dateOfBirth}`, yPosition);
-        yPosition = addRegularText(`Hand You Write With: ${originalQuestionnaireData.patientInformation.handYouWriteWith}`, yPosition);
+        yPosition = addRegularText(`Patient Name: ${originalQuestionnaireData.patientInformation.patientName} `, yPosition);
+        yPosition = addRegularText(`Date of Birth: ${originalQuestionnaireData.patientInformation.dateOfBirth} `, yPosition);
+        yPosition = addRegularText(`Hand You Write With: ${originalQuestionnaireData.patientInformation.handYouWriteWith} `, yPosition);
         yPosition += 5;
 
         yPosition = addSectionHeader('2. Chief Complaint', yPosition);
@@ -2494,55 +3152,55 @@ function downloadQuestionnaire(filename) {
 
         yPosition = addSectionHeader('3. Current Medications', yPosition);
         originalQuestionnaireData.currentMedications.forEach(med => {
-            yPosition = addRegularText(`${med.medication} - ${med.dosage} - ${med.frequency}`, yPosition);
+            yPosition = addRegularText(`${med.medication} - ${med.dosage} - ${med.frequency} `, yPosition);
         });
         yPosition += 5;
 
         yPosition = addSectionHeader('4. Medication Allergies', yPosition);
         originalQuestionnaireData.medicationAllergies.forEach(allergy => {
-            yPosition = addRegularText(`• ${allergy}`, yPosition);
+            yPosition = addRegularText(`• ${allergy} `, yPosition);
         });
         yPosition += 5;
 
         yPosition = addSectionHeader('5. Medical History', yPosition);
         yPosition = addRegularText('Current and Past Medical Problems:', yPosition);
         originalQuestionnaireData.medicalHistory.currentAndPastMedicalProblems.forEach(problem => {
-            yPosition = addRegularText(`• ${problem}`, yPosition);
+            yPosition = addRegularText(`• ${problem} `, yPosition);
         });
         yPosition += 5;
         yPosition = addRegularText('Family History:', yPosition);
         originalQuestionnaireData.medicalHistory.familyHistory.forEach(history => {
-            yPosition = addRegularText(`• ${history}`, yPosition);
+            yPosition = addRegularText(`• ${history} `, yPosition);
         });
         yPosition += 5;
 
         yPosition = addSectionHeader('6. Social History', yPosition);
-        yPosition = addRegularText(`Smoking: ${originalQuestionnaireData.socialHistory.smoking}`, yPosition);
-        yPosition = addRegularText(`Alcohol: ${originalQuestionnaireData.socialHistory.alcohol}`, yPosition);
-        yPosition = addRegularText(`Heavy Drinker: ${originalQuestionnaireData.socialHistory.heavyDrinker}`, yPosition);
-        yPosition = addRegularText(`Marital Status: ${originalQuestionnaireData.socialHistory.maritalStatus}`, yPosition);
-        yPosition = addRegularText(`Education: ${originalQuestionnaireData.socialHistory.education}`, yPosition);
-        yPosition = addRegularText(`Occupation: ${originalQuestionnaireData.socialHistory.occupation}`, yPosition);
+        yPosition = addRegularText(`Smoking: ${originalQuestionnaireData.socialHistory.smoking} `, yPosition);
+        yPosition = addRegularText(`Alcohol: ${originalQuestionnaireData.socialHistory.alcohol} `, yPosition);
+        yPosition = addRegularText(`Heavy Drinker: ${originalQuestionnaireData.socialHistory.heavyDrinker} `, yPosition);
+        yPosition = addRegularText(`Marital Status: ${originalQuestionnaireData.socialHistory.maritalStatus} `, yPosition);
+        yPosition = addRegularText(`Education: ${originalQuestionnaireData.socialHistory.education} `, yPosition);
+        yPosition = addRegularText(`Occupation: ${originalQuestionnaireData.socialHistory.occupation} `, yPosition);
         yPosition += 5;
 
         yPosition = addSectionHeader('7. Current Symptoms', yPosition);
         originalQuestionnaireData.currentSymptoms.forEach(symptom => {
-            yPosition = addRegularText(`${symptom.symptom}: ${symptom.present}`, yPosition);
+            yPosition = addRegularText(`${symptom.symptom}: ${symptom.present} `, yPosition);
         });
         yPosition += 5;
 
         yPosition = addSectionHeader('8. Top 3 Questions for Doctor', yPosition);
         originalQuestionnaireData.top3QuestionsForDoctor.forEach((question, index) => {
-            yPosition = addRegularText(`${index + 1}. ${question}`, yPosition);
+            yPosition = addRegularText(`${index + 1}. ${question} `, yPosition);
         });
         yPosition += 5;
 
         yPosition = addSectionHeader('9. Visit Goals and Concerns', yPosition);
-        yPosition = addRegularText(`Primary Goal: ${originalQuestionnaireData.visitGoalsAndConcerns.primaryGoal}`, yPosition);
+        yPosition = addRegularText(`Primary Goal: ${originalQuestionnaireData.visitGoalsAndConcerns.primaryGoal} `, yPosition);
         yPosition += 5;
         yPosition = addRegularText('Top 3 Concerns:', yPosition);
         originalQuestionnaireData.visitGoalsAndConcerns.top3Concerns.forEach((concern, index) => {
-            yPosition = addRegularText(`${index + 1}. ${concern}`, yPosition);
+            yPosition = addRegularText(`${index + 1}. ${concern} `, yPosition);
         });
     }
 
