@@ -1154,8 +1154,13 @@
         .avm-prechart-app .med-details-grid {
             display: grid;
             grid-template-columns: repeat(2, minmax(260px, 1fr));
-            gap: 14px;
+            gap: 0px;
             margin-top: 8px;
+        }
+        
+        .avm-prechart-app .med-details-grid {
+            background-color: #f8f8f8;
+            padding: 16px;
         }
         
         .avm-prechart-app .lab-tile {
@@ -1364,7 +1369,7 @@
             box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 0px;
         }
         
         .avm-prechart-app .med-title {
@@ -1376,20 +1381,21 @@
         
         .avm-prechart-app .med-common-name {
             font-size: 14px;
-            color: #6b7280;
-            margin: -4px 0 6px 0;
+            color: #767676;
+            margin: 4px 0 6px 0;
         }
         
         .avm-prechart-app .med-instructions {
-            font-size: 14px;
-            color: #374151;
+            font-size: 16px;
+            color: #363636;
             margin: 4px 0;
         }
         
         .avm-prechart-app .med-status {
-            font-size: 13px;
-            color: #555;
-            margin-bottom: 8px;
+            font-size: 14px;
+            color: #363636;
+            margin-bottom: 0px;
+            margin-top: 10px;
         }
         /* grid container for the three detail blocks */
         
@@ -1397,7 +1403,7 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 24px;
-            margin-top: 18px;
+            margin-top: 10px;
             align-items: start;
         }
         /* each block card */
@@ -1411,43 +1417,45 @@
         .avm-prechart-app .kv-block h5 {
             font-size: 13px;
             font-weight: 600;
-            margin: 0 0 12px 0;
+            margin: 0 0 4px 0;
             color: #111827;
         }
         /* rows inside a block: label | value grid */
         
         .avm-prechart-app .kv-block .kv-row {
-            display: grid;
-            grid-template-columns: 140px 1fr;
-            /* label fixed, value flexible */
-            column-gap: 12px;
-            align-items: center;
-            padding: 8px 0;
-            border-bottom: 1px solid #f3f4f6;
-            /* subtle separator */
-        }
-        /* last row shouldn't have bottom border */
-        
-        .avm-prechart-app .kv-block .kv-row:last-child {
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+            font-size: 13px;
+            padding: 4px 0;
             border-bottom: none;
         }
         /* label & value styles */
         
         .avm-prechart-app .kv-block .k {
-            font-weight: 600;
-            color: #374151;
-            font-size: 13px;
+            font-weight: 400;
+            color: #767676;
+            font-size: 14px;
             line-height: 1.2;
         }
         
         .avm-prechart-app .kv-block .v {
-            color: #111827;
-            font-size: 13px;
+            color: #363636;
+            font-size: 12px;
+            font-weight: 400;
             line-height: 1.3;
-            text-align: right;
+            text-align: left;
             /* numeric or short values align right */
             word-break: break-word;
             /* wrap long values */
+        }
+        
+        .avm-prechart-app .kv-block.pharmacy .k {
+            display: none;
+        }
+        
+        .avm-prechart-app .kv-block.pharmacy .v {
+            min-width: max-content;
         }
         /* Pharmacy block: left-align values and allow wrapping */
         
@@ -2136,7 +2144,7 @@
                     "expiration_date": "June 23, 2023",
                     "prescription_details": {
                         "prescribed_date": "June 23, 2022",
-                        "approved_by": "Physician"
+                        "approved_by": "John P Parker"
                     },
                     "refill_details": {
                         "quantity": "30 tablets",
@@ -2155,7 +2163,7 @@
                     "expiration_date": "June 23, 2023",
                     "prescription_details": {
                         "prescribed_date": "June 23, 2022",
-                        "approved_by": "Physician"
+                        "approved_by": "John P Parker"
                     },
                     "refill_details": {
                         "quantity": "30 tablets",
@@ -2174,7 +2182,7 @@
                     "expiration_date": "July 2, 2024",
                     "prescription_details": {
                         "prescribed_date": "July 2, 2018",
-                        "approved_by": "Physician"
+                        "approved_by": "John P Parker"
                     },
                     "refill_details": {
                         "quantity": "30 tablets",
@@ -2193,7 +2201,7 @@
                     "expiration_date": "",
                     "prescription_details": {
                         "prescribed_date": "October 15, 2012",
-                        "approved_by": "Physician"
+                        "approved_by": "John P Parker"
                     },
                     "refill_details": {
                         "quantity": "30 tablets",
@@ -2212,7 +2220,7 @@
                     "expiration_date": "",
                     "prescription_details": {
                         "prescribed_date": "February 14, 2011",
-                        "approved_by": "Physician"
+                        "approved_by": "John P Parker"
                     },
                     "refill_details": {
                         "quantity": "30 tablets",
@@ -3684,7 +3692,7 @@
                                         const container = copyButton.closest(".problem-card");
 
                                         // Now get the respective fields inside this container
-                                        const summaryEl = container.querySelector('.problem-summary');
+                                        const summaryEl = container.querySelector('.problem-summary p');
 
                                         const timelineItem = copyButton.closest(".timeline-item");
                                         if (!timelineItem) return;
@@ -3693,9 +3701,13 @@
                                         const timelineEl = timelineItem.querySelector(".timeline-content");
                                         if (!timelineEl) return;
 
+
                                         const textToCopy =
                                             (summaryEl ? summaryEl.innerText : '') + '\n\n' +
-                                            (timelineEl ? timelineEl.innerText : '');
+                                            (timelineEl ? timelineEl.innerText.replace(
+                                                /[\u{1F300}-\u{1F6FF}\u{1F900}-\u{1F9FF}\u{1FA70}-\u{1FAFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]\s*/gu, // to remove the emojis
+                                                ""
+                                            ) : '');
 
                                         navigator.clipboard.writeText(textToCopy).then(() => {
                                             copyButton.innerHTML = "Copied";
@@ -5112,9 +5124,9 @@
             const instructions = elementCreator('p', {
                 class: 'med-instructions'
             }, med.instructions || '');
-            const status = elementCreator('p', {
+            const status = med.expiration_date ? elementCreator('p', {
                 class: 'med-status'
-            }, med.expiration_date ? `Prescription ${med.prescription_status.toLowerCase()} on ${med.expiration_date}` : '');
+            }, `Prescription ${med.prescription_status.toLowerCase()} on ${med.expiration_date}`) : '';
 
             // Details grid
             const grid = elementCreator('div', {
@@ -5179,7 +5191,7 @@
                     }, [
                         elementCreator('div', {
                             class: 'k'
-                        }, 'Pharmacy'),
+                        }, ''),
                         elementCreator('div', {
                             class: 'v'
                         }, med.pharmacy_details.name)
@@ -5189,7 +5201,7 @@
                     }, [
                         elementCreator('div', {
                             class: 'k'
-                        }, 'Address'),
+                        }, ''),
                         elementCreator('div', {
                             class: 'v'
                         }, med.pharmacy_details.address)
@@ -5199,7 +5211,7 @@
                     }, [
                         elementCreator('div', {
                             class: 'k'
-                        }, 'Phone'),
+                        }, ''),
                         elementCreator('div', {
                             class: 'v'
                         }, med.pharmacy_details.phone)
