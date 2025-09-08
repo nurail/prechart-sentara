@@ -1340,10 +1340,11 @@ function loadEncounterSummary() {
                                 const timelineEl = timelineItem.querySelector(".timeline-content");
                                 if (!timelineEl) return;
 
+
                                 const textToCopy =
                                     (summaryEl ? summaryEl.innerText : '') + '\n\n' +
                                     (timelineEl ? timelineEl.innerText.replace(
-                                        /[\u{1F300}-\u{1F6FF}\u{1F900}-\u{1F9FF}\u{1FA70}-\u{1FAFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]\s*/gu,
+                                        /[\u{1F300}-\u{1F6FF}\u{1F900}-\u{1F9FF}\u{1FA70}-\u{1FAFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]\s*/gu, // to remove the emojis
                                         ""
                                     ) : '');
 
