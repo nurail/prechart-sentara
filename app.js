@@ -36,7 +36,7 @@ const listViewData = [
                 "expiration_date": "June 23, 2023",
                 "prescription_details": {
                     "prescribed_date": "June 23, 2022",
-                    "approved_by": "Physician"
+                    "approved_by": "John P Parker"
                 },
                 "refill_details": {
                     "quantity": "30 tablets",
@@ -56,7 +56,7 @@ const listViewData = [
                 "expiration_date": "June 23, 2023",
                 "prescription_details": {
                     "prescribed_date": "June 23, 2022",
-                    "approved_by": "Physician"
+                    "approved_by": "John P Parker"
                 },
                 "refill_details": {
                     "quantity": "30 tablets",
@@ -76,7 +76,7 @@ const listViewData = [
                 "expiration_date": "July 2, 2024",
                 "prescription_details": {
                     "prescribed_date": "July 2, 2018",
-                    "approved_by": "Physician"
+                    "approved_by": "John P Parker"
                 },
                 "refill_details": {
                     "quantity": "30 tablets",
@@ -96,7 +96,7 @@ const listViewData = [
                 "expiration_date": "",
                 "prescription_details": {
                     "prescribed_date": "October 15, 2012",
-                    "approved_by": "Physician"
+                    "approved_by": "John P Parker"
                 },
                 "refill_details": {
                     "quantity": "30 tablets",
@@ -116,7 +116,7 @@ const listViewData = [
                 "expiration_date": "",
                 "prescription_details": {
                     "prescribed_date": "February 14, 2011",
-                    "approved_by": "Physician"
+                    "approved_by": "John P Parker"
                 },
                 "refill_details": {
                     "quantity": "30 tablets",
@@ -1331,7 +1331,7 @@ function loadEncounterSummary() {
                                 const container = copyButton.closest(".problem-card");
 
                                 // Now get the respective fields inside this container
-                                const summaryEl = container.querySelector('.problem-summary');
+                                const summaryEl = container.querySelector('.problem-summary p');
 
                                 const timelineItem = copyButton.closest(".timeline-item");
                                 if (!timelineItem) return;
@@ -1342,7 +1342,10 @@ function loadEncounterSummary() {
 
                                 const textToCopy =
                                     (summaryEl ? summaryEl.innerText : '') + '\n\n' +
-                                    (timelineEl ? timelineEl.innerText : '');
+                                    (timelineEl ? timelineEl.innerText.replace(
+                                        /[\u{1F300}-\u{1F6FF}\u{1F900}-\u{1F9FF}\u{1FA70}-\u{1FAFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]\s*/gu,
+                                        ""
+                                    ) : '');
 
                                 navigator.clipboard.writeText(textToCopy).then(() => {
                                     copyButton.innerHTML = "Copied";
@@ -2460,7 +2463,7 @@ function openMedicationModal(med) {
 
     // Instructions + status
     const instructions = elementCreator('p', { class: 'med-instructions' }, med.instructions || '');
-    const status = elementCreator('p', { class: 'med-status' }, med.expiration_date ? `Prescription ${med.prescription_status.toLowerCase()} on ${med.expiration_date}` : '');
+    const status = med.expiration_date ? elementCreator('p', { class: 'med-status' }, `Prescription ${med.prescription_status.toLowerCase()} on ${med.expiration_date}`) : '';
 
     // Details grid
     const grid = elementCreator('div', { class: 'med-details-grid' }, [
@@ -2489,15 +2492,15 @@ function openMedicationModal(med) {
         elementCreator('div', { class: 'kv-block pharmacy' }, [
             elementCreator('h5', {}, 'Pharmacy Details'),
             elementCreator('div', { class: 'kv-row' }, [
-                elementCreator('div', { class: 'k' }, 'Pharmacy'),
+                elementCreator('div', { class: 'k' }, ''),
                 elementCreator('div', { class: 'v' }, med.pharmacy_details.name)
             ]),
             elementCreator('div', { class: 'kv-row' }, [
-                elementCreator('div', { class: 'k' }, 'Address'),
+                elementCreator('div', { class: 'k' }, ''),
                 elementCreator('div', { class: 'v' }, med.pharmacy_details.address)
             ]),
             elementCreator('div', { class: 'kv-row' }, [
-                elementCreator('div', { class: 'k' }, 'Phone'),
+                elementCreator('div', { class: 'k' }, ''),
                 elementCreator('div', { class: 'v' }, med.pharmacy_details.phone)
             ])
         ])
