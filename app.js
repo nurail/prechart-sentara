@@ -1119,10 +1119,7 @@ function loadEncounterSummary() {
         // === Header with toggle ===
         const header = elementCreator('div', { class: 'q-header' });
 
-        const title = elementCreator(
-            'h3', { class: 'summary-title' },
-            'Outlined below are prior encounters relevant to the patient’s upcoming visit for headache and sleep apnea.'
-        );
+        const title = ''; //elementCreator('h3', { class: 'summary-title' }, 'Outlined below are prior encounters relevant to the patient’s upcoming visit for headache and sleep apnea.');
 
         // // Toggle button
         // const toggleBtn = elementCreator(
@@ -1135,22 +1132,22 @@ function loadEncounterSummary() {
         const toggleComponent = elementCreator("div", { class: "toggle-container" }, [
             elementCreator("div", { class: "toggle-wrapper" }, [
                 elementCreator("div", { class: "toggle-group" }, [
-                    elementCreator("div", { class: "toggle-option encounters-option active" }, [
-                        elementCreator("img", {
-                            class: "toggle-icon",
-                            alt: "",
-                            src: ICONS.bx_detail
-                        }),
-                        elementCreator("div", { class: "toggle-label" }, "Encounter Summary")
-                    ]),
-                    elementCreator("div", { class: "toggle-option problems-option" }, [
+                    elementCreator("div", { class: "toggle-option problems-option active" }, [
                         elementCreator("img", {
                             class: "toggle-icon",
                             alt: "",
                             src: ICONS.mdi_timeline_outline
                         }),
-                        elementCreator("div", { class: "toggle-label hidden" }, "Problem View")
-                    ])
+                        elementCreator("div", { class: "toggle-label" }, "Problem View")
+                    ]),
+                    elementCreator("div", { class: "toggle-option encounters-option" }, [
+                        elementCreator("img", {
+                            class: "toggle-icon",
+                            alt: "",
+                            src: ICONS.bx_detail
+                        }),
+                        elementCreator("div", { class: "toggle-label hidden" }, "Encounter Summary")
+                    ]),
                 ])
             ])
         ]);
@@ -1179,8 +1176,35 @@ function loadEncounterSummary() {
                     "On ", dateLink, `, ${enc.Summary}`
                 ]);
 
+                // Create Copy button
+                const copyButton = elementCreator("button", { class: "copy-btn" }, "Copy");
+
+                // Copy handler
+                copyButton.addEventListener("click", () => {
+                    const summaryText = `On ${enc["Encounter Details"]["Date & Time"]}, ${enc.Summary}`;
+
+                    navigator.clipboard.writeText(summaryText).then(() => {
+                        copyButton.innerHTML = "Copied";
+                        copyButton.style.backgroundColor = "#299029";
+                        copyButton.style.color = "#fff";
+                        setTimeout(() => {
+                            copyButton.innerHTML = "Copy";
+                            copyButton.style.backgroundColor = "";
+                            copyButton.style.color = "";
+                        }, 2000);
+                    }).catch(err => console.error("Clipboard write failed:", err));
+                });
+
+                // Header container (summary left, button right)
+                const header = elementCreator("div", { class: "encounter-header" }, [
+                    summaryPara,
+                    copyButton
+                ]);
+
                 // Item container
-                const item = elementCreator("div", { class: "encounter-item" }, summaryPara);
+                const item = elementCreator("div", { class: "encounter-item" }, [
+                    header
+                ]);
 
                 // Click handler for opening modal
                 dateLink.addEventListener("click", (e) => {
@@ -1191,7 +1215,6 @@ function loadEncounterSummary() {
                     // Collect extra details for this encounter
                     Object.keys(enc).forEach(function(key) {
                         if (key === 'date' || key === 'Summary' || key === 'Encounter Details') return;
-                        // Only build rows for additional keys
                         const row = elementCreator('div', { class: 'kv-row' }, [
                             elementCreator('div', { class: 'k' }, key),
                             elementCreator('div', { class: 'v' }, enc[key])
@@ -1220,7 +1243,48 @@ function loadEncounterSummary() {
                 // --- Header Row ---
                 const header = elementCreator("div", { class: "problem-header" }, [
                     elementCreator("h3", {}, problem.problem),
-                    // copyButton
+                    (() => {
+                        const copyBtn = elementCreator("button", { class: "copy-btn" }, "Copy");
+
+                        copyBtn.addEventListener("click", () => {
+                            const container = copyBtn.closest(".problem-card");
+                            if (!container) return;
+
+                            const problemHeader = container.querySelector(".problem-header h3");
+                            const summaryEl = container.querySelector(".problem-summary p");
+                            const timelineEls = container.querySelectorAll(".timeline-content");
+                            const timelineDates = container.querySelectorAll(".timeline-date");
+
+                            let textToCopy = "";
+                            if (problemHeader) {
+                                textToCopy += problemHeader.innerText + "\n\n";
+                            }
+
+                            if (summaryEl) {
+                                textToCopy += summaryEl.innerText + "\n\n";
+                            }
+
+                            timelineEls.forEach((el, index) => {
+                                textToCopy += timelineDates[index].innerText + ' -' + el.innerText.replace(
+                                    /\s*([\u{1F300}-\u{1F6FF}\u{1F900}-\u{1F9FF}\u{1FA70}-\u{1FAFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}])/gu,
+                                    ""
+                                ) + "\n\n";
+                            });
+
+                            navigator.clipboard.writeText(textToCopy.trim()).then(() => {
+                                copyBtn.innerHTML = "Copied";
+                                copyBtn.style.backgroundColor = "#299029";
+                                copyBtn.style.color = "#fff";
+                                setTimeout(() => {
+                                    copyBtn.innerHTML = "Copy";
+                                    copyBtn.style.backgroundColor = "";
+                                    copyBtn.style.color = "";
+                                }, 2000);
+                            }).catch(err => console.error("Clipboard write failed:", err));
+                        });
+
+                        return copyBtn;
+                    })()
                 ]);
 
                 // --- Quick Summary (paragraph with date hyperlinks) ---
@@ -1342,11 +1406,22 @@ function loadEncounterSummary() {
 
 
                                 const textToCopy =
-                                    (summaryEl ? summaryEl.innerText : '') + '\n\n' +
-                                    (timelineEl ? timelineEl.innerText.replace(
-                                        /[\u{1F300}-\u{1F6FF}\u{1F900}-\u{1F9FF}\u{1FA70}-\u{1FAFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]\s*/gu, // to remove the emojis
-                                        ""
-                                    ) : '');
+                                    // (summaryEl ? summaryEl.innerText : '') + '\n\n' +
+                                    (timelineEl ?
+                                        timelineEl.innerText
+                                        // remove emojis + extra spaces
+                                        .replace(
+                                            /[\u{1F300}-\u{1F6FF}\u{1F900}-\u{1F9FF}\u{1FA70}-\u{1FAFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]\s*/gu,
+                                            ""
+                                        )
+                                        // replace newlines with ". " if the line didn’t end in punctuation, else just a space
+                                        .replace(/\n+/g, match => match.endsWith(".") ? " " : " ")
+                                        // ensure period is followed by space
+                                        .replace(/\.([A-Z])/g, ". $1")
+                                        // collapse multiple spaces
+                                        .replace(/\s{2,}/g, " ")
+                                        .trim() :
+                                        "");
 
                                 navigator.clipboard.writeText(textToCopy).then(() => {
                                     copyButton.innerHTML = "Copied";
@@ -1425,11 +1500,11 @@ function loadEncounterSummary() {
 
         // Attach toggle behavior
         const encountersOption = toggleComponent.querySelector(".encounters-option");
-        let showingEncounters = true;
-        renderEncounters(); // default view
+        let showingEncounters = false;
+        renderProblems(); // default view
+        // renderEncounters(); // default view
 
         const problemsOption = toggleComponent.querySelector(".problems-option");
-
 
         encountersOption.addEventListener("click", () => {
             if (!showingEncounters) {

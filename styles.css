@@ -11,7 +11,8 @@
 
 .avm-prechart-app {
     height: 100%;
-    font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    /* font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; */
+    font-family: Arial !important;
     color: #0f172a;
     background: #fff;
     margin: 0;
@@ -171,7 +172,6 @@
     align-items: center;
     justify-content: flex-end;
     font-size: 14px;
-    font-family: Inter, sans-serif;
     color: #89a2b7;
     z-index: 9999;
     /* Ensures it stays above other elements */
@@ -188,7 +188,8 @@
 }
 
 .avm-prechart-app .tabs {
-    display: flex;
+    /* display: flex; */
+    display: none;
     /* border-bottom: 1px solid #e5e7eb; */
     background: #e4ecfa;
 }
@@ -395,6 +396,7 @@
 
 .avm-prechart-app .pane.is-active::after {
     content: 'AI';
+    display: none;
     position: absolute;
     top: -8px;
     right: -4px;
@@ -656,6 +658,8 @@
 }
 
 .avm-prechart-app .encounter-item {
+    position: relative;
+    /* needed for positioning the copy button */
     padding: 10px 20px;
     font-size: 18px;
     line-height: 28px;
@@ -664,6 +668,29 @@
     border-radius: 10px;
     margin-top: 12px;
 }
+
+
+/* Copy button styles */
+
+.avm-prechart-app .encounter-item .copy-btn {
+    position: absolute;
+    top: 6px;
+    right: 12px;
+    /* background: #eef2ff;
+    border: 1px solid #cad8ef;
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    color: #1e40af; */
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+
+/* .avm-prechart-app .encounter-item .copy-btn:hover {
+    background: #1e40af;
+    color: #fff;
+} */
 
 .avm-prechart-app .encounter-item:last-child {
     border-right: none;
@@ -790,15 +817,14 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: flex-start;
     text-align: left;
     font-size: 14px;
     color: #4d5469;
-    font-family: Inter, sans-serif;
 }
 
 .avm-prechart-app .toggle-wrapper {
-    width: 239px;
+    width: 240px;
     border-radius: 60px;
     background-color: #cad8ef;
     height: 36px;
@@ -811,7 +837,7 @@
 }
 
 .avm-prechart-app .toggle-group {
-    width: 204px;
+    width: 230px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -820,7 +846,6 @@
 }
 
 .avm-prechart-app .toggle-option {
-    width: 195px;
     border-radius: 60px;
     background-color: #fff;
     height: 30px;
@@ -831,6 +856,7 @@
     padding: 0px 9px;
     box-sizing: border-box;
     gap: 7px;
+    flex: 1;
 }
 
 .avm-prechart-app .toggle-icon {
@@ -840,13 +866,16 @@
 }
 
 .avm-prechart-app .toggle-label {
-    width: 146px;
+    width: auto;
+    min-width: 0;
+    flex: 1;
     position: relative;
     font-weight: 600;
     display: flex;
     align-items: center;
     height: 29px;
-    flex-shrink: 0;
+    flex-shrink: 1;
+    text-wrap: nowrap;
 }
 
 .avm-prechart-app .toggle-option.active {
@@ -860,6 +889,11 @@
     opacity: 0.6;
     cursor: pointer;
     transition: opacity 0.2s ease;
+    justify-content: space-around;
+}
+
+.avm-prechart-app .toggle-option:not(.active).encounters-option {
+    margin-left: 10px;
 }
 
 .avm-prechart-app .toggle-option:not(.active):hover {
@@ -1830,7 +1864,6 @@ span.accordion-title {
     text-align: left;
     font-size: 14px;
     color: #000;
-    font-family: Inter, sans-serif;
 }
 
 .avm-prechart-app .feedback-group {
@@ -1973,7 +2006,6 @@ span.accordion-title {
     margin: 16px 0 20px;
     background: #ffffff;
     box-shadow: none;
-    font-family: system-ui, sans-serif;
 }
 
 .avm-prechart-app .problem-header {

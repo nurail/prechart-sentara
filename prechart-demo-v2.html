@@ -17,7 +17,8 @@
         
         .avm-prechart-app {
             height: 100%;
-            font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+            /* font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; */
+            font-family: Arial !important;
             color: #0f172a;
             background: #fff;
             margin: 0;
@@ -177,7 +178,6 @@
             align-items: center;
             justify-content: flex-end;
             font-size: 14px;
-            font-family: Inter, sans-serif;
             color: #89a2b7;
             z-index: 9999;
             /* Ensures it stays above other elements */
@@ -194,7 +194,8 @@
         }
         
         .avm-prechart-app .tabs {
-            display: flex;
+            /* display: flex; */
+            display: none;
             /* border-bottom: 1px solid #e5e7eb; */
             background: #e4ecfa;
         }
@@ -393,6 +394,7 @@
         
         .avm-prechart-app .pane.is-active::after {
             content: 'AI';
+            display: none;
             position: absolute;
             top: -8px;
             right: -4px;
@@ -646,6 +648,8 @@
         }
         
         .avm-prechart-app .encounter-item {
+            position: relative;
+            /* needed for positioning the copy button */
             padding: 10px 20px;
             font-size: 18px;
             line-height: 28px;
@@ -654,6 +658,25 @@
             border-radius: 10px;
             margin-top: 12px;
         }
+        /* Copy button styles */
+        
+        .avm-prechart-app .encounter-item .copy-btn {
+            position: absolute;
+            top: 6px;
+            right: 12px;
+            /* background: #eef2ff;
+          border: 1px solid #cad8ef;
+          border-radius: 6px;
+          padding: 4px 10px;
+          font-size: 14px;
+          cursor: pointer;
+          color: #1e40af; */
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+        /* .avm-prechart-app .encounter-item .copy-btn:hover {
+          background: #1e40af;
+          color: #fff;
+      } */
         
         .avm-prechart-app .encounter-item:last-child {
             border-right: none;
@@ -764,15 +787,14 @@
             display: flex;
             flex-direction: row;
             align-items: center;
-            justify-content: flex-end;
+            justify-content: flex-start;
             text-align: left;
             font-size: 14px;
             color: #4d5469;
-            font-family: Inter, sans-serif;
         }
         
         .avm-prechart-app .toggle-wrapper {
-            width: 239px;
+            width: 240px;
             border-radius: 60px;
             background-color: #cad8ef;
             height: 36px;
@@ -785,7 +807,7 @@
         }
         
         .avm-prechart-app .toggle-group {
-            width: 204px;
+            width: 230px;
             display: flex;
             flex-direction: row;
             align-items: center;
@@ -794,7 +816,6 @@
         }
         
         .avm-prechart-app .toggle-option {
-            width: 195px;
             border-radius: 60px;
             background-color: #fff;
             height: 30px;
@@ -805,6 +826,7 @@
             padding: 0px 9px;
             box-sizing: border-box;
             gap: 7px;
+            flex: 1;
         }
         
         .avm-prechart-app .toggle-icon {
@@ -814,13 +836,16 @@
         }
         
         .avm-prechart-app .toggle-label {
-            width: 146px;
+            width: auto;
+            min-width: 0;
+            flex: 1;
             position: relative;
             font-weight: 600;
             display: flex;
             align-items: center;
             height: 29px;
-            flex-shrink: 0;
+            flex-shrink: 1;
+            text-wrap: nowrap;
         }
         
         .avm-prechart-app .toggle-option.active {
@@ -834,6 +859,11 @@
             opacity: 0.6;
             cursor: pointer;
             transition: opacity 0.2s ease;
+            justify-content: space-around;
+        }
+        
+        .avm-prechart-app .toggle-option:not(.active).encounters-option {
+            margin-left: 10px;
         }
         
         .avm-prechart-app .toggle-option:not(.active):hover {
@@ -1750,7 +1780,6 @@
             text-align: left;
             font-size: 14px;
             color: #000;
-            font-family: Inter, sans-serif;
         }
         
         .avm-prechart-app .feedback-group {
@@ -1891,7 +1920,6 @@
             margin: 16px 0 20px;
             background: #ffffff;
             box-shadow: none;
-            font-family: system-ui, sans-serif;
         }
         
         .avm-prechart-app .problem-header {
@@ -3413,12 +3441,7 @@
                     class: 'q-header'
                 });
 
-                const title = elementCreator(
-                    'h3', {
-                        class: 'summary-title'
-                    },
-                    'Outlined below are prior encounters relevant to the patient’s upcoming visit for headache and sleep apnea.'
-                );
+                const title = ''; //elementCreator('h3', { class: 'summary-title' }, 'Outlined below are prior encounters relevant to the patient’s upcoming visit for headache and sleep apnea.');
 
                 // // Toggle button
                 // const toggleBtn = elementCreator(
@@ -3438,19 +3461,7 @@
                             class: "toggle-group"
                         }, [
                             elementCreator("div", {
-                                class: "toggle-option encounters-option active"
-                            }, [
-                                elementCreator("img", {
-                                    class: "toggle-icon",
-                                    alt: "",
-                                    src: ICONS.bx_detail
-                                }),
-                                elementCreator("div", {
-                                    class: "toggle-label"
-                                }, "Encounter Summary")
-                            ]),
-                            elementCreator("div", {
-                                class: "toggle-option problems-option"
+                                class: "toggle-option problems-option active"
                             }, [
                                 elementCreator("img", {
                                     class: "toggle-icon",
@@ -3458,9 +3469,21 @@
                                     src: ICONS.mdi_timeline_outline
                                 }),
                                 elementCreator("div", {
-                                    class: "toggle-label hidden"
+                                    class: "toggle-label"
                                 }, "Problem View")
-                            ])
+                            ]),
+                            elementCreator("div", {
+                                class: "toggle-option encounters-option"
+                            }, [
+                                elementCreator("img", {
+                                    class: "toggle-icon",
+                                    alt: "",
+                                    src: ICONS.bx_detail
+                                }),
+                                elementCreator("div", {
+                                    class: "toggle-label hidden"
+                                }, "Encounter Summary")
+                            ]),
                         ])
                     ])
                 ]);
@@ -3493,10 +3516,41 @@
                             "On ", dateLink, `, ${enc.Summary}`
                         ]);
 
+                        // Create Copy button
+                        const copyButton = elementCreator("button", {
+                            class: "copy-btn"
+                        }, "Copy");
+
+                        // Copy handler
+                        copyButton.addEventListener("click", () => {
+                            const summaryText = `On ${enc["Encounter Details"]["Date & Time"]}, ${enc.Summary}`;
+
+                            navigator.clipboard.writeText(summaryText).then(() => {
+                                copyButton.innerHTML = "Copied";
+                                copyButton.style.backgroundColor = "#299029";
+                                copyButton.style.color = "#fff";
+                                setTimeout(() => {
+                                    copyButton.innerHTML = "Copy";
+                                    copyButton.style.backgroundColor = "";
+                                    copyButton.style.color = "";
+                                }, 2000);
+                            }).catch(err => console.error("Clipboard write failed:", err));
+                        });
+
+                        // Header container (summary left, button right)
+                        const header = elementCreator("div", {
+                            class: "encounter-header"
+                        }, [
+                            summaryPara,
+                            copyButton
+                        ]);
+
                         // Item container
                         const item = elementCreator("div", {
                             class: "encounter-item"
-                        }, summaryPara);
+                        }, [
+                            header
+                        ]);
 
                         // Click handler for opening modal
                         dateLink.addEventListener("click", (e) => {
@@ -3509,7 +3563,6 @@
                             // Collect extra details for this encounter
                             Object.keys(enc).forEach(function(key) {
                                 if (key === 'date' || key === 'Summary' || key === 'Encounter Details') return;
-                                // Only build rows for additional keys
                                 const row = elementCreator('div', {
                                     class: 'kv-row'
                                 }, [
@@ -3548,7 +3601,50 @@
                             class: "problem-header"
                         }, [
                             elementCreator("h3", {}, problem.problem),
-                            // copyButton
+                            (() => {
+                                const copyBtn = elementCreator("button", {
+                                    class: "copy-btn"
+                                }, "Copy");
+
+                                copyBtn.addEventListener("click", () => {
+                                    const container = copyBtn.closest(".problem-card");
+                                    if (!container) return;
+
+                                    const problemHeader = container.querySelector(".problem-header h3");
+                                    const summaryEl = container.querySelector(".problem-summary p");
+                                    const timelineEls = container.querySelectorAll(".timeline-content");
+                                    const timelineDates = container.querySelectorAll(".timeline-date");
+
+                                    let textToCopy = "";
+                                    if (problemHeader) {
+                                        textToCopy += problemHeader.innerText + "\n\n";
+                                    }
+
+                                    if (summaryEl) {
+                                        textToCopy += summaryEl.innerText + "\n\n";
+                                    }
+
+                                    timelineEls.forEach((el, index) => {
+                                        textToCopy += timelineDates[index].innerText + ' -' + el.innerText.replace(
+                                            /\s*([\u{1F300}-\u{1F6FF}\u{1F900}-\u{1F9FF}\u{1FA70}-\u{1FAFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}])/gu,
+                                            ""
+                                        ) + "\n\n";
+                                    });
+
+                                    navigator.clipboard.writeText(textToCopy.trim()).then(() => {
+                                        copyBtn.innerHTML = "Copied";
+                                        copyBtn.style.backgroundColor = "#299029";
+                                        copyBtn.style.color = "#fff";
+                                        setTimeout(() => {
+                                            copyBtn.innerHTML = "Copy";
+                                            copyBtn.style.backgroundColor = "";
+                                            copyBtn.style.color = "";
+                                        }, 2000);
+                                    }).catch(err => console.error("Clipboard write failed:", err));
+                                });
+
+                                return copyBtn;
+                            })()
                         ]);
 
                         // --- Quick Summary (paragraph with date hyperlinks) ---
@@ -3703,11 +3799,22 @@
 
 
                                         const textToCopy =
-                                            (summaryEl ? summaryEl.innerText : '') + '\n\n' +
-                                            (timelineEl ? timelineEl.innerText.replace(
-                                                /[\u{1F300}-\u{1F6FF}\u{1F900}-\u{1F9FF}\u{1FA70}-\u{1FAFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]\s*/gu, // to remove the emojis
-                                                ""
-                                            ) : '');
+                                            // (summaryEl ? summaryEl.innerText : '') + '\n\n' +
+                                            (timelineEl ?
+                                                timelineEl.innerText
+                                                // remove emojis + extra spaces
+                                                .replace(
+                                                    /[\u{1F300}-\u{1F6FF}\u{1F900}-\u{1F9FF}\u{1FA70}-\u{1FAFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]\s*/gu,
+                                                    ""
+                                                )
+                                                // replace newlines with ". " if the line didn’t end in punctuation, else just a space
+                                                .replace(/\n+/g, match => match.endsWith(".") ? " " : " ")
+                                                // ensure period is followed by space
+                                                .replace(/\.([A-Z])/g, ". $1")
+                                                // collapse multiple spaces
+                                                .replace(/\s{2,}/g, " ")
+                                                .trim() :
+                                                "");
 
                                         navigator.clipboard.writeText(textToCopy).then(() => {
                                             copyButton.innerHTML = "Copied";
@@ -3794,11 +3901,11 @@
 
                 // Attach toggle behavior
                 const encountersOption = toggleComponent.querySelector(".encounters-option");
-                let showingEncounters = true;
-                renderEncounters(); // default view
+                let showingEncounters = false;
+                renderProblems(); // default view
+                // renderEncounters(); // default view
 
                 const problemsOption = toggleComponent.querySelector(".problems-option");
-
 
                 encountersOption.addEventListener("click", () => {
                     if (!showingEncounters) {
