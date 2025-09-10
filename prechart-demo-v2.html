@@ -127,7 +127,7 @@
         }
         
         .avm-prechart-app .bullets {
-            margin: 8px 0 0 18px;
+            margin: 8px 0 0 0px;
         }
         
         .avm-prechart-app .bullets li {
@@ -494,7 +494,7 @@
             box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15);
             position: relative;
             overflow: hidden;
-            min-width: 60vw;
+            min-width: 70vw;
         }
         
         .avm-prechart-app .ai-loading::before {
@@ -782,12 +782,12 @@
         }
         
         .avm-prechart-app .toggle-container {
-            width: 60%;
+            width: 100%;
             position: relative;
             display: flex;
             flex-direction: row;
             align-items: center;
-            justify-content: flex-start;
+            justify-content: flex-end;
             text-align: left;
             font-size: 14px;
             color: #4d5469;
@@ -923,6 +923,7 @@
             font-size: 14px;
             font-weight: 600;
             height: 40px;
+            white-space: nowrap;
         }
         
         .avm-prechart-app .questionnaire-tab.is-active,
@@ -1351,7 +1352,8 @@
         /* Improve lab test links */
         
         .avm-prechart-app .lab-test-link,
-        .avm-prechart-app .medication-link {
+        .avm-prechart-app .medication-link,
+        .avm-prechart-app .imaging-link {
             display: inline-flex;
             align-items: center;
             gap: 6px;
@@ -1365,7 +1367,8 @@
         }
         
         .avm-prechart-app .lab-test-link:hover,
-        .avm-prechart-app .medication-link:hover {
+        .avm-prechart-app .medication-link:hover,
+        .avm-prechart-app .imaging-link:hover {
             /* background: #f5f8ff;
           border-color: #cad8ef;
           color: #111827; */
@@ -1519,6 +1522,100 @@
             justify-content: flex-start;
             gap: 12px;
         }
+        /* overlay */
+        
+        .imaging-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+        /* modal */
+        
+        .imaging-modal {
+            background: #fff;
+            border-radius: 10px;
+            max-width: 800px;
+            width: 80%;
+            max-height: 80%;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        /* maximized modal */
+        
+        .imaging-modal.maximized {
+            width: 100%;
+            height: 100%;
+            max-width: none;
+            max-height: none;
+            border-radius: 0;
+        }
+        /* header */
+        
+        .imaging-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 14px 4px 14px;
+            background: #f5f8ff;
+            border-bottom: 1px solid #cad8ef;
+        }
+        
+        .imaging-modal-header .title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .modal-btns {
+            margin-right: 10px;
+            margin-bottom: 20px;
+            width: 60px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .modal-btns button {
+            margin-left: 6px;
+            background: transparent;
+            border: 0px solid #cad8ef;
+            border-radius: 4px;
+            padding: 4px 8px;
+            cursor: pointer;
+            font-size: 14px;
+            width: 25px;
+            height: 25px;
+            font-size: 36px;
+        }
+        /* .modal-btns button:hover {
+          background: #1e40af;
+          color: #fff;
+      } */
+        /* body */
+        
+        .imaging-modal-body {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            overflow: auto;
+        }
+        
+        .imaging-image {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 6px;
+        }
         /* Accordion icon polish */
         
         .avm-prechart-app .accordion-header {
@@ -1578,7 +1675,7 @@
         
         .avm-prechart-app .q-header h3 {
             font-size: 20px;
-            font-weight: 600;
+            font-weight: 400;
             margin-block: 10px 0px;
         }
         
@@ -1757,6 +1854,10 @@
         .avm-prechart-app .encounter-date-link:hover {
             text-decoration: underline;
             font-weight: 700;
+        }
+        
+        .avm-prechart-app .view-full-note {
+            margin-bottom: 10px;
         }
         /* Feedback Element */
         
@@ -2000,7 +2101,7 @@
             list-style: none;
             padding-left: 0;
             border-left: 2px solid #e5e7eb;
-            margin: 8px 0 12px 0;
+            margin: 8px 0 12px 20px;
         }
         
         .avm-prechart-app .timeline-item {
@@ -2019,14 +2120,15 @@
         .avm-prechart-app .timeline-date {
             display: inline-block;
             font-size: 0.85rem;
-            font-weight: 600;
-            background: #642bf31a;
+            font-weight: 400;
             border: 1px solid #cad8ef;
-            border-radius: 9999px;
+            border-radius: 8px;
             padding: 6px 12px;
             margin-bottom: 6px;
-            cursor: pointer;
             text-decoration: none;
+            background: #f3f4f6;
+            color: #334155;
+            border: 1px solid #e5e7eb;
         }
         
         .avm-prechart-app .timeline-content {
@@ -2079,7 +2181,7 @@
 
                 <div class="feedback-container">
                     <div class="feedback-group">
-                        <div class="feedback-question">Was this solution helpful?</div>
+                        <div class="feedback-question">Was this information helpful?</div>
                         <div class="feedback-actions">
                             <img id="thumbsUpBtn" class="feedback-icon" alt="Thumbs up" src="https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/uil_thumbs-up.svg" />
                             <img id="thumbsDownBtn" class="feedback-icon" alt="Thumbs down" src="https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/uil_thumbs-down.svg" />
@@ -2145,7 +2247,10 @@
             tests: 'https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/test_results_icon.svg',
             view: 'https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/view_pdf_icon.svg',
             bx_detail: 'https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/bx_detail.svg',
-            mdi_timeline_outline: 'https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/mdi_timeline-outline.svg'
+            mdi_timeline_outline: 'https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/mdi_timeline-outline.svg',
+            mri: 'https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/MRI.png',
+            eeg: 'https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/eeg.png',
+            emg: 'https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/emg%3Ancs.png',
         };
 
         // Data model for right-pane cards (with icons)
@@ -2529,16 +2634,17 @@
                     label: 'MRI Brain',
                     value: 'No acute findings',
                     date: '2024-11-05',
-                    image: 'mri-brain.png'
+                    image: ICONS.mri
                 }, {
                     label: 'EEG',
                     value: 'Normal, no epileptiform discharges',
                     date: '2025-06-10',
-                    image: 'eeg-result.png'
+                    image: ICONS.eeg
                 }, {
                     label: 'EMG/NCS',
-                    value: 'Not performed',
-                    date: null
+                    value: 'Normal',
+                    date: '2025-06-15',
+                    image: ICONS.emg
                 }]
             }
         ];
@@ -3280,18 +3386,43 @@
                         });
                         bodyChildren.push(list);
                     } else {
-                        const grid = elementCreator('div', {
-                            class: 'kv'
-                        });
-                        section.entries.forEach(function(e) {
-                            grid.append(elementCreator('div', {
-                                class: 'k'
-                            }, e.label));
-                            grid.append(elementCreator('div', {
-                                class: 'v'
-                            }, e.value));
-                        });
-                        bodyChildren.push(grid);
+                        if (section.id === 'imaging') {
+                            const list = elementCreator('ul', {
+                                class: 'bullets'
+                            });
+                            section.entries.forEach(function(img) {
+                                const li = elementCreator('li', {});
+                                const when = img.date ? new Date(img.date).toLocaleDateString(undefined, {
+                                    year: 'numeric',
+                                    month: 'short',
+                                    day: '2-digit'
+                                }) : '';
+
+                                if (img.image) {
+                                    const link = elementCreator('a', {
+                                        href: '#',
+                                        class: 'imaging-link'
+                                    }, img.label + (when ? ` — ${when}` : ''));
+                                    link.addEventListener('click', function(e) {
+                                        e.preventDefault();
+
+                                        // close any open imaging modal
+                                        const existingModal = document.querySelector('.imaging-modal-overlay');
+                                        if (existingModal) existingModal.remove();
+
+                                        openImagingModal(img);
+                                    });
+                                    li.append(link);
+                                } else {
+                                    // If no image, just show text
+                                    li.textContent = img.label + (when ? ` — ${when}` : '');
+                                }
+
+                                list.append(li);
+                            });
+                            bodyChildren.push(list);
+                        }
+
                     }
                 }
                 if (section.bullets && section.bullets.length) {
@@ -3441,13 +3572,9 @@
                     class: 'q-header'
                 });
 
-                const title = ''; //elementCreator('h3', { class: 'summary-title' }, 'Outlined below are prior encounters relevant to the patient’s upcoming visit for headache and sleep apnea.');
-
-                // // Toggle button
-                // const toggleBtn = elementCreator(
-                //     'button', { class: 'toggle-view-btn' },
-                //     'Switch to Problems View'
-                // );
+                const title = elementCreator('h3', {
+                    class: 'summary-title'
+                }, 'Outlined below are prior encounters relevant to the patient’s upcoming visit for headache and sleep apnea.');
 
                 // Toggle button structure
                 // Toggle component
@@ -3488,9 +3615,14 @@
                     ])
                 ]);
 
+                const tabHeader = document.querySelector(".summary-tabs");
 
-                header.append(title, toggleComponent);
+                tabHeader.append(toggleComponent);
+                header.append(title);
                 container.append(header);
+
+                // header.append(title, toggleComponent);
+                // container.append(header);
 
                 // === Content container (this will swap views) ===
                 const contentContainer = elementCreator('div', {
@@ -3651,24 +3783,20 @@
                         const summary = elementCreator("div", {
                             class: "problem-summary"
                         }, [
-                            elementCreator("h4", {}, "Summary"),
+                            // elementCreator("h4", {}, "Summary"),
                             (() => {
                                 const para = elementCreator("p", {}, []);
-
                                 problem.course.forEach((ev, idx) => {
                                     // format date
                                     const formattedDate = new Date(ev.date).toLocaleDateString("en-US", {
                                         year: "numeric",
                                         month: "long",
                                         day: "numeric"
-                                    });
-
-                                    // create hyperlink with readable date
+                                    }); // create hyperlink with readable date
                                     const dateLink = elementCreator("a", {
                                         href: "#",
                                         class: "encounter-date-link"
                                     }, formattedDate);
-
                                     // click handler
                                     dateLink.addEventListener("click", (e) => {
                                         e.preventDefault();
@@ -3681,35 +3809,24 @@
                                                 if (key === 'date' || key === 'Summary' || key === 'Encounter Details') return;
                                                 const row = elementCreator('div', {
                                                     class: 'kv-row'
-                                                }, [
-                                                    elementCreator('div', {
-                                                        class: 'k'
-                                                    }, key),
-                                                    elementCreator('div', {
-                                                        class: 'v'
-                                                    }, matchingEnc[key])
-                                                ]);
+                                                }, [elementCreator('div', {
+                                                    class: 'k'
+                                                }, key), elementCreator('div', {
+                                                    class: 'v'
+                                                }, matchingEnc[key])]);
                                                 notes.append(row);
                                             });
                                             const contentNode = elementCreator("div", {
                                                 class: "encounter-modal-content"
-                                            }, [
-                                                elementCreator("h3", {}, "Clinical Note - " + ((matchingEnc["Encounter Details"] && matchingEnc["Encounter Details"]["Date & Time"]) || formattedDate)),
-                                                notes
-                                            ]);
+                                            }, [elementCreator("h3", {}, "Clinical Note - " + ((matchingEnc["Encounter Details"] && matchingEnc["Encounter Details"]["Date & Time"]) || formattedDate)), notes]);
                                             openFullFrameModal(contentNode);
                                         }
                                     });
-
                                     // add narrative text
-                                    para.append(
-                                        document.createTextNode(idx === 0 ? "On " : " Then on "),
-                                        dateLink,
-                                        // document.createTextNode(`, ${ev.summary} `)
-                                        document.createTextNode(`, ${ev.status.toLowerCase()} (${ev.reason}). `)
-                                    );
+                                    para.append(document.createTextNode(idx === 0 ? "On " : " Then on "), dateLink,
+                                        // document.createTextNode(, ${ev.summary} )
+                                        document.createTextNode(`, ${ev.status.toLowerCase()} (${ev.reason}). `));
                                 });
-
                                 return para;
                             })()
                         ]);
@@ -3730,16 +3847,21 @@
                         });
 
                         // --- Collapsible Details ---
+                        // const details = elementCreator("div", { class: "problem-details hidden" }, [
                         const details = elementCreator("div", {
-                            class: "problem-details hidden"
+                            class: "problem-details"
                         }, [
                             elementCreator("div", {
                                 class: "problem-course"
                             }, [
-                                elementCreator("h4", {}, "Course Timeline"),
+                                // elementCreator("h4", {}, "Course Timeline"),
                                 elementCreator("ul", {
                                     class: "timeline"
                                 }, problem.course.map(ev => {
+                                    const dateText = elementCreator("span", {
+                                        class: "timeline-date"
+                                    }, ev.date);
+
                                     const dateLink = elementCreator("a", {
                                         href: "#",
                                         class: "timeline-date encounter-date-link"
@@ -3828,34 +3950,84 @@
                                         }).catch(err => console.error("Clipboard write failed:", err));
                                     });
 
+                                    // --- Timeline Content ---
+                                    const timelineContent = elementCreator("div", {
+                                        class: "timeline-content"
+                                    }, [
+                                        elementCreator("p", {}, "🩺 Chief Complaint: " + ev.chief_complaint),
+                                        elementCreator("p", {}, "🧾 Assessment: " + ev.assessment),
+                                        elementCreator("p", {}, "📝 Plan: " + ev.plan),
+
+                                        // View Full Note link below Plan
+                                        (() => {
+                                            const viewLink = elementCreator("a", {
+                                                href: "#",
+                                                class: "encounter-date-link view-full-note"
+                                            }, "View Full Note");
+                                            viewLink.addEventListener("click", (e) => {
+                                                e.preventDefault();
+                                                const matchingEnc = visitSamples.find(v => (v.date || "").startsWith(ev.date));
+                                                if (matchingEnc) {
+                                                    const notes = elementCreator('div', {
+                                                        class: 'kv-container notes-section'
+                                                    });
+                                                    Object.keys(matchingEnc).forEach(function(key) {
+                                                        if (key === 'date' || key === 'Summary' || key === 'Encounter Details') return;
+                                                        const row = elementCreator('div', {
+                                                            class: 'kv-row'
+                                                        }, [
+                                                            elementCreator('div', {
+                                                                class: 'k'
+                                                            }, key),
+                                                            elementCreator('div', {
+                                                                class: 'v'
+                                                            }, matchingEnc[key])
+                                                        ]);
+                                                        notes.append(row);
+                                                    });
+                                                    const contentNode = elementCreator("div", {
+                                                        class: "encounter-modal-content"
+                                                    }, [
+                                                        elementCreator("h3", {}, "Clinical Note - " + ((matchingEnc["Encounter Details"] && matchingEnc["Encounter Details"]["Date & Time"]) || ev.date)),
+                                                        notes
+                                                    ]);
+                                                    openFullFrameModal(contentNode);
+                                                }
+                                            });
+                                            return viewLink;
+                                        })()
+                                    ]);
+
                                     return elementCreator("li", {
                                         class: "timeline-item"
                                     }, [
-                                        dateLink,
+                                        dateText,
                                         copyButton,
-                                        elementCreator("div", {
-                                            class: "timeline-content"
-                                        }, [
-                                            elementCreator("p", {}, "🩺 Chief Complaint: " + ev.chief_complaint),
-                                            elementCreator("p", {}, "🧾 Assessment: " + ev.assessment),
-                                            elementCreator("p", {}, "📝 Plan: " + ev.plan)
-                                        ])
+                                        timelineContent
                                     ]);
+
+                                    // return elementCreator("li", { class: "timeline-item" }, [
+                                    //     dateLink,
+                                    //     copyButton,
+                                    //     elementCreator("div", { class: "timeline-content" }, [
+                                    //         elementCreator("p", {}, "🩺 Chief Complaint: " + ev.chief_complaint),
+                                    //         elementCreator("p", {}, "🧾 Assessment: " + ev.assessment),
+                                    //         elementCreator("p", {}, "📝 Plan: " + ev.plan)
+                                    //     ])
+                                    // ]);
                                 }))
                             ])
                         ]);
 
 
-                        // --- Toggle Button ---
-                        const toggleBtn = elementCreator("button", {
-                            class: "toggle-btn"
-                        }, "View Details");
+                        // // --- Toggle Button ---
+                        // const toggleBtn = elementCreator("button", { class: "toggle-btn" }, "View Details");
 
-                        // Attach click handler separately
-                        toggleBtn.addEventListener("click", () => {
-                            const isHidden = details.classList.toggle("hidden");
-                            toggleBtn.textContent = isHidden ? "View Details" : "Hide Details";
-                        });
+                        // // Attach click handler separately
+                        // toggleBtn.addEventListener("click", () => {
+                        //     const isHidden = details.classList.toggle("hidden");
+                        //     toggleBtn.textContent = isHidden ? "View Details" : "Hide Details";
+                        // });
 
 
                         // --- Card ---
@@ -3864,7 +4036,7 @@
                         }, [
                             header,
                             summary,
-                            toggleBtn,
+                            // toggleBtn,
                             details
                         ]);
 
@@ -4235,6 +4407,9 @@
         function loadVisitQuestionnaire() {
             const container = document.getElementById('questionnaire-summary-content');
             showSkeleton(container);
+
+            // Remove the problem view & encounter summary toggle
+            document.querySelector('.toggle-container').remove();
 
             // Simulate AI generation delay
             const delayMs = 1000 + Math.random() * 500;
@@ -5556,6 +5731,94 @@
             mainPane.append(overlay);
         }
 
+        // Modal for imaging results (with images)
+        function openImagingModal(img) {
+            const overlay = elementCreator("div", {
+                class: "imaging-modal-overlay"
+            });
+
+            // modal container
+            const modal = elementCreator("div", {
+                class: "imaging-modal"
+            });
+
+            // header with title + buttons
+            const header = elementCreator("div", {
+                class: "imaging-modal-header"
+            }, [
+                elementCreator("span", {
+                    class: "title"
+                }, img.label),
+                (() => {
+                    const btnContainer = elementCreator("div", {
+                        class: "modal-btns"
+                    });
+
+                    // Close button
+                    const closeBtn = elementCreator('button', {
+                        class: 'modal-close',
+                        'aria-label': 'Close'
+                    }, '×');
+                    closeBtn.addEventListener("click", () => overlay.remove());
+
+                    // Maximize button (SVG)
+                    const maxBtn = elementCreator("button", {
+                            class: "modal-max"
+                        },
+                        elementCreator("img", {
+                            src: "https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/maximize.svg",
+                            alt: "Maximize",
+                            class: "modal-icon"
+                        })
+                    );
+
+                    // Minimize button (SVG, hidden initially)
+                    const minBtn = elementCreator("button", {
+                            class: "modal-min"
+                        },
+                        elementCreator("img", {
+                            src: "https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/minimize.svg",
+                            alt: "Minimize",
+                            class: "modal-icon"
+                        })
+                    );
+                    minBtn.style.display = "none";
+
+                    // Toggle handlers
+                    maxBtn.addEventListener("click", () => {
+                        modal.classList.add("maximized");
+                        maxBtn.style.display = "none";
+                        minBtn.style.display = "inline-block";
+                    });
+
+                    minBtn.addEventListener("click", () => {
+                        modal.classList.remove("maximized");
+                        minBtn.style.display = "none";
+                        maxBtn.style.display = "inline-block";
+                    });
+
+                    btnContainer.append(minBtn, maxBtn, closeBtn);
+                    return btnContainer;
+                })()
+            ]);
+
+            // body with image
+            const body = elementCreator("div", {
+                class: "imaging-modal-body"
+            }, [
+                elementCreator("img", {
+                    src: img.image,
+                    alt: img.label,
+                    class: "imaging-image"
+                })
+            ]);
+
+            modal.append(header, body);
+            overlay.append(modal);
+            document.body.append(overlay);
+        }
+
+
 
 
         // // Modal for lab results grid (with number line if applicable)
@@ -5987,7 +6250,7 @@
                 yPosition = addSectionHeader('Current Symptoms', yPosition);
                 clinicalSummaryData.currentNeurologicalSymptoms.forEach(symptom => {
                     yPosition = addRegularText(`${symptom.symptom}: ${symptom.present}
-      } `, yPosition);
+        } `, yPosition);
                     // yPosition = addRegularText(`${ symptom.symptom }: ${ symptom.status } - ${ symptom.clinicalSignificance } `, yPosition);
                 });
                 // yPosition += 5;

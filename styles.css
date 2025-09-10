@@ -121,7 +121,7 @@
 }
 
 .avm-prechart-app .bullets {
-    margin: 8px 0 0 18px;
+    margin: 8px 0 0 0px;
 }
 
 .avm-prechart-app .bullets li {
@@ -500,7 +500,7 @@
     box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15);
     position: relative;
     overflow: hidden;
-    min-width: 60vw;
+    min-width: 70vw;
 }
 
 .avm-prechart-app .ai-loading::before {
@@ -812,12 +812,12 @@
 }
 
 .avm-prechart-app .toggle-container {
-    width: 60%;
+    width: 100%;
     position: relative;
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: flex-end;
     text-align: left;
     font-size: 14px;
     color: #4d5469;
@@ -955,6 +955,7 @@
     font-size: 14px;
     font-weight: 600;
     height: 40px;
+    white-space: nowrap;
 }
 
 .avm-prechart-app .questionnaire-tab.is-active,
@@ -1409,7 +1410,8 @@ section#summary-pane.is-active {
 /* Improve lab test links */
 
 .avm-prechart-app .lab-test-link,
-.avm-prechart-app .medication-link {
+.avm-prechart-app .medication-link,
+.avm-prechart-app .imaging-link {
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -1423,7 +1425,8 @@ section#summary-pane.is-active {
 }
 
 .avm-prechart-app .lab-test-link:hover,
-.avm-prechart-app .medication-link:hover {
+.avm-prechart-app .medication-link:hover,
+.avm-prechart-app .imaging-link:hover {
     /* background: #f5f8ff;
     border-color: #cad8ef;
     color: #111827; */
@@ -1597,6 +1600,112 @@ section#summary-pane.is-active {
 }
 
 
+/* overlay */
+
+.imaging-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+
+/* modal */
+
+.imaging-modal {
+    background: #fff;
+    border-radius: 10px;
+    max-width: 800px;
+    width: 80%;
+    max-height: 80%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+
+/* maximized modal */
+
+.imaging-modal.maximized {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    border-radius: 0;
+}
+
+
+/* header */
+
+.imaging-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px 4px 14px;
+    background: #f5f8ff;
+    border-bottom: 1px solid #cad8ef;
+}
+
+.imaging-modal-header .title {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.modal-btns {
+    margin-right: 10px;
+    margin-bottom: 20px;
+    width: 60px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.modal-btns button {
+    margin-left: 6px;
+    background: transparent;
+    border: 0px solid #cad8ef;
+    border-radius: 4px;
+    padding: 4px 8px;
+    cursor: pointer;
+    font-size: 14px;
+    width: 25px;
+    height: 25px;
+    font-size: 36px;
+}
+
+
+/* .modal-btns button:hover {
+    background: #1e40af;
+    color: #fff;
+} */
+
+
+/* body */
+
+.imaging-modal-body {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    overflow: auto;
+}
+
+.imaging-image {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 6px;
+}
+
+
 /* Accordion icon polish */
 
 .avm-prechart-app .accordion-header {
@@ -1658,7 +1767,7 @@ span.accordion-title {
 
 .avm-prechart-app .q-header h3 {
     font-size: 20px;
-    font-weight: 600;
+    font-weight: 400;
     margin-block: 10px 0px;
 }
 
@@ -1839,6 +1948,10 @@ span.accordion-title {
 .avm-prechart-app .encounter-date-link:hover {
     text-decoration: underline;
     font-weight: 700;
+}
+
+.avm-prechart-app .view-full-note {
+    margin-bottom: 10px;
 }
 
 
@@ -2086,7 +2199,7 @@ span.accordion-title {
     list-style: none;
     padding-left: 0;
     border-left: 2px solid #e5e7eb;
-    margin: 8px 0 12px 0;
+    margin: 8px 0 12px 20px;
 }
 
 .avm-prechart-app .timeline-item {
@@ -2105,14 +2218,15 @@ span.accordion-title {
 .avm-prechart-app .timeline-date {
     display: inline-block;
     font-size: 0.85rem;
-    font-weight: 600;
-    background: #642bf31a;
+    font-weight: 400;
     border: 1px solid #cad8ef;
-    border-radius: 9999px;
+    border-radius: 8px;
     padding: 6px 12px;
     margin-bottom: 6px;
-    cursor: pointer;
     text-decoration: none;
+    background: #f3f4f6;
+    color: #334155;
+    border: 1px solid #e5e7eb;
 }
 
 .avm-prechart-app .timeline-content {

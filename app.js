@@ -9,7 +9,10 @@ const ICONS = {
     tests: 'https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/test_results_icon.svg',
     view: 'https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/view_pdf_icon.svg',
     bx_detail: 'https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/bx_detail.svg',
-    mdi_timeline_outline: 'https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/mdi_timeline-outline.svg'
+    mdi_timeline_outline: 'https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/mdi_timeline-outline.svg',
+    mri: 'https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/MRI.png',
+    eeg: 'https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/eeg.png',
+    emg: 'https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/emg%3Ancs.png',
 };
 
 // Data model for right-pane cards (with icons)
@@ -291,9 +294,9 @@ const listViewData = [
         title: 'Imaging',
         icon: ICONS.imaging,
         entries: [
-            { label: 'MRI Brain', value: 'No acute findings', date: '2024-11-05', image: 'mri-brain.png' },
-            { label: 'EEG', value: 'Normal, no epileptiform discharges', date: '2025-06-10', image: 'eeg-result.png' },
-            { label: 'EMG/NCS', value: 'Not performed', date: null }
+            { label: 'MRI Brain', value: 'No acute findings', date: '2024-11-05', image: ICONS.mri },
+            { label: 'EEG', value: 'Normal, no epileptiform discharges', date: '2025-06-10', image: ICONS.eeg },
+            { label: 'EMG/NCS', value: 'Normal', date: '2025-06-15', image: ICONS.emg }
         ]
     }
 ];
@@ -995,12 +998,34 @@ function renderCards() {
                 });
                 bodyChildren.push(list);
             } else {
-                const grid = elementCreator('div', { class: 'kv' });
-                section.entries.forEach(function(e) {
-                    grid.append(elementCreator('div', { class: 'k' }, e.label));
-                    grid.append(elementCreator('div', { class: 'v' }, e.value));
-                });
-                bodyChildren.push(grid);
+                if (section.id === 'imaging') {
+                    const list = elementCreator('ul', { class: 'bullets' });
+                    section.entries.forEach(function(img) {
+                        const li = elementCreator('li', {});
+                        const when = img.date ? new Date(img.date).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: '2-digit' }) : '';
+
+                        if (img.image) {
+                            const link = elementCreator('a', { href: '#', class: 'imaging-link' }, img.label + (when ? ` — ${when}` : ''));
+                            link.addEventListener('click', function(e) {
+                                e.preventDefault();
+
+                                // close any open imaging modal
+                                const existingModal = document.querySelector('.imaging-modal-overlay');
+                                if (existingModal) existingModal.remove();
+
+                                openImagingModal(img);
+                            });
+                            li.append(link);
+                        } else {
+                            // If no image, just show text
+                            li.textContent = img.label + (when ? ` — ${when}` : '');
+                        }
+
+                        list.append(li);
+                    });
+                    bodyChildren.push(list);
+                }
+
             }
         }
         if (section.bullets && section.bullets.length) {
@@ -1119,13 +1144,7 @@ function loadEncounterSummary() {
         // === Header with toggle ===
         const header = elementCreator('div', { class: 'q-header' });
 
-        const title = ''; //elementCreator('h3', { class: 'summary-title' }, 'Outlined below are prior encounters relevant to the patient’s upcoming visit for headache and sleep apnea.');
-
-        // // Toggle button
-        // const toggleBtn = elementCreator(
-        //     'button', { class: 'toggle-view-btn' },
-        //     'Switch to Problems View'
-        // );
+        const title = elementCreator('h3', { class: 'summary-title' }, 'Outlined below are prior encounters relevant to the patient’s upcoming visit for headache and sleep apnea.');
 
         // Toggle button structure
         // Toggle component
@@ -1152,9 +1171,14 @@ function loadEncounterSummary() {
             ])
         ]);
 
+        const tabHeader = document.querySelector(".summary-tabs");
 
-        header.append(title, toggleComponent);
+        tabHeader.append(toggleComponent);
+        header.append(title);
         container.append(header);
+
+        // header.append(title, toggleComponent);
+        // container.append(header);
 
         // === Content container (this will swap views) ===
         const contentContainer = elementCreator('div', { class: 'content-wrapper' });
@@ -1287,27 +1311,16 @@ function loadEncounterSummary() {
                     })()
                 ]);
 
-                // --- Quick Summary (paragraph with date hyperlinks) ---
+                // --- Quick Summary (paragraph with date hyperlinks) --- 
                 const summary = elementCreator("div", { class: "problem-summary" }, [
-                    elementCreator("h4", {}, "Summary"),
+                    // elementCreator("h4", {}, "Summary"), 
                     (() => {
                         const para = elementCreator("p", {}, []);
-
                         problem.course.forEach((ev, idx) => {
-                            // format date
-                            const formattedDate = new Date(ev.date).toLocaleDateString("en-US", {
-                                year: "numeric",
-                                month: "long",
-                                day: "numeric"
-                            });
-
-                            // create hyperlink with readable date
-                            const dateLink = elementCreator("a", {
-                                href: "#",
-                                class: "encounter-date-link"
-                            }, formattedDate);
-
-                            // click handler
+                            // format date 
+                            const formattedDate = new Date(ev.date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }); // create hyperlink with readable date 
+                            const dateLink = elementCreator("a", { href: "#", class: "encounter-date-link" }, formattedDate);
+                            // click handler 
                             dateLink.addEventListener("click", (e) => {
                                 e.preventDefault();
                                 const matchingEnc = visitSamples.find(v => (v.date || "").startsWith(ev.date));
@@ -1315,29 +1328,18 @@ function loadEncounterSummary() {
                                     const notes = elementCreator('div', { class: 'kv-container notes-section' });
                                     Object.keys(matchingEnc).forEach(function(key) {
                                         if (key === 'date' || key === 'Summary' || key === 'Encounter Details') return;
-                                        const row = elementCreator('div', { class: 'kv-row' }, [
-                                            elementCreator('div', { class: 'k' }, key),
-                                            elementCreator('div', { class: 'v' }, matchingEnc[key])
-                                        ]);
+                                        const row = elementCreator('div', { class: 'kv-row' }, [elementCreator('div', { class: 'k' }, key), elementCreator('div', { class: 'v' }, matchingEnc[key])]);
                                         notes.append(row);
                                     });
-                                    const contentNode = elementCreator("div", { class: "encounter-modal-content" }, [
-                                        elementCreator("h3", {}, "Clinical Note - " + ((matchingEnc["Encounter Details"] && matchingEnc["Encounter Details"]["Date & Time"]) || formattedDate)),
-                                        notes
-                                    ]);
+                                    const contentNode = elementCreator("div", { class: "encounter-modal-content" }, [elementCreator("h3", {}, "Clinical Note - " + ((matchingEnc["Encounter Details"] && matchingEnc["Encounter Details"]["Date & Time"]) || formattedDate)), notes]);
                                     openFullFrameModal(contentNode);
                                 }
                             });
-
-                            // add narrative text
-                            para.append(
-                                document.createTextNode(idx === 0 ? "On " : " Then on "),
-                                dateLink,
-                                // document.createTextNode(`, ${ev.summary} `)
-                                document.createTextNode(`, ${ev.status.toLowerCase()} (${ev.reason}). `)
-                            );
+                            // add narrative text 
+                            para.append(document.createTextNode(idx === 0 ? "On " : " Then on "), dateLink,
+                                // document.createTextNode(, ${ev.summary} ) 
+                                document.createTextNode(`, ${ev.status.toLowerCase()} (${ev.reason}). `));
                         });
-
                         return para;
                     })()
                 ]);
@@ -1358,10 +1360,13 @@ function loadEncounterSummary() {
                 });
 
                 // --- Collapsible Details ---
-                const details = elementCreator("div", { class: "problem-details hidden" }, [
+                // const details = elementCreator("div", { class: "problem-details hidden" }, [
+                const details = elementCreator("div", { class: "problem-details" }, [
                     elementCreator("div", { class: "problem-course" }, [
-                        elementCreator("h4", {}, "Course Timeline"),
+                        // elementCreator("h4", {}, "Course Timeline"),
                         elementCreator("ul", { class: "timeline" }, problem.course.map(ev => {
+                            const dateText = elementCreator("span", { class: "timeline-date" }, ev.date);
+
                             const dateLink = elementCreator("a", { href: "#", class: "timeline-date encounter-date-link" }, ev.date);
 
                             // modal opening logic same as before...
@@ -1435,35 +1440,74 @@ function loadEncounterSummary() {
                                 }).catch(err => console.error("Clipboard write failed:", err));
                             });
 
-                            return elementCreator("li", { class: "timeline-item" }, [
-                                dateLink,
-                                copyButton,
-                                elementCreator("div", { class: "timeline-content" }, [
-                                    elementCreator("p", {}, "🩺 Chief Complaint: " + ev.chief_complaint),
-                                    elementCreator("p", {}, "🧾 Assessment: " + ev.assessment),
-                                    elementCreator("p", {}, "📝 Plan: " + ev.plan)
-                                ])
+                            // --- Timeline Content ---
+                            const timelineContent = elementCreator("div", { class: "timeline-content" }, [
+                                elementCreator("p", {}, "🩺 Chief Complaint: " + ev.chief_complaint),
+                                elementCreator("p", {}, "🧾 Assessment: " + ev.assessment),
+                                elementCreator("p", {}, "📝 Plan: " + ev.plan),
+
+                                // View Full Note link below Plan
+                                (() => {
+                                    const viewLink = elementCreator("a", { href: "#", class: "encounter-date-link view-full-note" }, "View Full Note");
+                                    viewLink.addEventListener("click", (e) => {
+                                        e.preventDefault();
+                                        const matchingEnc = visitSamples.find(v => (v.date || "").startsWith(ev.date));
+                                        if (matchingEnc) {
+                                            const notes = elementCreator('div', { class: 'kv-container notes-section' });
+                                            Object.keys(matchingEnc).forEach(function(key) {
+                                                if (key === 'date' || key === 'Summary' || key === 'Encounter Details') return;
+                                                const row = elementCreator('div', { class: 'kv-row' }, [
+                                                    elementCreator('div', { class: 'k' }, key),
+                                                    elementCreator('div', { class: 'v' }, matchingEnc[key])
+                                                ]);
+                                                notes.append(row);
+                                            });
+                                            const contentNode = elementCreator("div", { class: "encounter-modal-content" }, [
+                                                elementCreator("h3", {}, "Clinical Note - " + ((matchingEnc["Encounter Details"] && matchingEnc["Encounter Details"]["Date & Time"]) || ev.date)),
+                                                notes
+                                            ]);
+                                            openFullFrameModal(contentNode);
+                                        }
+                                    });
+                                    return viewLink;
+                                })()
                             ]);
+
+                            return elementCreator("li", { class: "timeline-item" }, [
+                                dateText,
+                                copyButton,
+                                timelineContent
+                            ]);
+
+                            // return elementCreator("li", { class: "timeline-item" }, [
+                            //     dateLink,
+                            //     copyButton,
+                            //     elementCreator("div", { class: "timeline-content" }, [
+                            //         elementCreator("p", {}, "🩺 Chief Complaint: " + ev.chief_complaint),
+                            //         elementCreator("p", {}, "🧾 Assessment: " + ev.assessment),
+                            //         elementCreator("p", {}, "📝 Plan: " + ev.plan)
+                            //     ])
+                            // ]);
                         }))
                     ])
                 ]);
 
 
-                // --- Toggle Button ---
-                const toggleBtn = elementCreator("button", { class: "toggle-btn" }, "View Details");
+                // // --- Toggle Button ---
+                // const toggleBtn = elementCreator("button", { class: "toggle-btn" }, "View Details");
 
-                // Attach click handler separately
-                toggleBtn.addEventListener("click", () => {
-                    const isHidden = details.classList.toggle("hidden");
-                    toggleBtn.textContent = isHidden ? "View Details" : "Hide Details";
-                });
+                // // Attach click handler separately
+                // toggleBtn.addEventListener("click", () => {
+                //     const isHidden = details.classList.toggle("hidden");
+                //     toggleBtn.textContent = isHidden ? "View Details" : "Hide Details";
+                // });
 
 
                 // --- Card ---
                 const item = elementCreator("div", { class: "problem-card" }, [
                     header,
                     summary,
-                    toggleBtn,
+                    // toggleBtn,
                     details
                 ]);
 
@@ -1795,8 +1839,11 @@ function loadVisitQuestionnaire() {
     const container = document.getElementById('questionnaire-summary-content');
     showSkeleton(container);
 
+    // Remove the problem view & encounter summary toggle
+    document.querySelector('.toggle-container').remove();
+
     // Simulate AI generation delay
-    const delayMs = 1000 + Math.random() * 500;
+    const delayMs = 1000000 + Math.random() * 500;
     setTimeout(() => {
         // Intake shows summarised questionnaire with actions (view original + download)
         const content = renderClinicalSummary();
@@ -2776,6 +2823,71 @@ function openLabResultsModal(test) {
     overlay.append(sheet);
     mainPane.append(overlay);
 }
+
+// Modal for imaging results (with images)
+function openImagingModal(img) {
+    const overlay = elementCreator("div", { class: "imaging-modal-overlay" });
+
+    // modal container
+    const modal = elementCreator("div", { class: "imaging-modal" });
+
+    // header with title + buttons
+    const header = elementCreator("div", { class: "imaging-modal-header" }, [
+        elementCreator("span", { class: "title" }, img.label),
+        (() => {
+            const btnContainer = elementCreator("div", { class: "modal-btns" });
+
+            // Close button
+            const closeBtn = elementCreator('button', { class: 'modal-close', 'aria-label': 'Close' }, '×');
+            closeBtn.addEventListener("click", () => overlay.remove());
+
+            // Maximize button (SVG)
+            const maxBtn = elementCreator("button", { class: "modal-max" },
+                elementCreator("img", {
+                    src: "https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/maximize.svg",
+                    alt: "Maximize",
+                    class: "modal-icon"
+                })
+            );
+
+            // Minimize button (SVG, hidden initially)
+            const minBtn = elementCreator("button", { class: "modal-min" },
+                elementCreator("img", {
+                    src: "https://s3.us-west-1.amazonaws.com/static.aiavaamo.com/icons/minimize.svg",
+                    alt: "Minimize",
+                    class: "modal-icon"
+                })
+            );
+            minBtn.style.display = "none";
+
+            // Toggle handlers
+            maxBtn.addEventListener("click", () => {
+                modal.classList.add("maximized");
+                maxBtn.style.display = "none";
+                minBtn.style.display = "inline-block";
+            });
+
+            minBtn.addEventListener("click", () => {
+                modal.classList.remove("maximized");
+                minBtn.style.display = "none";
+                maxBtn.style.display = "inline-block";
+            });
+
+            btnContainer.append(minBtn, maxBtn, closeBtn);
+            return btnContainer;
+        })()
+    ]);
+
+    // body with image
+    const body = elementCreator("div", { class: "imaging-modal-body" }, [
+        elementCreator("img", { src: img.image, alt: img.label, class: "imaging-image" })
+    ]);
+
+    modal.append(header, body);
+    overlay.append(modal);
+    document.body.append(overlay);
+}
+
 
 
 
