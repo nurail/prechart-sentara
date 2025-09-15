@@ -1677,6 +1677,7 @@
             font-size: 20px;
             font-weight: 400;
             margin-block: 10px 0px;
+            width: 680px;
         }
         
         .avm-prechart-app .q-actions {
@@ -2144,16 +2145,43 @@
             padding: 16px;
             border-bottom: 1px solid #e5e7eb;
             background: #f9fafb;
+            width: 430px;
+        }
+        
+        .avm-prechart-app .q-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid #e5e7eb;
+            background: #f9fafb;
+        }
+        
+        .avm-prechart-app .q-header h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+        
+        .avm-prechart-app .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
         }
         
         .avm-prechart-app .search-input-wrapper {
             position: relative;
-            max-width: 400px;
+            max-width: 600px;
+            display: flex;
+            gap: 8px;
+            align-items: center;
         }
         
         .avm-prechart-app .search-input {
-            width: 100%;
-            padding: 12px 40px 12px 16px;
+            flex: 1;
+            padding: 12px 16px;
             border: 1px solid #d1d5db;
             border-radius: 8px;
             font-size: 14px;
@@ -2167,24 +2195,38 @@
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
         
-        .avm-prechart-app .search-clear-btn {
-            position: absolute;
-            right: 8px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
+        .avm-prechart-app .search-btn {
+            background: #3b82f6;
+            color: white;
             border: none;
-            font-size: 18px;
-            color: #6b7280;
+            padding: 12px 20px;
+            border-radius: 8px;
             cursor: pointer;
-            padding: 4px;
-            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
             transition: background-color 0.2s ease;
+            white-space: nowrap;
+        }
+        
+        .avm-prechart-app .search-btn:hover {
+            background: #2563eb;
+        }
+        
+        .avm-prechart-app .search-clear-btn {
+            background: #6b7280;
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.2s ease;
+            white-space: nowrap;
         }
         
         .avm-prechart-app .search-clear-btn:hover {
-            background-color: #f3f4f6;
-            color: #374151;
+            background: #4b5563;
         }
         
         .avm-prechart-app .no-results {
@@ -2230,6 +2272,141 @@
             border-radius: 4px;
             display: inline-block;
             width: fit-content;
+        }
+        /* Problem List Card Styles */
+        
+        .avm-prechart-app .problem-list-card {
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .avm-prechart-app .problem-list-title {
+            margin: 0 0 16px 0;
+            font-size: 18px;
+            font-weight: 600;
+            color: #1f2937;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 8px;
+        }
+        
+        .avm-prechart-app .problem-list-items {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .avm-prechart-app .problem-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .avm-prechart-app .problem-list-item:hover {
+            background: #f3f4f6;
+            border-color: #3b82f6;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .avm-prechart-app .problem-list-item.hidden-problem {
+            background: #fef3c7;
+            border-color: #f59e0b;
+        }
+        
+        .avm-prechart-app .problem-list-item.hidden-problem:hover {
+            background: #fde68a;
+            border-color: #d97706;
+        }
+        
+        .avm-prechart-app .problem-item-content {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        
+        .avm-prechart-app .problem-item-name {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+        
+        .avm-prechart-app .problem-item-icd {
+            font-size: 12px;
+            color: #6b7280;
+            font-weight: 500;
+            background: #e5e7eb;
+            padding: 2px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            width: fit-content;
+        }
+        
+        .avm-prechart-app .problem-item-status {
+            font-size: 14px;
+            color: #6b7280;
+            text-align: right;
+            max-width: 200px;
+        }
+        /* Problem List Card Styles - Following existing card styling */
+        
+        .avm-prechart-app .card-problems .problem-item {
+            cursor: pointer;
+            padding: 6px 10px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+        
+        .avm-prechart-app .card-problems .problem-item:hover .problem-name {
+            text-decoration: underline;
+        }
+        
+        .avm-prechart-app .card-problems .problem-main {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+        
+        .avm-prechart-app .card-problems .problem-name {
+            font-weight: 600;
+            color: #1f2937;
+            font-size: 14px;
+        }
+        
+        .avm-prechart-app .card-problems .problem-icd {
+            font-size: 11px;
+            color: #6b7280;
+            background: #e5e7eb;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 500;
+        }
+        
+        .avm-prechart-app .card-problems .problem-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #6b7280;
+        }
+        
+        .avm-prechart-app .card-problems .problem-status {
+            font-weight: 500;
+        }
+        
+        .avm-prechart-app .card-problems .problem-date {
+            font-style: italic;
         }
     </style>
 </head>
@@ -2738,6 +2915,30 @@
                     value: 'Normal',
                     date: '2025-06-15',
                     image: ICONS.emg
+                }]
+            }, {
+                id: 'problems',
+                title: 'Problem List',
+                icon: ICONS.mdi_timeline_outline,
+                entries: [{
+                    label: 'Sleep Apnea',
+                    value: 'Well controlled with consistent CPAP',
+                    date: '2025-01-10',
+                    icd10: 'G47.33',
+                    status: 'Active'
+                }, {
+                    label: 'Headaches',
+                    value: 'Resolved with CPAP compliance',
+                    date: '2024-11-15',
+                    icd10: 'R51',
+                    status: 'Resolved'
+                }, {
+                    label: 'Mild Cognitive Impairment',
+                    value: 'Stable, under monitoring',
+                    date: '2025-03-15',
+                    icd10: 'G31.84',
+                    status: 'Active',
+                    hidden: true
                 }]
             }
         ];
@@ -3583,6 +3784,62 @@
                                 list.append(li);
                             });
                             bodyChildren.push(list);
+                        } else if (section.id === 'problems') {
+                            const list = elementCreator('ul', {
+                                class: 'bullets'
+                            });
+                            section.entries.forEach(function(problem) {
+                                const li = elementCreator('li', {});
+                                const when = problem.date ? new Date(problem.date).toLocaleDateString(undefined, {
+                                    year: 'numeric',
+                                    month: 'short',
+                                    day: '2-digit'
+                                }) : '';
+
+                                // Create problem item with ICD-10 code
+                                const problemContent = elementCreator('div', {
+                                    class: 'problem-item'
+                                }, [
+                                    elementCreator('div', {
+                                        class: 'problem-main'
+                                    }, [
+                                        elementCreator('span', {
+                                            class: 'problem-name'
+                                        }, problem.label),
+                                        problem.icd10 ? elementCreator('span', {
+                                            class: 'problem-icd'
+                                        }, problem.icd10) : null
+                                    ].filter(Boolean)),
+                                    // elementCreator('div', { class: 'problem-details' }, [
+                                    //     elementCreator('span', { class: 'problem-status' }, problem.status),
+                                    //     when ? elementCreator('span', { class: 'problem-date' }, when) : null
+                                    // ].filter(Boolean))
+                                ].filter(Boolean));
+
+                                // Add click handler to search for this problem
+                                problemContent.addEventListener('click', function(e) {
+                                    e.preventDefault();
+
+                                    // Find the search input and button in the problem view
+                                    const searchInput = document.querySelector('.search-input');
+                                    const searchBtn = document.querySelector('.search-btn');
+
+                                    if (searchInput && searchBtn) {
+                                        searchInput.value = problem.label;
+                                        searchBtn.click();
+
+                                        // Switch to problem view if not already there
+                                        const problemsOption = document.querySelector('.problems-option');
+                                        if (problemsOption && !problemsOption.classList.contains('active')) {
+                                            problemsOption.click();
+                                        }
+                                    }
+                                });
+
+                                li.append(problemContent);
+                                list.append(li);
+                            });
+                            bodyChildren.push(list);
                         }
 
                     }
@@ -3656,6 +3913,7 @@
                 if (section.id === 'medications') cardClass += ' card-medications';
                 else if (section.id === 'labs') cardClass += ' card-labs';
                 else if (section.id === 'imaging') cardClass += ' card-imaging';
+                else if (section.id === 'problems') cardClass += ' card-problems';
 
                 const card = elementCreator('article', {
                     class: cardClass
@@ -3780,8 +4038,6 @@
                 const tabHeader = document.querySelector(".summary-tabs");
 
                 tabHeader.append(toggleComponent);
-                header.append(title);
-                container.append(header);
 
                 // === Search container (only for problems view) ===
                 const searchContainer = elementCreator("div", {
@@ -3793,23 +4049,36 @@
                         elementCreator("input", {
                             type: "text",
                             class: "search-input",
+                            id: "problem-search-input",
+                            name: "problem-search",
                             placeholder: "Search problems by name or ICD-10 code..."
                         }),
                         elementCreator("button", {
+                            class: "search-btn"
+                        }, "Search"),
+                        elementCreator("button", {
                             class: "search-clear-btn",
                             style: "display: none;"
-                        }, "×")
+                        }, "Clear")
                     ])
                 ]);
 
                 const searchInput = searchContainer.querySelector(".search-input");
+                const searchBtn = searchContainer.querySelector(".search-btn");
                 const clearBtn = searchContainer.querySelector(".search-clear-btn");
 
                 // Search functionality
-                searchInput.addEventListener("input", (e) => {
-                    const term = e.target.value.toLowerCase().trim();
+                searchBtn.addEventListener("click", () => {
+                    const term = searchInput.value.toLowerCase().trim();
                     clearBtn.style.display = term ? "block" : "none";
                     renderProblems(term);
+                });
+
+                // Allow Enter key to trigger search
+                searchInput.addEventListener("keypress", (e) => {
+                    if (e.key === "Enter") {
+                        searchBtn.click();
+                    }
                 });
 
                 clearBtn.addEventListener("click", () => {
@@ -3818,8 +4087,19 @@
                     renderProblems("");
                 });
 
-                // Append search container to main container
-                container.append(searchContainer);
+                // Create header content wrapper
+                const headerContent = elementCreator("div", {
+                    class: "header-content"
+                }, [
+                    title,
+                    searchContainer
+                ]);
+
+                header.append(headerContent);
+                container.append(header);
+
+                // // Append search container to main container
+                // container.append(searchContainer);
 
                 // header.append(title, toggleComponent);
                 // container.append(header);
@@ -3960,6 +4240,7 @@
                         contentContainer.appendChild(noResults);
                         return;
                     }
+
 
                     filteredProblems.forEach(problem => {
                         // --- Header Row ---
@@ -4325,7 +4606,7 @@
                         showingEncounters = true;
                         encountersOption.querySelector(".toggle-label").classList.toggle("hidden");
                         problemsOption.querySelector(".toggle-label").classList.toggle("hidden");
-                        searchContainer.style.display = "none"; // Hide search for encounters
+                        header.style.display = "none"; // Hide header for encounters
                         renderEncounters();
                         encountersOption.classList.add("active");
                         problemsOption.classList.remove("active");
@@ -4337,7 +4618,7 @@
                         showingEncounters = false;
                         encountersOption.querySelector(".toggle-label").classList.toggle("hidden");
                         problemsOption.querySelector(".toggle-label").classList.toggle("hidden");
-                        searchContainer.style.display = "block"; // Show search for problems
+                        header.style.display = "block"; // Show header for problems
                         renderProblems();
                         problemsOption.classList.add("active");
                         encountersOption.classList.remove("active");
@@ -4655,7 +4936,7 @@
             document.querySelector('.toggle-container').remove();
 
             // Simulate AI generation delay
-            const delayMs = 1000000 + Math.random() * 500;
+            const delayMs = 1000 + Math.random() * 500;
             setTimeout(() => {
                 // Intake shows summarised questionnaire with actions (view original + download)
                 const content = renderClinicalSummary();

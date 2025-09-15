@@ -1769,6 +1769,7 @@ span.accordion-title {
     font-size: 20px;
     font-weight: 400;
     margin-block: 10px 0px;
+    width: 680px;
 }
 
 .avm-prechart-app .q-actions {
@@ -2244,16 +2245,43 @@ span.accordion-title {
     padding: 16px;
     border-bottom: 1px solid #e5e7eb;
     background: #f9fafb;
+    width: 430px;
+}
+
+.avm-prechart-app .q-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border-bottom: 1px solid #e5e7eb;
+    background: #f9fafb;
+}
+
+.avm-prechart-app .q-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.avm-prechart-app .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 }
 
 .avm-prechart-app .search-input-wrapper {
     position: relative;
-    max-width: 400px;
+    max-width: 600px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
 }
 
 .avm-prechart-app .search-input {
-    width: 100%;
-    padding: 12px 40px 12px 16px;
+    flex: 1;
+    padding: 12px 16px;
     border: 1px solid #d1d5db;
     border-radius: 8px;
     font-size: 14px;
@@ -2267,24 +2295,38 @@ span.accordion-title {
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
-.avm-prechart-app .search-clear-btn {
-    position: absolute;
-    right: 8px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
+.avm-prechart-app .search-btn {
+    background: #3b82f6;
+    color: white;
     border: none;
-    font-size: 18px;
-    color: #6b7280;
+    padding: 12px 20px;
+    border-radius: 8px;
     cursor: pointer;
-    padding: 4px;
-    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
     transition: background-color 0.2s ease;
+    white-space: nowrap;
+}
+
+.avm-prechart-app .search-btn:hover {
+    background: #2563eb;
+}
+
+.avm-prechart-app .search-clear-btn {
+    background: #6b7280;
+    color: white;
+    border: none;
+    padding: 12px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+    white-space: nowrap;
 }
 
 .avm-prechart-app .search-clear-btn:hover {
-    background-color: #f3f4f6;
-    color: #374151;
+    background: #4b5563;
 }
 
 .avm-prechart-app .no-results {
@@ -2332,4 +2374,143 @@ span.accordion-title {
     border-radius: 4px;
     display: inline-block;
     width: fit-content;
+}
+
+
+/* Problem List Card Styles */
+
+.avm-prechart-app .problem-list-card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.avm-prechart-app .problem-list-title {
+    margin: 0 0 16px 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #1f2937;
+    border-bottom: 2px solid #e5e7eb;
+    padding-bottom: 8px;
+}
+
+.avm-prechart-app .problem-list-items {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.avm-prechart-app .problem-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.avm-prechart-app .problem-list-item:hover {
+    background: #f3f4f6;
+    border-color: #3b82f6;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.avm-prechart-app .problem-list-item.hidden-problem {
+    background: #fef3c7;
+    border-color: #f59e0b;
+}
+
+.avm-prechart-app .problem-list-item.hidden-problem:hover {
+    background: #fde68a;
+    border-color: #d97706;
+}
+
+.avm-prechart-app .problem-item-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.avm-prechart-app .problem-item-name {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.avm-prechart-app .problem-item-icd {
+    font-size: 12px;
+    color: #6b7280;
+    font-weight: 500;
+    background: #e5e7eb;
+    padding: 2px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    width: fit-content;
+}
+
+.avm-prechart-app .problem-item-status {
+    font-size: 14px;
+    color: #6b7280;
+    text-align: right;
+    max-width: 200px;
+}
+
+
+/* Problem List Card Styles - Following existing card styling */
+
+.avm-prechart-app .card-problems .problem-item {
+    cursor: pointer;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.avm-prechart-app .card-problems .problem-item:hover .problem-name {
+    text-decoration: underline;
+}
+
+.avm-prechart-app .card-problems .problem-main {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.avm-prechart-app .card-problems .problem-name {
+    font-weight: 600;
+    color: #1f2937;
+    font-size: 14px;
+}
+
+.avm-prechart-app .card-problems .problem-icd {
+    font-size: 11px;
+    color: #6b7280;
+    background: #e5e7eb;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-weight: 500;
+}
+
+.avm-prechart-app .card-problems .problem-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.avm-prechart-app .card-problems .problem-status {
+    font-weight: 500;
+}
+
+.avm-prechart-app .card-problems .problem-date {
+    font-style: italic;
 }

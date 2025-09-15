@@ -298,6 +298,34 @@ const listViewData = [
             { label: 'EEG', value: 'Normal, no epileptiform discharges', date: '2025-06-10', image: ICONS.eeg },
             { label: 'EMG/NCS', value: 'Normal', date: '2025-06-15', image: ICONS.emg }
         ]
+    },
+    {
+        id: 'problems',
+        title: 'Problem List',
+        icon: ICONS.mdi_timeline_outline,
+        entries: [{
+                label: 'Sleep Apnea',
+                value: 'Well controlled with consistent CPAP',
+                date: '2025-01-10',
+                icd10: 'G47.33',
+                status: 'Active'
+            },
+            {
+                label: 'Headaches',
+                value: 'Resolved with CPAP compliance',
+                date: '2024-11-15',
+                icd10: 'R51',
+                status: 'Resolved'
+            },
+            {
+                label: 'Mild Cognitive Impairment',
+                value: 'Stable, under monitoring',
+                date: '2025-03-15',
+                icd10: 'G31.84',
+                status: 'Active',
+                hidden: true
+            }
+        ]
     }
 ];
 
@@ -1098,6 +1126,48 @@ function renderCards() {
                         list.append(li);
                     });
                     bodyChildren.push(list);
+                } else if (section.id === 'problems') {
+                    const list = elementCreator('ul', { class: 'bullets' });
+                    section.entries.forEach(function(problem) {
+                        const li = elementCreator('li', {});
+                        const when = problem.date ? new Date(problem.date).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: '2-digit' }) : '';
+
+                        // Create problem item with ICD-10 code
+                        const problemContent = elementCreator('div', { class: 'problem-item' }, [
+                            elementCreator('div', { class: 'problem-main' }, [
+                                elementCreator('span', { class: 'problem-name' }, problem.label),
+                                problem.icd10 ? elementCreator('span', { class: 'problem-icd' }, problem.icd10) : null
+                            ].filter(Boolean)),
+                            // elementCreator('div', { class: 'problem-details' }, [
+                            //     elementCreator('span', { class: 'problem-status' }, problem.status),
+                            //     when ? elementCreator('span', { class: 'problem-date' }, when) : null
+                            // ].filter(Boolean))
+                        ].filter(Boolean));
+
+                        // Add click handler to search for this problem
+                        problemContent.addEventListener('click', function(e) {
+                            e.preventDefault();
+
+                            // Find the search input and button in the problem view
+                            const searchInput = document.querySelector('.search-input');
+                            const searchBtn = document.querySelector('.search-btn');
+
+                            if (searchInput && searchBtn) {
+                                searchInput.value = problem.label;
+                                searchBtn.click();
+
+                                // Switch to problem view if not already there
+                                const problemsOption = document.querySelector('.problems-option');
+                                if (problemsOption && !problemsOption.classList.contains('active')) {
+                                    problemsOption.click();
+                                }
+                            }
+                        });
+
+                        li.append(problemContent);
+                        list.append(li);
+                    });
+                    bodyChildren.push(list);
                 }
 
             }
@@ -1148,6 +1218,7 @@ function renderCards() {
         if (section.id === 'medications') cardClass += ' card-medications';
         else if (section.id === 'labs') cardClass += ' card-labs';
         else if (section.id === 'imaging') cardClass += ' card-imaging';
+        else if (section.id === 'problems') cardClass += ' card-problems';
 
         const card = elementCreator('article', { class: cardClass }, [
             elementCreator('header', { class: 'card-header' }, headerChildren),
@@ -1248,8 +1319,6 @@ function loadEncounterSummary() {
         const tabHeader = document.querySelector(".summary-tabs");
 
         tabHeader.append(toggleComponent);
-        header.append(title);
-        container.append(header);
 
         // === Search container (only for problems view) ===
         const searchContainer = elementCreator("div", { class: "search-container" }, [
@@ -1257,20 +1326,31 @@ function loadEncounterSummary() {
                 elementCreator("input", {
                     type: "text",
                     class: "search-input",
+                    id: "problem-search-input",
+                    name: "problem-search",
                     placeholder: "Search problems by name or ICD-10 code..."
                 }),
-                elementCreator("button", { class: "search-clear-btn", style: "display: none;" }, "×")
+                elementCreator("button", { class: "search-btn" }, "Search"),
+                elementCreator("button", { class: "search-clear-btn", style: "display: none;" }, "Clear")
             ])
         ]);
 
         const searchInput = searchContainer.querySelector(".search-input");
+        const searchBtn = searchContainer.querySelector(".search-btn");
         const clearBtn = searchContainer.querySelector(".search-clear-btn");
 
         // Search functionality
-        searchInput.addEventListener("input", (e) => {
-            const term = e.target.value.toLowerCase().trim();
+        searchBtn.addEventListener("click", () => {
+            const term = searchInput.value.toLowerCase().trim();
             clearBtn.style.display = term ? "block" : "none";
             renderProblems(term);
+        });
+
+        // Allow Enter key to trigger search
+        searchInput.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") {
+                searchBtn.click();
+            }
         });
 
         clearBtn.addEventListener("click", () => {
@@ -1279,8 +1359,17 @@ function loadEncounterSummary() {
             renderProblems("");
         });
 
-        // Append search container to main container
-        container.append(searchContainer);
+        // Create header content wrapper
+        const headerContent = elementCreator("div", { class: "header-content" }, [
+            title,
+            searchContainer
+        ]);
+
+        header.append(headerContent);
+        container.append(header);
+
+        // // Append search container to main container
+        // container.append(searchContainer);
 
         // header.append(title, toggleComponent);
         // container.append(header);
@@ -1397,6 +1486,7 @@ function loadEncounterSummary() {
                 contentContainer.appendChild(noResults);
                 return;
             }
+
 
             filteredProblems.forEach(problem => {
                 // --- Header Row ---
@@ -1693,7 +1783,7 @@ function loadEncounterSummary() {
                 showingEncounters = true;
                 encountersOption.querySelector(".toggle-label").classList.toggle("hidden");
                 problemsOption.querySelector(".toggle-label").classList.toggle("hidden");
-                searchContainer.style.display = "none"; // Hide search for encounters
+                header.style.display = "none"; // Hide header for encounters
                 renderEncounters();
                 encountersOption.classList.add("active");
                 problemsOption.classList.remove("active");
@@ -1705,7 +1795,7 @@ function loadEncounterSummary() {
                 showingEncounters = false;
                 encountersOption.querySelector(".toggle-label").classList.toggle("hidden");
                 problemsOption.querySelector(".toggle-label").classList.toggle("hidden");
-                searchContainer.style.display = "block"; // Show search for problems
+                header.style.display = "block"; // Show header for problems
                 renderProblems();
                 problemsOption.classList.add("active");
                 encountersOption.classList.remove("active");
@@ -1983,7 +2073,7 @@ function loadVisitQuestionnaire() {
     document.querySelector('.toggle-container').remove();
 
     // Simulate AI generation delay
-    const delayMs = 1000000 + Math.random() * 500;
+    const delayMs = 1000 + Math.random() * 500;
     setTimeout(() => {
         // Intake shows summarised questionnaire with actions (view original + download)
         const content = renderClinicalSummary();
