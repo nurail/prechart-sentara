@@ -426,6 +426,52 @@ const visitSamples = [{
             "Encounter Status": "Completed",
             "Encounter Duration": "25 minutes"
         }
+    },
+    {
+        "date": "2025-03-15",
+        "Chief Complaint": "Memory concerns and cognitive assessment.",
+        "History of Present Illness": "Patient reports mild forgetfulness over the past 6 months, particularly with recent events and names. No significant impact on daily activities but patient is concerned about progression. Family history of Alzheimer's disease in maternal grandmother.",
+        "Past Medical History": "Migraines (2021), mild hypertension, mild obstructive sleep apnea (2025).",
+        "Past Surgical History": "Appendectomy in 2018.",
+        "Medications & Allergies": "Lisinopril 10 mg daily; Allergic to penicillin (rash).",
+        "Family History": "Father with migraines, maternal grandmother with Alzheimer's disease.",
+        "Social History": "Non-smoker, occasional coffee, night shifts, moderate exercise.",
+        "Review of Systems": "Positive for mild memory difficulties; denies headaches, dizziness, vision changes.",
+        "Physical Examination": "Vitals stable, neurological exam normal, MMSE score 26/30.",
+        "Imaging/Lab Results": "No acute imaging indicated at this time.",
+        "Assessment": "Mild cognitive impairment, likely age-related changes. Monitor for progression.",
+        "Plan": "Continue current medications, cognitive monitoring, follow-up in 6 months.",
+        "Summary": "Patient reported mild memory difficulties, particularly with recent events and names. MMSE score 26/30 indicates mild cognitive impairment. No significant impact on daily activities. Family history of Alzheimer's disease noted. Plan for continued monitoring and follow-up.",
+        "Encounter Details": {
+            "Speciality": "Neurology",
+            "Encounter ID": "20250315",
+            "Date & Time": "March 15, 2025, 2:00 PM",
+            "Encounter Status": "Completed",
+            "Encounter Duration": "45 minutes"
+        }
+    },
+    {
+        "date": "2025-09-10",
+        "Chief Complaint": "Follow-up cognitive assessment.",
+        "History of Present Illness": "Patient reports stable cognitive function since last visit. Mild forgetfulness persists but no significant progression noted. Continues to function independently in daily activities.",
+        "Past Medical History": "Migraines (2021), mild hypertension, mild obstructive sleep apnea (2025), mild cognitive impairment (2025).",
+        "Past Surgical History": "Appendectomy in 2018.",
+        "Medications & Allergies": "Lisinopril 10 mg daily; Allergic to penicillin (rash).",
+        "Family History": "Father with migraines, maternal grandmother with Alzheimer's disease.",
+        "Social History": "Non-smoker, occasional coffee, night shifts, moderate exercise.",
+        "Review of Systems": "Stable cognitive symptoms; denies new neurological complaints.",
+        "Physical Examination": "Vitals stable, neurological exam normal, MMSE score 25/30.",
+        "Imaging/Lab Results": "No new imaging or labs indicated.",
+        "Assessment": "Mild cognitive impairment, stable. No significant decline since last assessment.",
+        "Plan": "Continue monitoring, annual cognitive assessment, maintain current lifestyle.",
+        "Summary": "Patient reports stable cognitive function with mild forgetfulness unchanged from previous assessment. MMSE score 25/30 shows minimal decline. No significant impact on daily activities. Continue current management and monitoring.",
+        "Encounter Details": {
+            "Speciality": "Neurology",
+            "Encounter ID": "20250910",
+            "Date & Time": "September 10, 2025, 11:00 AM",
+            "Encounter Status": "Completed",
+            "Encounter Duration": "30 minutes"
+        }
     }
 ];
 
@@ -459,7 +505,8 @@ const visitProblems = [{
         currentStatus: "Well controlled with consistent CPAP (as of Aug 2025)",
         priority: "High — root cause of headaches",
         relatedConditions: ["Headaches", "Hypertension"],
-        position: 1
+        position: 1,
+        icd10Code: "G47.33"
     },
     {
         problem: "Headaches",
@@ -483,7 +530,34 @@ const visitProblems = [{
         currentStatus: "Resolved with CPAP compliance",
         priority: "High — secondary to untreated OSA",
         relatedConditions: ["Sleep Apnea", "Hypertension"],
-        position: 2
+        position: 2,
+        icd10Code: "R51"
+    },
+    {
+        problem: "Mild Cognitive Impairment",
+        onset: "Noted during routine neurological assessment",
+        causes: ["Age-related changes", "Possible early neurodegenerative process"],
+        course: [{
+                date: "2025-03-15",
+                status: "Initial assessment",
+                reason: "Patient reported memory concerns during routine visit",
+                notes: "MMSE score 26/30, mild forgetfulness noted",
+                summary: "Patient reported mild memory difficulties, particularly with recent events and names."
+            },
+            {
+                date: "2025-09-10",
+                status: "Stable, monitoring",
+                reason: "Follow-up cognitive assessment",
+                notes: "MMSE score 25/30, no significant decline",
+                summary: "Cognitive function remains stable with minimal progression of memory difficulties."
+            }
+        ],
+        currentStatus: "Stable, under monitoring",
+        priority: "Medium — requires ongoing assessment",
+        relatedConditions: ["Family history of Alzheimer's disease"],
+        position: 3,
+        hidden: true,
+        icd10Code: "G31.84"
     }
 ];
 
@@ -1177,6 +1251,37 @@ function loadEncounterSummary() {
         header.append(title);
         container.append(header);
 
+        // === Search container (only for problems view) ===
+        const searchContainer = elementCreator("div", { class: "search-container" }, [
+            elementCreator("div", { class: "search-input-wrapper" }, [
+                elementCreator("input", {
+                    type: "text",
+                    class: "search-input",
+                    placeholder: "Search problems by name or ICD-10 code..."
+                }),
+                elementCreator("button", { class: "search-clear-btn", style: "display: none;" }, "×")
+            ])
+        ]);
+
+        const searchInput = searchContainer.querySelector(".search-input");
+        const clearBtn = searchContainer.querySelector(".search-clear-btn");
+
+        // Search functionality
+        searchInput.addEventListener("input", (e) => {
+            const term = e.target.value.toLowerCase().trim();
+            clearBtn.style.display = term ? "block" : "none";
+            renderProblems(term);
+        });
+
+        clearBtn.addEventListener("click", () => {
+            searchInput.value = "";
+            clearBtn.style.display = "none";
+            renderProblems("");
+        });
+
+        // Append search container to main container
+        container.append(searchContainer);
+
         // header.append(title, toggleComponent);
         // container.append(header);
 
@@ -1260,13 +1365,46 @@ function loadEncounterSummary() {
             });
         }
 
-        function renderProblems() {
+        function renderProblems(searchTerm = "") {
             contentContainer.innerHTML = ""; // clear old content
 
-            visitProblems.forEach(problem => {
+            // Filter problems based on search term
+            const filteredProblems = visitProblems.filter(problem => {
+                if (!searchTerm) {
+                    // Show all non-hidden problems by default
+                    return !problem.hidden;
+                }
+
+                const searchLower = searchTerm.toLowerCase();
+                const problemName = problem.problem.toLowerCase();
+                const icdCode = (problem.icd10Code || "").toLowerCase();
+
+                return problemName.includes(searchLower) || icdCode.includes(searchLower);
+            });
+
+            if (filteredProblems.length === 0 && searchTerm) {
+                const noResults = elementCreator("div", { class: "no-results" }, [
+                    elementCreator("p", {}, `No problems found matching "${searchTerm}"`),
+                    elementCreator("button", { class: "clear-search-btn" }, "Clear search")
+                ]);
+
+                noResults.querySelector(".clear-search-btn").addEventListener("click", () => {
+                    searchInput.value = "";
+                    clearBtn.style.display = "none";
+                    renderProblems("");
+                });
+
+                contentContainer.appendChild(noResults);
+                return;
+            }
+
+            filteredProblems.forEach(problem => {
                 // --- Header Row ---
                 const header = elementCreator("div", { class: "problem-header" }, [
-                    elementCreator("h3", {}, problem.problem),
+                    elementCreator("div", { class: "problem-title-container" }, [
+                        elementCreator("h3", {}, problem.problem),
+                        problem.icd10Code ? elementCreator("span", { class: "icd-code" }, `ICD-10: ${problem.icd10Code}`) : null
+                    ].filter(Boolean)),
                     (() => {
                         const copyBtn = elementCreator("button", { class: "copy-btn" }, "Copy");
 
@@ -1555,6 +1693,7 @@ function loadEncounterSummary() {
                 showingEncounters = true;
                 encountersOption.querySelector(".toggle-label").classList.toggle("hidden");
                 problemsOption.querySelector(".toggle-label").classList.toggle("hidden");
+                searchContainer.style.display = "none"; // Hide search for encounters
                 renderEncounters();
                 encountersOption.classList.add("active");
                 problemsOption.classList.remove("active");
@@ -1566,6 +1705,7 @@ function loadEncounterSummary() {
                 showingEncounters = false;
                 encountersOption.querySelector(".toggle-label").classList.toggle("hidden");
                 problemsOption.querySelector(".toggle-label").classList.toggle("hidden");
+                searchContainer.style.display = "block"; // Show search for problems
                 renderProblems();
                 problemsOption.classList.add("active");
                 encountersOption.classList.remove("active");
